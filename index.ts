@@ -1,0 +1,1 @@
+export { BugSplatErrorHandler, BugSplat, BugSplatConfig, BugSplatConfigToken } from "./src/bugsplat-error-handler";
