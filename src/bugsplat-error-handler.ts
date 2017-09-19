@@ -10,14 +10,18 @@ export interface BugSplatConfig {
 
 @Injectable()
 export class BugSplatErrorHandler implements ErrorHandler {
-  constructor( @Inject(BugSplatConfigToken) private config: BugSplatConfig, private http: HttpClient) { }
+  private bugsplat: BugSplat;
+  
+  constructor( @Inject(BugSplatConfigToken) private config: BugSplatConfig, private http: HttpClient) {
+    this.bugsplat = new BugSplat(this.config, this.http);
+  }
+
   handleError(error) {
     console.log('Exception caught by BugSplat!')
     console.log('BugSplat AppName:', this.config.appName);
     console.log('BugSplat AppVersion:', this.config.appVersion);
     console.log('BugSplat Database:', this.config.database);
-    const bugsplat = new BugSplat(this.config, this.http);
-    bugsplat.post(error);
+    this.bugsplat.post(error);
   }
 }
 
