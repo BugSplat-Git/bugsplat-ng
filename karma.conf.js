@@ -1,7 +1,7 @@
 const testFilePattern =  process.argv[process.argv.length-1];
 
 module.exports = function (config) {
-  config.set({
+  const _config = {
     basePath: '',
     frameworks: ['jasmine', 'karma-typescript'],
     files: [
@@ -56,6 +56,7 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-typescript'),
       require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter')
     ],
@@ -75,6 +76,12 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
-  });
+    singleRun: true
+  }
+
+  if (process.env.TRAVIS) {
+    _config.browsers = ['Firefox'];
+  }
+
+  config.set(_config);
 };
