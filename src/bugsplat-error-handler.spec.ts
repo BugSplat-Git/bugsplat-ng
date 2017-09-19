@@ -1,8 +1,10 @@
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { HttpClientModule, HttpClient } from "@angular/common/http";
-import { RequestOptions } from "@angular/http";
+import { XHRBackend, ResponseOptions } from "@angular/http";
 import { BugSplat } from "./bugsplat-error-handler";
+import { MockBackend } from '@angular/http/testing';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const testUser = "Fred";
 const testPassword = "Flintstone";
@@ -16,66 +18,28 @@ describe('BugSplat', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [HttpClientModule],
-        providers: [HttpClient]
+        providers: [
+            HttpClient,
+            { provide: XHRBackend, useClass: MockBackend }
+        ]
     }));
-
-    it('should post crash with all properties', async(() => {
-        const http = TestBed.get(HttpClient);
-        const appName = "bugsplat-ng4-tests";
-        const database = testDatabase;
-        const appVersion = "1.0.0.0";
-        const appKey = "Key!";
-        const user = "Fred Flintstone";
-        const email = "fred@bedrock.com";
-        const description = "Description!";
-        const errorMessage = "foobar!";
-        const config = {
-            appName,
-            appVersion,
-            database
-        }
-        const bugsplat = new BugSplat(config, http);
-        bugsplat.appKey = appKey;
-        bugsplat.user = user;
-        bugsplat.email = email;
-        bugsplat.description = description;
-        bugsplat.setCallback((err, data, context) => {
-            const expectedCrashId = data.crash_id;
-            const baseUrl = "http://" + testDatabase + ".bugsplat.com";
-            const loginUrl = baseUrl + "/api/authenticate.php";
-            const options = new RequestOptions({ withCredentials: true });
-            const body = new FormData();
-            body.append("email", testUser);
-            body.append("password", testPassword);
-            http.post(loginUrl, body, options).subscribe(data => {
-                const individualCrashUrl = baseUrl + "/browse/individualCrash.php?database=" + testDatabase + "&id=" + expectedCrashId;
-                http.get(individualCrashUrl + "&data", options).subscribe(data => {
-                    expect(data.additionalInfo).toEqual(description);
-                    expect(data.appDescription).toEqual(appKey);
-                    expect(data.appName).toEqual(appName);
-                    expect(data.appVersion).toEqual(appVersion);
-                    expect(data.email).toEqual(email);
-                    expect(data.user).toEqual(user);
-                }, err => {
-                    console.error("IndividualCrash &data GET error:", err);
-                    throw new Error(err.message);
-                });
-            }, err => {
-                console.error("Login POST error:", err);
-                throw new Error(err.message);
-            });
-        });
-        bugsplat.post(new Error(errorMessage))
-    }), 15000);
 
     it('should pass response data to callback', async(() => {
         const http = TestBed.get(HttpClient);
+        const mockBackend = TestBed.get(XHRBackend);
+        const mockSuccessResponse = {
+            status: 'success',
+            current_server_time: 1505832461,
+            message: 'Crash successfully posted',
+            crash_id: 785
+        };
         const config = {
             appName: "bugsplat-ng4-tests",
             appVersion: "1.0.0.0",
             database: testDatabase
         }
         const bugsplat = new BugSplat(config, http);
+        setMockBackendSuccessResponse(mockBackend, mockSuccessResponse);
         bugsplat.setCallback((err, data, context) => {
             expect(data.message).toEqual("Crash successfully posted");
             expect(data.status).toEqual("success");
@@ -86,14 +50,18 @@ describe('BugSplat', () => {
 
     it('should pass response error to callback', async(() => {
         const http = TestBed.get(HttpClient);
+        const mockBackend = TestBed.get(XHRBackend);
+        const mockFailureStatus = 400;
         const config = {
-            appName: "Foobar",
-            appVersion: "1.0.0.0",
-            database: ""
+            appName: "",
+            appVersion: "",
+            database: testDatabase
         }
         const bugsplat = new BugSplat(config, http);
+        setMockBackendFailureResponse(mockBackend, mockFailureStatus);
         bugsplat.setCallback((err, data, context) => {
-            expect(err).not.toBeUndefined();
+            expect(err).not.toBe(null);
+            expect(err.status).toEqual(mockFailureStatus);
         });
         bugsplat.post(new Error("foobar!"));
     }));
@@ -114,5 +82,22 @@ describe('BugSplat', () => {
         const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
         bugsplat.addAddtionalFile(file);
         expect(spy).toHaveBeenCalledWith(expectedMessage);
-    }));
+        }));
+
+    function setMockBackendSuccessResponse(mockBackend, body) {
+        mockBackend.connections.subscribe((connection) => {
+            connection.mockRespond(new Response(
+                new ResponseOptions({
+                    body: JSON.stringify(body)
+                })));
+        });
+    }
+
+    function setMockBackendFailureResponse(mockBackend, status) {
+        mockBackend.connections.subscribe((connection) => {
+            connection.mockFailureResponse(new HttpErrorResponse({
+                status: status
+            }));
+        });
+    }
 });

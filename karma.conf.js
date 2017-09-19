@@ -1,9 +1,17 @@
+const testFilePattern =  process.argv[process.argv.length-1];
+
 module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', 'karma-typescript'],
     files: [
-      { pattern: './src/*.ts' },
+      // BugSplat test file pattern
+      { pattern: testFilePattern },
+
+      // BugSplat source files
+      'src/bugsplat.module.ts',
+      'src/bugsplat-error-handler.ts',
+
       // Polyfills
       'node_modules/core-js/client/shim.js',      
 
