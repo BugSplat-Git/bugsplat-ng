@@ -8,6 +8,9 @@ module.exports = function (config) {
       // BugSplat test file pattern
       { pattern: testFilePattern },
 
+      // TestBed Initialization
+      'test/init.ts',
+
       // BugSplat source files
       'src/bugsplat.module.ts',
       'src/bugsplat.ts',
@@ -79,7 +82,7 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: true
+    singleRun: false
   }
 
   if (process.env.TRAVIS) {
