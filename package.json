@@ -9,7 +9,7 @@
   "scripts": {
     "build": "webpack",
     "test": "karma start karma.conf.js ./src/**.spec.ts",
-    "acceptance": "karma start karma.conf.js ./src/**.spec.acceptance.ts"
+    "acceptance": "karma start karma.conf.js ./src/**.acceptance-spec.ts"
   },
   "keywords": [
     "bugsplat",

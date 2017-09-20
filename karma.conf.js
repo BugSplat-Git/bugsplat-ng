@@ -10,6 +10,8 @@ module.exports = function (config) {
 
       // BugSplat source files
       'src/bugsplat.module.ts',
+      'src/bugsplat.ts',
+      'src/bugsplat-config.ts',
       'src/bugsplat-error-handler.ts',
 
       // Polyfills

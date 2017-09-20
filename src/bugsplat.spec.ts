@@ -2,9 +2,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { XHRBackend, ResponseOptions } from "@angular/http";
-import { BugSplat } from "./bugsplat-error-handler";
 import { MockBackend } from '@angular/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BugSplat } from './bugsplat';
 
 const testUser = "Fred";
 const testPassword = "Flintstone";
