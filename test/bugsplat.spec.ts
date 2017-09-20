@@ -1,7 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule, HttpClient } from "@angular/common/http";
-import { XHRBackend, ResponseOptions } from "@angular/http";
+import { XHRBackend, ResponseOptions, Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from '@angular/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BugSplat } from '../src/bugsplat';
@@ -17,16 +18,22 @@ describe('BugSplat', () => {
     });
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [HttpClientModule],
+        imports: [HttpClientTestingModule],
         providers: [
             HttpClient,
-            { provide: XHRBackend, useClass: MockBackend }
+            MockBackend,
+            BaseRequestOptions,
+            {
+                provide: Http, 
+                useFactory: (backend, options) => new Http(backend, options), 
+                deps: [MockBackend, BaseRequestOptions] 
+            }
         ]
     }));
 
     it('should pass response data to callback', async(() => {
         const http = TestBed.get(HttpClient);
-        const mockBackend = TestBed.get(XHRBackend);
+        const mockBackend = TestBed.get(MockBackend);
         const mockSuccessResponse = {
             status: 'success',
             current_server_time: 1505832461,
@@ -46,11 +53,11 @@ describe('BugSplat', () => {
             expect(data.crash_id).toMatch(/\d{1,}/);
         });
         bugsplat.post(new Error("foobar!"));
-    }), 15000);
+    }));
 
     it('should pass response error to callback', async(() => {
         const http = TestBed.get(HttpClient);
-        const mockBackend = TestBed.get(XHRBackend);
+        const mockBackend = TestBed.get(MockBackend);
         const mockFailureStatus = 400;
         const config = {
             appName: "",
@@ -82,7 +89,7 @@ describe('BugSplat', () => {
         const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
         bugsplat.addAddtionalFile(file);
         expect(spy).toHaveBeenCalledWith(expectedMessage);
-        }));
+    }));
 
     function setMockBackendSuccessResponse(mockBackend, body) {
         mockBackend.connections.subscribe((connection) => {
