@@ -4,7 +4,7 @@ import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { XHRBackend, ResponseOptions } from "@angular/http";
 import { MockBackend } from '@angular/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BugSplat } from './bugsplat';
+import { BugSplat } from '../src/bugsplat';
 
 const testUser = "Fred";
 const testPassword = "Flintstone";

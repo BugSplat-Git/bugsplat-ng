@@ -36,7 +36,8 @@ module.exports = function (config) {
       { pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false },
     ],
     preprocessors: {
-      './src/*.ts': ['karma-typescript']
+      './src/*.ts': ['karma-typescript'],
+      './test/*.ts': ['karma-typescript']
     },
     karmaTypescriptConfig: {
       compilerOptions: {
