@@ -8,8 +8,13 @@ module.exports = function (config) {
       // BugSplat test file pattern
       { pattern: testFilePattern },
 
+      // TestBed Initialization
+      'test/init.ts',
+
       // BugSplat source files
       'src/bugsplat.module.ts',
+      'src/bugsplat.ts',
+      'src/bugsplat-config.ts',
       'src/bugsplat-error-handler.ts',
 
       // Polyfills
@@ -34,7 +39,8 @@ module.exports = function (config) {
       { pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false },
     ],
     preprocessors: {
-      './src/*.ts': ['karma-typescript']
+      './src/*.ts': ['karma-typescript'],
+      './test/*.ts': ['karma-typescript']
     },
     karmaTypescriptConfig: {
       compilerOptions: {
