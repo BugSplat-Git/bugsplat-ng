@@ -5,7 +5,7 @@ import { BugSplatConfig, BugSplatConfigToken } from "./bugsplat-config";
 
 @Injectable()
 export class BugSplatErrorHandler implements ErrorHandler {
-  private bugsplat: BugSplat;
+  public bugsplat: BugSplat;
   
   constructor( @Inject(BugSplatConfigToken) private config: BugSplatConfig, private http: HttpClient) {
     this.bugsplat = new BugSplat(this.config, this.http);

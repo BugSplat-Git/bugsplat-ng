@@ -48,7 +48,7 @@ describe('BugSplat', () => {
             appName: "bugsplat-ng4-tests",
             appVersion: "1.0.0.0",
             database: testDatabase
-        }
+        };
         const bugsplat = new BugSplat(config, http);
         setMockBackendSuccessResponse(mockBackend, mockSuccessResponse);
         bugsplat.setCallback((err, data, context) => {
@@ -69,7 +69,7 @@ describe('BugSplat', () => {
             appName: "",
             appVersion: "",
             database: testDatabase
-        }
+        };
         const bugsplat = new BugSplat(config, http);
         setMockBackendFailureResponse(mockBackend, mockFailureStatus);
         bugsplat.setCallback((err, data, context) => {
