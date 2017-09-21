@@ -16,6 +16,7 @@ module.exports = function (config) {
       'src/bugsplat.ts',
       'src/bugsplat-config.ts',
       'src/bugsplat-error-handler.ts',
+      'src/bugsplat-post-event.ts',
 
       // Polyfills
       'node_modules/core-js/client/shim.js',      
@@ -82,11 +83,12 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: true
+    singleRun: false
   }
 
   if (process.env.TRAVIS) {
     _config.browsers = ['Firefox'];
+    _config.singleRun = true;
   }
 
   config.set(_config);

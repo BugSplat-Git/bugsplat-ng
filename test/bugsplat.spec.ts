@@ -6,7 +6,11 @@ import { XHRBackend, ResponseOptions, Http, BaseRequestOptions } from "@angular/
 import { MockBackend } from '@angular/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BugSplat } from '../src/bugsplat';
+import { BugSplatPostEventType } from '../src/bugsplat-post-event';
 import { TestBedInitializer } from './init';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
 
 const testUser = "Fred";
 const testPassword = "Flintstone";
@@ -21,23 +25,10 @@ describe('BugSplat', () => {
     });
     
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-            HttpClient,
-            MockBackend,
-            BaseRequestOptions,
-            {
-                provide: Http,
-                useFactory: (backend, options) => new Http(backend, options),
-                deps: [MockBackend, BaseRequestOptions]
-            }
-        ]
+        imports: [HttpClientTestingModule]
     }));
 
-    // TODO BG for some reason setCallback is never called here...
-    xit('should pass response data to callback', async(() => {
-        const http = TestBed.get(HttpClient);
-        const mockBackend = TestBed.get(MockBackend);
+    it('should publish an event on post success', async(() => {
         const mockSuccessResponse = {
             status: 'success',
             current_server_time: 1505832461,
@@ -49,32 +40,50 @@ describe('BugSplat', () => {
             appVersion: "1.0.0.0",
             database: testDatabase
         };
+        const http = TestBed.get(HttpClient);
+        http.post = (url, body) => {
+            return Observable.of(mockSuccessResponse);
+        };
         const bugsplat = new BugSplat(config, http);
-        setMockBackendSuccessResponse(mockBackend, mockSuccessResponse);
-        bugsplat.setCallback((err, data, context) => {
-            expect(null).toBe(true);
-            expect(data.message).toEqual("Crash successfully posted");
-            expect(data.status).toEqual("success");
-            expect(data.crash_id).toMatch(/\d{1,}/);
+        bugsplat.getObsevable().subscribe(event => {
+            // TODO BG no any
+            const eventAsAny = <any>event;
+            expect(event.type).toEqual(BugSplatPostEventType.Success);
+            expect(eventAsAny.data.message).toEqual("Crash successfully posted");
+            expect(eventAsAny.data.status).toEqual("success");
+            expect(eventAsAny.data.crash_id).toMatch(/\d{1,}/);
+        }, err => {
+            throw err;
         });
         bugsplat.post(new Error("foobar!"));
     }));
 
-    // TODO BG for some reason setCallback is never called here...
-    xit('should pass response error to callback', async(() => {
-        const http = TestBed.get(HttpClient);
-        const mockBackend = TestBed.get(MockBackend);
+    it('should publish an event on post error', async(() => {
         const mockFailureStatus = 400;
+        const mockFailureResponse = new HttpErrorResponse({
+            status: mockFailureStatus,
+            statusText: 'Bad Request',
+            url: 'https://octomore.bugsplat.com/post/js/',
+            error: null
+        })
         const config = {
             appName: "",
             appVersion: "",
             database: testDatabase
         };
+        const http = TestBed.get(HttpClient);
+        http.post = (url, body) => {
+            return Observable.throw(mockFailureResponse);
+        };
         const bugsplat = new BugSplat(config, http);
-        setMockBackendFailureResponse(mockBackend, mockFailureStatus);
-        bugsplat.setCallback((err, data, context) => {
-            expect(err).not.toBe(null);
-            expect(err.status).toEqual(mockFailureStatus);
+        bugsplat.getObsevable().subscribe(event => {
+            // TODO BG no any
+            const eventAsAny = <any>event;
+            expect(event.type).toEqual(BugSplatPostEventType.Error);
+            expect(eventAsAny.data).not.toBe(null);
+            expect(eventAsAny.data.status).toEqual(mockFailureStatus);
+        }, err => {
+            throw err;
         });
         bugsplat.post(new Error("foobar!"));
     }));
@@ -96,21 +105,4 @@ describe('BugSplat', () => {
         bugsplat.addAddtionalFile(file);
         expect(spy).toHaveBeenCalledWith(expectedMessage);
     }));
-
-    function setMockBackendSuccessResponse(mockBackend, body) {
-        mockBackend.connections.subscribe((connection) => {
-            connection.mockRespond(new Response(
-                new ResponseOptions({
-                    body: JSON.stringify(body)
-                })));
-        });
-    }
-
-    function setMockBackendFailureResponse(mockBackend, status) {
-        mockBackend.connections.subscribe((connection) => {
-            connection.mockFailureResponse(new HttpErrorResponse({
-                status: status
-            }));
-        });
-    }
 });

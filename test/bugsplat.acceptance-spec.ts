@@ -41,8 +41,10 @@ describe('BugSplat', () => {
         bugsplat.user = user;
         bugsplat.email = email;
         bugsplat.description = description;
-        bugsplat.setCallback((err, data, context) => {
-            const expectedCrashId = data.crash_id;
+        bugsplat.getObsevable().subscribe(event => {
+            // TODO BG no any
+            const eventAsAny = <any>event;
+            const expectedCrashId = eventAsAny.data.crash_id;
             const baseUrl = "http://" + testDatabase + ".bugsplat.com";
             const loginUrl = baseUrl + "/api/authenticate.php";
             const options = new RequestOptions({ withCredentials: true });
