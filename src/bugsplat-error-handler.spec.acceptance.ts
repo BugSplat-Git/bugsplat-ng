@@ -1,8 +1,8 @@
+import { TestBed, async } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { RequestOptions } from "@angular/http";
-import { BugSplat } from "../src/bugsplat";
-import { TestBedInitializer } from './init';
-import { async } from "@angular/core/testing";
+import { BugSplat } from "./bugsplat-error-handler";
 
 const testUser = "Fred";
 const testPassword = "Flintstone";
@@ -10,10 +10,8 @@ const testDatabase = "octomore"
 
 describe('BugSplat', () => {
 
-    let TestBed;
-
     beforeAll(() => {
-        TestBed = TestBedInitializer.getTestBed();    
+        TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
     });
 
     beforeEach(() => TestBed.configureTestingModule({
@@ -41,8 +39,8 @@ describe('BugSplat', () => {
         bugsplat.user = user;
         bugsplat.email = email;
         bugsplat.description = description;
-        bugsplat.getObservable().subscribe(event => {
-            const expectedCrashId = event.responseData.crash_id;
+        bugsplat.setCallback((err, data, context) => {
+            const expectedCrashId = data.crash_id;
             const baseUrl = "http://" + testDatabase + ".bugsplat.com";
             const loginUrl = baseUrl + "/api/authenticate.php";
             const options = new RequestOptions({ withCredentials: true });

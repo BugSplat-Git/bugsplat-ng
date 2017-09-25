@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "karma start karma.conf.js './test/**.spec.ts'",
-    "acceptance": "karma start karma.conf.js './test/**.acceptance-spec.ts'"
+    "test": "karma start karma.conf.js ./src/**.spec.ts",
+    "acceptance": "karma start karma.conf.js ./src/**.spec.acceptance.ts"
   },
   "keywords": [
     "bugsplat",

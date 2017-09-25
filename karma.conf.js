@@ -8,11 +8,9 @@ module.exports = function (config) {
       // BugSplat test file pattern
       { pattern: testFilePattern },
 
-      // TestBed Initialization
-      'test/init.ts',
-
       // BugSplat source files
-      { pattern: "src/*.ts" },
+      'src/bugsplat.module.ts',
+      'src/bugsplat-error-handler.ts',
 
       // Polyfills
       'node_modules/core-js/client/shim.js',      
@@ -36,8 +34,7 @@ module.exports = function (config) {
       { pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false },
     ],
     preprocessors: {
-      './src/*.ts': ['karma-typescript'],
-      './test/*.ts': ['karma-typescript']
+      './src/*.ts': ['karma-typescript']
     },
     karmaTypescriptConfig: {
       compilerOptions: {
@@ -79,12 +76,11 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: true
   }
 
   if (process.env.TRAVIS) {
     _config.browsers = ['Firefox'];
-    _config.singleRun = true;
   }
 
   config.set(_config);
