@@ -8,6 +8,11 @@ export class BugSplatResponseData {
         public crash_id: number = 0) { }
 
     static createFromSuccessResponseObject(response: object) {
+
+        if(!response) {
+            throw new Error("Invalid parameter in createFromSuccessResponseObject: response cannot be null!");
+        }
+        
         const responseAny = <any>response;
         let success = false;
         let current_server_time = 0;
@@ -35,6 +40,11 @@ export class BugSplatResponseData {
     }
 
     static createFromHttpErrorResponse(error: HttpErrorResponse) {
+
+        if(!error) {
+            throw new Error("Invalid parameter in createFromHttpErrorResponse: error cannot be null!");
+        }
+
         return new BugSplatResponseData(false, 0, error.message, "", 0);
     }
 }
