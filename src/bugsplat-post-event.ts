@@ -1,9 +1,10 @@
+import { BugSplatResponseData } from "./bugsplat-response-data";
+
 export enum BugSplatPostEventType {
     Success,
     Error
 }
 
 export class BugSplatPostEvent {
-    // TODO BG type for data
-    constructor(public type: BugSplatPostEventType, public data: Object) { }
+    constructor(public type: BugSplatPostEventType, public responseData: BugSplatResponseData) { }
 }

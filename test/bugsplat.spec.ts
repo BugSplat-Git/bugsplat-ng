@@ -46,12 +46,10 @@ describe('BugSplat', () => {
         };
         const bugsplat = new BugSplat(config, http);
         bugsplat.getObsevable().subscribe(event => {
-            // TODO BG no any
-            const eventAsAny = <any>event;
             expect(event.type).toEqual(BugSplatPostEventType.Success);
-            expect(eventAsAny.data.message).toEqual("Crash successfully posted");
-            expect(eventAsAny.data.status).toEqual("success");
-            expect(eventAsAny.data.crash_id).toMatch(/\d{1,}/);
+            expect(event.responseData.message).toEqual("Crash successfully posted");
+            expect(event.responseData.success).toEqual(true);
+            expect(event.responseData.crash_id).toMatch(/\d{1,}/);
         }, err => {
             throw err;
         });
@@ -77,11 +75,9 @@ describe('BugSplat', () => {
         };
         const bugsplat = new BugSplat(config, http);
         bugsplat.getObsevable().subscribe(event => {
-            // TODO BG no any
-            const eventAsAny = <any>event;
             expect(event.type).toEqual(BugSplatPostEventType.Error);
-            expect(eventAsAny.data).not.toBe(null);
-            expect(eventAsAny.data.status).toEqual(mockFailureStatus);
+            expect(event.responseData.success).toBe(false);
+            expect(event.responseData.message).toContain("400 Bad Request");
         }, err => {
             throw err;
         });

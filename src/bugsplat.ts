@@ -2,6 +2,8 @@ import { BugSplatConfig } from "./bugsplat-config";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs/Subject";
 import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
+import { BugSplatResponseData } from "./bugsplat-response-data";
+import { HttpErrorResponse } from "@angular/common/http";
 
 export class BugSplat {
   public appKey: string = "";
@@ -36,11 +38,14 @@ export class BugSplat {
     });
     this.http.post(url, body).subscribe(data => {
       console.log("BugSplat POST Success:", data);
-      const event = new BugSplatPostEvent(BugSplatPostEventType.Success, data);
+      const responseData = BugSplatResponseData.createFromSuccessResponseObject(data);
+      const event = new BugSplatPostEvent(BugSplatPostEventType.Success, responseData);
       this.bugSplatPostEventSubject.next(event);
     }, err => {
       console.log("BugSplat POST Error:", err);
-      const event = new BugSplatPostEvent(BugSplatPostEventType.Error, err);
+      const httpErrorResponse = <HttpErrorResponse>err;
+      const responseData = BugSplatResponseData.createFromHttpErrorResponse(httpErrorResponse);
+      const event = new BugSplatPostEvent(BugSplatPostEventType.Error, responseData);
       this.bugSplatPostEventSubject.next(event);
     });
   }
