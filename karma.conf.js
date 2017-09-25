@@ -12,11 +12,7 @@ module.exports = function (config) {
       'test/init.ts',
 
       // BugSplat source files
-      'src/bugsplat.module.ts',
-      'src/bugsplat.ts',
-      'src/bugsplat-config.ts',
-      'src/bugsplat-error-handler.ts',
-      'src/bugsplat-post-event.ts',
+      { pattern: "src/*.ts" },
 
       // Polyfills
       'node_modules/core-js/client/shim.js',      
