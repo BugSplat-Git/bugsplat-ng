@@ -1,10 +1,7 @@
-import { TestBed, async } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpClientModule, HttpClient } from "@angular/common/http";
-import { XHRBackend, ResponseOptions, Http, BaseRequestOptions } from "@angular/http";
-import { MockBackend } from '@angular/http/testing';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Http, BaseRequestOptions } from "@angular/http";
 import { BugSplat } from '../src/bugsplat';
 import { BugSplatPostEventType } from '../src/bugsplat-post-event';
 import { TestBedInitializer } from './init';
@@ -12,9 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 
-const testUser = "Fred";
-const testPassword = "Flintstone";
-const testDatabase = "octomore"
+const testDatabase = "Fred"
 
 describe('BugSplat', () => {
 

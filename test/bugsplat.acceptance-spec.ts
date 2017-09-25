@@ -1,8 +1,8 @@
+import { async } from "@angular/core/testing";
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { RequestOptions } from "@angular/http";
 import { BugSplat } from "../src/bugsplat";
 import { TestBedInitializer } from './init';
-import { async } from "@angular/core/testing";
 
 const testUser = "Fred";
 const testPassword = "Flintstone";
