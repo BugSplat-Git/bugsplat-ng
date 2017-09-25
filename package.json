@@ -7,7 +7,6 @@
     "test": "test"
   },
   "scripts": {
-    "build": "webpack",
     "test": "karma start karma.conf.js './test/**.spec.ts'",
     "acceptance": "karma start karma.conf.js './test/**.acceptance-spec.ts'"
   },
@@ -32,32 +31,24 @@
     "@angular/http": "^4.3.6"
   },
   "devDependencies": {
-    "@angular/animations": "^4.3.6",
     "@angular/common": "^4.3.6",
     "@angular/compiler": "^4.3.6",
-    "@angular/compiler-cli": "^4.3.6",
     "@angular/core": "^4.3.6",
-    "@angular/forms": "^4.3.6",
     "@angular/http": "^4.3.6",
     "@angular/platform-browser": "^4.3.6",
     "@angular/platform-browser-dynamic": "^4.3.6",
-    "@angular/platform-server": "^4.3.6",
-    "@angular/router": "^4.3.6",
     "@types/core-js": "^0.9.43",
     "@types/jasmine": "^2.5.54",
     "core-js": "^2.5.1",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage-istanbul-reporter": "^1.3.0",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-typescript": "^3.0.5",
     "rxjs": "^5.4.3",
-    "ts-loader": "^2.3.6",
     "typescript": "^2.5.2",
-    "webpack": "^3.5.6",
     "zone.js": "^0.8.17"
   }
 }
