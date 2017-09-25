@@ -1,18 +1,13 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpClientModule, HttpClient } from "@angular/common/http";
-import { XHRBackend, ResponseOptions, Http, BaseRequestOptions } from "@angular/http";
-import { MockBackend } from '@angular/http/testing';
-import { HttpErrorResponse } from '@angular/common/http';
-import { BugSplat } from '../src/bugsplat';
-import { BugSplatErrorHandler } from '../src/bugsplat-error-handler';
-import { TestBedInitializer } from './init';
 import { async } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Http, BaseRequestOptions } from "@angular/http";
+import { MockBackend } from '@angular/http/testing';
+import { BugSplatResponseData } from '../src/bugsplat-response-data';
+import { TestBedInitializer } from './init';
 
-const testUser = "Fred";
-const testPassword = "Flintstone";
-const testDatabase = "octomore"
-
-describe('BugSplatErrorHandler', () => {
+describe('BugSplatResponseData', () => {
+    
     let TestBed;
 
     beforeAll(() => {
@@ -33,29 +28,47 @@ describe('BugSplatErrorHandler', () => {
         ]
     }));
 
-    it('should call bugsplat.post when handleError is called', async(() => {
-        const httpClient = TestBed.get(HttpClient);
-        const config = {
-            appName: "bugsplat-ng4-tests",
-            appVersion: "1.0.0.0",
-            database: testDatabase
-        };
-        const expectedError = new Error("BugSplat rocks!");
-        const sut = new BugSplatErrorHandler(config, httpClient);
-        sut.bugsplat.post = (error) => {
-            expect(error).toBe(expectedError);
-        };
-        sut.handleError(expectedError);
+    it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', async(() => {
+        const status = "success";
+        const current_server_time = 1506381722;
+        const message = "Crash successfully posted";
+        const url = "https://app.bugsplat.com/browse/crashInfo.php?vendor=octomore&version=1.0.0.0&key=Key!&id=99999999&row=933";
+        const crash_id = 933;
+        const response = {
+            status,
+            current_server_time,
+            message,
+            url,
+            crash_id
+        }
+        const result = BugSplatResponseData.createFromSuccessResponseObject(response);
+        expect(result.success).toEqual(true);
+        expect(result.current_server_time).toEqual(current_server_time);
+        expect(result.message).toEqual(message);
+        expect(result.url).toEqual(url);
+        expect(result.crash_id).toEqual(crash_id);
     }));
 
-    it('should create instance of BugSplat at construction time', async(() => {
-        const httpClient = TestBed.get(HttpClient);
-        const config = {
-            appName: "bugsplat-ng4-tests",
-            appVersion: "1.0.0.0",
-            database: testDatabase
-        };
-        const sut = new BugSplatErrorHandler(config, httpClient);
-        expect(sut.bugsplat).not.toBe(null);
+    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with valid parameters', async(() => {
+        const url = "https://octomore.bugsplat.com/post/js/"
+        const httpErrorResponse = new HttpErrorResponse({
+            status: 400,
+            statusText: "Bad Request",
+            url: url
+        });
+        const result = BugSplatResponseData.createFromHttpErrorResponse(httpErrorResponse);
+        expect(result.success).toEqual(false);
+        expect(result.current_server_time).toEqual(0);
+        expect(result.message).toContain("400 Bad Request");
+        expect(result.url).toEqual(url);
+        expect(result.crash_id).toEqual(0);
+    }));
+
+    it('should throw when createFromSuccessResponseObject is called with valid parameters', async(() => {
+        expect(() => BugSplatResponseData.createFromSuccessResponseObject(null)).toThrow();
+    }));
+
+    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with valid parameters', async(() => {
+        expect(() => BugSplatResponseData.createFromHttpErrorResponse(null)).toThrow();
     }));
 });

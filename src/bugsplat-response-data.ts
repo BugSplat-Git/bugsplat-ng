@@ -45,6 +45,6 @@ export class BugSplatResponseData {
             throw new Error("Invalid parameter in createFromHttpErrorResponse: error cannot be null!");
         }
 
-        return new BugSplatResponseData(false, 0, error.message, "", 0);
+        return new BugSplatResponseData(false, 0, error.message, error.url, 0);
     }
 }
