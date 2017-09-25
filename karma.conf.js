@@ -5,17 +5,15 @@ module.exports = function (config) {
     basePath: '',
     frameworks: ['jasmine', 'karma-typescript'],
     files: [
+
+      // BugSplat source file pattern
+      { pattern: "src/*.ts" },
+
       // BugSplat test file pattern
       { pattern: testFilePattern },
 
       // TestBed Initialization
       'test/init.ts',
-
-      // BugSplat source files
-      'src/bugsplat.module.ts',
-      'src/bugsplat.ts',
-      'src/bugsplat-config.ts',
-      'src/bugsplat-error-handler.ts',
 
       // Polyfills
       'node_modules/core-js/client/shim.js',      
@@ -49,11 +47,15 @@ module.exports = function (config) {
         "noImplicitAny": false,
         "experimentalDecorators": true,
         "module": "commonjs",
-        "target": "es6",
+        "target": "es5",
         "jsx": "react",
         "allowJs": true,
         "types": [
           "jasmine"
+        ],
+        "lib": [
+            "es2015",
+            "dom"
         ]
       },
       "exclude": ["node_modules"]
@@ -63,18 +65,10 @@ module.exports = function (config) {
       require('karma-typescript'),
       require('karma-chrome-launcher'),
       require('karma-firefox-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter')
+      require('karma-jasmine-html-reporter')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
-    },
-    coverageIstanbulReporter: {
-      reports: ['html', 'lcovonly'],
-      fixWebpackSourcePaths: true
-    },
-    angularCli: {
-      environment: 'dev'
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
@@ -82,11 +76,12 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: true
+    singleRun: false
   }
 
   if (process.env.TRAVIS) {
     _config.browsers = ['Firefox'];
+    _config.singleRun = true;
   }
 
   config.set(_config);

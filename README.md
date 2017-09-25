@@ -88,7 +88,7 @@ Navigate to the [All Crashes](http://www.bugsplat.com/allcrash/) page in BugSpla
 
 ![IndividualCrashNg4](https://s3.amazonaws.com/bugsplat-public/npm/individualCrashNg4.png)
 
-## Extended Configurtion
+## Extended Configuration
 You can post additional information to BugSplat by creating a wrapper around the BugSplat object. To do so, create a new class that implements Angular’s ErrorHandler interface. In the handlerError method make a call to BugSplat.post passing it the error object:
 
 [my-angular-error-handler.ts](https://github.com/bobbyg603/my-angular-4-crasher/blob/master/src/app/my-angular-error-handler.ts)
