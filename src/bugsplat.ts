@@ -17,7 +17,7 @@ export class BugSplat {
 
   constructor(private config: BugSplatConfig, private http: HttpClient) { }
 
-  getObsevable() {
+  getObservable() {
     return this.bugSplatPostEventSubject.asObservable();
   }
 

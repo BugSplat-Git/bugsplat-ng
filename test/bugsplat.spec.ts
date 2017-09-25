@@ -45,7 +45,7 @@ describe('BugSplat', () => {
             return Observable.of(mockSuccessResponse);
         };
         const bugsplat = new BugSplat(config, http);
-        bugsplat.getObsevable().subscribe(event => {
+        bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Success);
             expect(event.responseData.message).toEqual("Crash successfully posted");
             expect(event.responseData.success).toEqual(true);
@@ -74,7 +74,7 @@ describe('BugSplat', () => {
             return Observable.throw(mockFailureResponse);
         };
         const bugsplat = new BugSplat(config, http);
-        bugsplat.getObsevable().subscribe(event => {
+        bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Error);
             expect(event.responseData.success).toBe(false);
             expect(event.responseData.message).toContain("400 Bad Request");
