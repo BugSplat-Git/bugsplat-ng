@@ -1,9 +1,8 @@
-import { BugSplatConfig } from "./bugsplat-config";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Subject } from "rxjs/Subject";
 import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
 import { BugSplatResponseData } from "./bugsplat-response-data";
-import { HttpErrorResponse } from "@angular/common/http";
+import { BugSplatConfig } from "./bugsplat-config";
 
 export class BugSplat {
   public appKey: string = "";
