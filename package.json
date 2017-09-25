@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "build": "tsc",
     "test": "karma start karma.conf.js './test/**.spec.ts'",
     "acceptance": "karma start karma.conf.js './test/**.acceptance-spec.ts'"
   },

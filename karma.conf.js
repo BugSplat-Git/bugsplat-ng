@@ -47,11 +47,15 @@ module.exports = function (config) {
         "noImplicitAny": false,
         "experimentalDecorators": true,
         "module": "commonjs",
-        "target": "es6",
+        "target": "es5",
         "jsx": "react",
         "allowJs": true,
         "types": [
           "jasmine"
+        ],
+        "lib": [
+            "es2015",
+            "dom"
         ]
       },
       "exclude": ["node_modules"]
