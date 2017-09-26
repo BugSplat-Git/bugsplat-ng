@@ -112,14 +112,14 @@ export class MyAngularErrorHandler implements ErrorHandler {
 
 BugSplat provides the following properties and methods that allow you to customize its functionality:
 
-[bugsplat-error-handler.ts](https://github.com/BugSplat-Git/bugsplat-ng4/blob/master/src/bugsplat-error-handler.ts)
+[bugsplat.ts](https://github.com/BugSplat-Git/bugsplat-ng4/blob/master/src/bugsplat.ts)
 ```typescript
 BugSplat.appkey: string; // A unique identifier for your application
 BugSplat.user: string; // The name or id of your user
 BugSplat.email: string; // The email of your user 
 BugSplat.description: string; // Additional info about your crash that gets reset after every post
-BugSplat.addAdditionalFile(file); // File object to be added at post time (limit 2MB) 
-BugSplat.setCallback(callback, context); // Function that accepts 3 parameters (err, responseBody, context) that runs after post. Context will be passed through to your callback so that you can retrieve properties or invoke functions that originated in a different scope
+BugSplat.addAdditionalFile(file); // Add a file to a list of files to be uploaded at post time (total upload limit 2MB)
+BugSplat.getObservable(); // Returns an Observable<BugSplatPostEvent>. Subscribing to this method will allow you to hook into the results of BugSplatPost events in your components. Make sure to unsubscribe in ngOnDestroy.
 BugSplat.post(error); // Post an arbitrary Error object to BugSplat
 ```
 
