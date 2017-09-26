@@ -3,6 +3,7 @@ import { Subject } from "rxjs/Subject";
 import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
 import { BugSplatResponseData } from "./bugsplat-response-data";
 import { BugSplatConfig } from "./bugsplat-config";
+import { Logger } from "./bugsplat-logger";
 
 export class BugSplat {
   public appKey: string = "";
@@ -14,7 +15,9 @@ export class BugSplat {
 
   private files: File[] = [];
 
-  constructor(private config: BugSplatConfig, private http: HttpClient) { }
+  constructor(private config: BugSplatConfig,
+    private http: HttpClient,
+    private logger: Logger) { }
 
   getObservable() {
     return this.bugSplatPostEventSubject.asObservable();
@@ -35,13 +38,15 @@ export class BugSplat {
     this.files.forEach(file => {
       body.append(file.name, file, file.name);
     });
+    this.logger.debug("BugSplat POST Url: " + url);
+    this.logger.debug("BugSplat POST Body: " + JSON.stringify(body));
     this.http.post(url, body).subscribe(data => {
-      console.log("BugSplat POST Success:", data);
+      this.logger.debug("BugSplat POST Success: " + data);
       const responseData = BugSplatResponseData.createFromSuccessResponseObject(data);
       const event = new BugSplatPostEvent(BugSplatPostEventType.Success, responseData);
       this.bugSplatPostEventSubject.next(event);
     }, err => {
-      console.log("BugSplat POST Error:", err);
+      this.logger.error("BugSplat POST Error: " + JSON.stringify(err));
       const httpErrorResponse = <HttpErrorResponse>err;
       const responseData = BugSplatResponseData.createFromHttpErrorResponse(httpErrorResponse);
       const event = new BugSplatPostEvent(BugSplatPostEventType.Error, responseData);
@@ -53,9 +58,10 @@ export class BugSplat {
     const currentUploadSize = this.files.reduce((previous, current) => { return previous + current.size; }, 0);
     const newUploadSize = currentUploadSize + file.size;
     if (newUploadSize >= 2 * 1024 * 1024) {
-      console.error("BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!");
+      this.logger.error("BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!");
     } else {
       this.files.push(file);
+      this.logger.debug("BugSplat file added successfully");
     }
   }
 }

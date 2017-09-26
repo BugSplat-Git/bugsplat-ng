@@ -8,6 +8,7 @@ import { TestBedInitializer } from './init';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
+import { BugSplatLogger } from '../src/bugsplat-logger';
 
 const testDatabase = "Fred"
 
@@ -39,7 +40,7 @@ describe('BugSplat', () => {
         http.post = (url, body) => {
             return Observable.of(mockSuccessResponse);
         };
-        const bugsplat = new BugSplat(config, http);
+        const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Success);
             expect(event.responseData.message).toEqual("Crash successfully posted");
@@ -68,7 +69,7 @@ describe('BugSplat', () => {
         http.post = (url, body) => {
             return Observable.throw(mockFailureResponse);
         };
-        const bugsplat = new BugSplat(config, http);
+        const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Error);
             expect(event.responseData.success).toBe(false);
@@ -81,7 +82,8 @@ describe('BugSplat', () => {
 
     it('should log an error if asked to upload a file that exceeds maximum bundle size', async(() => {
         const http = TestBed.get(HttpClient);
-        const spy = spyOn(console, "error");
+        const logger = new BugSplatLogger();
+        const spy = spyOn(logger, "error");
         const config = {
             appName: "Foobar",
             appVersion: "1.0.0.0",
@@ -91,7 +93,7 @@ describe('BugSplat', () => {
         const fileName = "mario.png";
         const blob = new Blob([new Array(sizeLimitBytes + 1)], { type: 'image/png' });
         const file = new File([blob], fileName);
-        const bugsplat = new BugSplat(config, http);
+        const bugsplat = new BugSplat(config, http, logger);
         const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
         bugsplat.addAddtionalFile(file);
         expect(spy).toHaveBeenCalledWith(expectedMessage);
