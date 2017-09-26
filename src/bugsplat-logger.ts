@@ -12,7 +12,6 @@ export enum BugSplatLogLevel {
 }
 
 export interface Logger {
-    level: BugSplatLogLevel;
     error(msg: string): void;
     warn(msg: string): void;
     info(msg: string): void;
@@ -21,12 +20,9 @@ export interface Logger {
 }
 
 export class BugSplatLogger implements Logger {
-    level: BugSplatLogLevel;
-
-    constructor(private logger: Logger = null) {
+    constructor(private level: BugSplatLogLevel = BugSplatLogLevel.None, private logger: Logger = null) {
         if (!this.logger) {
-            this.logger = new BugSplatLogger({
-                level: BugSplatLogLevel.None,
+            this.logger = new BugSplatLogger(level, {
                 error: (msg) => console.error(msg),
                 warn: (msg) => console.warn(msg),
                 info: (msg) => console.info(msg),
@@ -34,7 +30,6 @@ export class BugSplatLogger implements Logger {
                 log: (msg) => console.log(msg)
             });
         }
-        this.level = this.logger.level;
     }
     error(msg: string): void {
         if (this.level >= BugSplatLogLevel.Error) {
@@ -53,7 +48,7 @@ export class BugSplatLogger implements Logger {
     }
     debug(msg: string): void {
         if (this.level >= BugSplatLogLevel.Debug) {
-            this.logger.debug(msg);
+            this.logger.info(msg);
         }
     }
     log(msg: string): void {

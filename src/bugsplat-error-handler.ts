@@ -2,7 +2,7 @@ import { ErrorHandler, Injectable, Inject, InjectionToken } from '@angular/core'
 import { HttpClient } from "@angular/common/http";
 import { BugSplat } from "./bugsplat";
 import { BugSplatConfig, BugSplatConfigToken } from "./bugsplat-config";
-import { LoggerToken, Logger, BugSplatLogger } from './bugsplat-logger';
+import { LoggerToken, Logger, BugSplatLogger, BugSplatLogLevel } from './bugsplat-logger';
 
 @Injectable()
 export class BugSplatErrorHandler implements ErrorHandler {
@@ -19,10 +19,7 @@ export class BugSplatErrorHandler implements ErrorHandler {
   }
 
   handleError(error) {
-    this.logger.debug('Exception caught by BugSplat!')
-    this.logger.debug('BugSplat AppName: ' + this.config.appName);
-    this.logger.debug('BugSplat AppVersion: ' + this.config.appVersion);
-    this.logger.debug('BugSplat Database: ' + this.config.database);
+    this.logger.info('Exception caught by BugSplat!')
     this.bugsplat.post(error);
   }
 }

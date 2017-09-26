@@ -38,10 +38,9 @@ export class BugSplat {
     this.files.forEach(file => {
       body.append(file.name, file, file.name);
     });
-    this.logger.debug("BugSplat POST Url: " + url);
-    this.logger.debug("BugSplat POST Body: " + JSON.stringify(body));
+    this.logPostInfo(url, callstack);
     this.http.post(url, body).subscribe(data => {
-      this.logger.debug("BugSplat POST Success: " + data);
+      this.logger.info("BugSplat POST Success: " + JSON.stringify(data));
       const responseData = BugSplatResponseData.createFromSuccessResponseObject(data);
       const event = new BugSplatPostEvent(BugSplatPostEventType.Success, responseData);
       this.bugSplatPostEventSubject.next(event);
@@ -58,10 +57,25 @@ export class BugSplat {
     const currentUploadSize = this.files.reduce((previous, current) => { return previous + current.size; }, 0);
     const newUploadSize = currentUploadSize + file.size;
     if (newUploadSize >= 2 * 1024 * 1024) {
-      this.logger.error("BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!");
+      this.logger.warn("BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!");
     } else {
       this.files.push(file);
-      this.logger.debug("BugSplat file added successfully");
+      this.logger.info("BugSplat file added successfully");
+    }
+  }
+
+  logPostInfo(url, callstack) {
+    this.logger.info("BugSplat POST Url: " + url);
+    this.logger.info("BugSplat POST Callstack: " + JSON.stringify(callstack));
+    this.logger.info("BugSplat POST appName: " + this.config.appName);
+    this.logger.info("BugSplat POST appVersion: " + this.config.appVersion);
+    this.logger.info("BugSplat POST database: " + this.config.database);
+    this.logger.info("BugSplat POST appKey: " + this.appKey);
+    this.logger.info("BugSplat POST user: " + this.user);
+    this.logger.info("BugSplat POST email: " + this.email);
+    this.logger.info("BugSplat POST description: " + this.description);
+    for(let i = 0; i < this.files.length; i++) {
+      this.logger.info("BugSplat POST file[" + i + "]: " + this.files[i].name);
     }
   }
 }
