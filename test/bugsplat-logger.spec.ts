@@ -11,14 +11,14 @@ describe('BugSplatLogger', () => {
     });
 
     it('should log errors when log level is set to Error', async(() => {
-        const fakeLogger = createFakeLogger(BugSplatLogLevel.Error);
-        const sut = new BugSplatLogger(fakeLogger);
+        const fakeLogger = createFakeLogger();
         const errorSpy = spyOn(fakeLogger, "error");
         const warnSpy = spyOn(fakeLogger, "warn");
         const infoSpy = spyOn(fakeLogger, "info");
         const debugSpy = spyOn(fakeLogger, "debug");
         const logSpy = spyOn(fakeLogger, "log");
         const expectedMessage = "BugSplat rocks!";
+        const sut = new BugSplatLogger(BugSplatLogLevel.Error, fakeLogger);
         sut.error(expectedMessage);
         sut.warn(expectedMessage);
         sut.info(expectedMessage);
@@ -32,14 +32,14 @@ describe('BugSplatLogger', () => {
     }));
 
     it('should log errors and warnings when log level is set to Warn', async(() => {
-        const fakeLogger = createFakeLogger(BugSplatLogLevel.Warn);
+        const fakeLogger = createFakeLogger();
         const errorSpy = spyOn(fakeLogger, "error");
         const warnSpy = spyOn(fakeLogger, "warn");
         const infoSpy = spyOn(fakeLogger, "info");
         const debugSpy = spyOn(fakeLogger, "debug");
         const logSpy = spyOn(fakeLogger, "log");
         const expectedMessage = "BugSplat rocks!";
-        const sut = new BugSplatLogger(fakeLogger);
+        const sut = new BugSplatLogger(BugSplatLogLevel.Warn, fakeLogger);
         sut.error(expectedMessage);
         sut.warn(expectedMessage);
         sut.info(expectedMessage);
@@ -53,14 +53,14 @@ describe('BugSplatLogger', () => {
     }));
 
     it('should log errors, warnings and info when log level is set to Info', async(() => {
-        const fakeLogger = createFakeLogger(BugSplatLogLevel.Info);
-        const sut = new BugSplatLogger(fakeLogger);
+        const fakeLogger = createFakeLogger();
         const errorSpy = spyOn(fakeLogger, "error");
         const warnSpy = spyOn(fakeLogger, "warn");
         const infoSpy = spyOn(fakeLogger, "info");
         const debugSpy = spyOn(fakeLogger, "debug");
         const logSpy = spyOn(fakeLogger, "log");
         const expectedMessage = "BugSplat rocks!";
+        const sut = new BugSplatLogger(BugSplatLogLevel.Info, fakeLogger);
         sut.error(expectedMessage);
         sut.warn(expectedMessage);
         sut.info(expectedMessage);
@@ -74,14 +74,14 @@ describe('BugSplatLogger', () => {
     }));
 
     it('should log errors, warnings, info and debug when log level is set to Debug', async(() => {
-        const fakeLogger = createFakeLogger(BugSplatLogLevel.Debug);
-        const sut = new BugSplatLogger(fakeLogger);
+        const fakeLogger = createFakeLogger();
         const errorSpy = spyOn(fakeLogger, "error");
         const warnSpy = spyOn(fakeLogger, "warn");
         const infoSpy = spyOn(fakeLogger, "info");
         const debugSpy = spyOn(fakeLogger, "debug");
         const logSpy = spyOn(fakeLogger, "log");
         const expectedMessage = "BugSplat rocks!";
+        const sut = new BugSplatLogger(BugSplatLogLevel.Debug, fakeLogger);
         sut.error(expectedMessage);
         sut.warn(expectedMessage);
         sut.info(expectedMessage);
@@ -95,14 +95,14 @@ describe('BugSplatLogger', () => {
     }));
 
     it('should log errors, warnings, info, debug and log when log level is set to Log', async(() => {
-        const fakeLogger = createFakeLogger(BugSplatLogLevel.Log);
-        const sut = new BugSplatLogger(fakeLogger);
+        const fakeLogger = createFakeLogger();
         const errorSpy = spyOn(fakeLogger, "error");
         const warnSpy = spyOn(fakeLogger, "warn");
         const infoSpy = spyOn(fakeLogger, "info");
         const debugSpy = spyOn(fakeLogger, "debug");
         const logSpy = spyOn(fakeLogger, "log");
         const expectedMessage = "BugSplat rocks!";
+        const sut = new BugSplatLogger(BugSplatLogLevel.Log, fakeLogger);
         sut.error(expectedMessage);
         sut.warn(expectedMessage);
         sut.info(expectedMessage);
@@ -116,14 +116,14 @@ describe('BugSplatLogger', () => {
     }));
 
     it('should not log when log level is set to None', async(() => {
-        const fakeLogger = createFakeLogger(BugSplatLogLevel.None);
-        const sut = new BugSplatLogger(fakeLogger);
+        const fakeLogger = createFakeLogger();
         const errorSpy = spyOn(fakeLogger, "error");
         const warnSpy = spyOn(fakeLogger, "warn");
         const infoSpy = spyOn(fakeLogger, "info");
         const debugSpy = spyOn(fakeLogger, "debug");
         const logSpy = spyOn(fakeLogger, "log");
         const expectedMessage = "BugSplat rocks!";
+        const sut = new BugSplatLogger(BugSplatLogLevel.None, fakeLogger);
         sut.error(expectedMessage);
         sut.warn(expectedMessage);
         sut.info(expectedMessage);
@@ -136,9 +136,8 @@ describe('BugSplatLogger', () => {
         expect(logSpy).not.toHaveBeenCalled();
     }));
 
-    function createFakeLogger(level: BugSplatLogLevel): Logger {
+    function createFakeLogger(): Logger {
         return {
-            level: level,
             error: (msg) => {},
             warn: (msg) => {},
             info: (msg) => {},

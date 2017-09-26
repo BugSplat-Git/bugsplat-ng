@@ -80,10 +80,10 @@ describe('BugSplat', () => {
         bugsplat.post(new Error("foobar!"));
     }));
 
-    it('should log an error if asked to upload a file that exceeds maximum bundle size', async(() => {
+    it('should log a warning if asked to upload a file that exceeds maximum bundle size', async(() => {
         const http = TestBed.get(HttpClient);
         const logger = new BugSplatLogger();
-        const spy = spyOn(logger, "error");
+        const spy = spyOn(logger, "warn");
         const config = {
             appName: "Foobar",
             appVersion: "1.0.0.0",

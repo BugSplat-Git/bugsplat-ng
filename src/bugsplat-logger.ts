@@ -48,7 +48,7 @@ export class BugSplatLogger implements Logger {
     }
     debug(msg: string): void {
         if (this.level >= BugSplatLogLevel.Debug) {
-            this.logger.info(msg);
+            this.logger.debug(msg);
         }
     }
     log(msg: string): void {
