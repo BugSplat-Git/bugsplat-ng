@@ -16,30 +16,11 @@ To collect errors and crashes in your Angular 4 application, run the following c
 npm install bugsplat-ng4 --save
 ```
 
-Import BugSplat, BugSplatErrorHandler, BugSplatConfig and BugSplatConfigToken into your app module from bugsplat-ng4:
+Import BugSplatErrorHandler, BugSplatConfiguration, BugSplatConfigToken, LoggerToken, BugSplatLogger and BugSplatLogLevel into your app module from bugsplat-ng4:
 
 [app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
 ```typescript
-import { BugSplatConfig, BugSplatConfigToken, BugSplatErrorHandler } from 'bugsplat-ng4';
-```
-
-Create a configuration for BugSplat in your app module and add a provider for BugSplatConfigToken with the useValue property set to the value of your configuration:
-
-[app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
-```typescript
-...
-const BUGSPLAT_CONFIG: BugSplatConfig = {
-  appName: "my-angular-4-crasher",
-  appVersion: "1.0.0.0",
-  database: "fred"
-};
-
-@NgModule({
-  providers: [
-    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
-  ],
-  ...
-})
+import { BugSplatErrorHandler, BugSplatConfiguration, BugSplatConfigToken, LoggerToken, BugSplatLogger, BugSplatLogLevel } from 'bugsplat-ng4';
 ```
 
 Add a provider for ErrorHandler with the useClass property set to BugSplatErrorHandler:
@@ -49,8 +30,41 @@ Add a provider for ErrorHandler with the useClass property set to BugSplatErrorH
 ...
 @NgModule({
   providers: [
-    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
     { provide: ErrorHandler, useClass: BugSplatErrorHandler }
+  ],
+  ...
+})
+```
+
+Create a configuration for BugSplat in your app module and add a provider for BugSplatConfigToken with the useValue property set to the value of your configuration:
+
+[app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
+```typescript
+...
+const appName = "my-angular-4-crasher";
+const appVersion = "1.0.0.0";
+const database = "fred";
+const BUGSPLAT_CONFIG = new BugSplatConfiguration(appName, appVersion, database);
+
+@NgModule({
+  providers: [
+    { provide: ErrorHandler, useClass: BugSplatErrorHandler },
+    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG }
+  ],
+  ...
+})
+```
+
+Configure logging by creating a new instance of BugSplatLogger and set the log level to one of the BugSplatLogLevel options. You can provide an instance of your own custom logger as the second parameter granted it has error, warn, info and log methods. If no custom logger is provided console will be used:
+
+[app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
+```typescript
+...
+@NgModule({
+  providers: [
+    { provide: ErrorHandler, useClass: BugSplatErrorHandler },
+    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
+    { provide: LoggerToken, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
   ],
   ...
 })
@@ -68,8 +82,9 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
+    { provide: ErrorHandler, useClass: BugSplatErrorHandler },
     { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
-    { provide: ErrorHandler, useClass: BugSplatErrorHandler }
+    { provide: LoggerToken, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
   ],
   ...
 })
@@ -95,13 +110,15 @@ You can post additional information to BugSplat by creating a wrapper around the
 ```typescript
 import { ErrorHandler, Injectable, Inject, InjectionToken } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { BugSplat, BugSplatConfigToken, BugSplatConfig } from 'bugsplat-ng4';
+import { BugSplat, BugSplatConfigToken, BugSplatConfig, LoggerToken, Logger } from 'bugsplat-ng4';
 
 @Injectable()
 export class MyAngularErrorHandler implements ErrorHandler {
     public bugsplat: BugSplat;
-    constructor(@Inject(BugSplatConfigToken) public config: BugSplatConfig, private http: HttpClient) {
-        this.bugsplat = new BugSplat(this.config, this.http);
+    constructor(@Inject(BugSplatConfigToken) public config: BugSplatConfig,
+    private http: HttpClient,
+    @Inject(LoggerToken) private logger: Logger) {
+        this.bugsplat = new BugSplat(this.config, this.http, this.logger);
     }
     handleError(error) {
         // Add additional functionality here
@@ -130,8 +147,9 @@ In your app module, update the useClass property in your ErrorHandler provider t
 ...
 @NgModule({
   providers: [
+    { provide: ErrorHandler, useClass: MyAngularErrorHandler },
     { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
-    { provide: ErrorHandler, useClass: MyAngularErrorHandler }
+    { provide: LoggerToken, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
   ]
   ...
 })
