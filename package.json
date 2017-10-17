@@ -1,6 +1,6 @@
 {
   "name": "bugsplat-ng4",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "BugSplat error handling for Angular 4",
   "main": "./src/index.ts",
   "directories": {
