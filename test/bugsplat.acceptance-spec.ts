@@ -3,6 +3,7 @@ import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { RequestOptions } from "@angular/http";
 import { BugSplat } from "../src/bugsplat";
 import { TestBedInitializer } from './init';
+import { BugSplatLogger } from "../src/bugsplat-logger";
 
 const testUser = "Fred";
 const testPassword = "Flintstone";
@@ -36,7 +37,7 @@ describe('BugSplat', () => {
             appVersion,
             database
         }
-        const bugsplat = new BugSplat(config, http);
+        const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.appKey = appKey;
         bugsplat.user = user;
         bugsplat.email = email;

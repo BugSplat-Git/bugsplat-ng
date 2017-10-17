@@ -5,6 +5,7 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from '@angular/http/testing';
 import { BugSplatErrorHandler } from '../src/bugsplat-error-handler';
 import { TestBedInitializer } from './init';
+import { BugSplatLogger } from '../src/bugsplat-logger';
 
 const testDatabase = "octomore"
 
@@ -38,7 +39,7 @@ describe('BugSplatErrorHandler', () => {
             database: testDatabase
         };
         const expectedError = new Error("BugSplat rocks!");
-        const sut = new BugSplatErrorHandler(config, httpClient);
+        const sut = new BugSplatErrorHandler(config, httpClient, new BugSplatLogger());
         sut.bugsplat.post = (error) => {
             expect(error).toBe(expectedError);
         };
@@ -52,7 +53,7 @@ describe('BugSplatErrorHandler', () => {
             appVersion: "1.0.0.0",
             database: testDatabase
         };
-        const sut = new BugSplatErrorHandler(config, httpClient);
+        const sut = new BugSplatErrorHandler(config, httpClient, new BugSplatLogger());
         expect(sut.bugsplat).not.toBe(null);
     }));
 });
