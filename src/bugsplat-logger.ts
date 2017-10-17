@@ -15,7 +15,6 @@ export interface Logger {
     error(msg: string): void;
     warn(msg: string): void;
     info(msg: string): void;
-    debug(msg: string): void;
     log(msg: string): void;
 }
 
@@ -26,7 +25,6 @@ export class BugSplatLogger implements Logger {
                 error: (msg) => console.error(msg),
                 warn: (msg) => console.warn(msg),
                 info: (msg) => console.info(msg),
-                debug: (msg) => console.debug(msg),
                 log: (msg) => console.log(msg)
             });
         }
@@ -44,11 +42,6 @@ export class BugSplatLogger implements Logger {
     info(msg: string): void {
         if (this.level >= BugSplatLogLevel.Info) {
             this.logger.info(msg);
-        }
-    }
-    debug(msg: string): void {
-        if (this.level >= BugSplatLogLevel.Debug) {
-            this.logger.debug(msg);
         }
     }
     log(msg: string): void {
