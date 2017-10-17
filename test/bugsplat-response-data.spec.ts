@@ -64,11 +64,20 @@ describe('BugSplatResponseData', () => {
         expect(result.crash_id).toEqual(0);
     }));
 
-    it('should throw when createFromSuccessResponseObject is called with valid parameters', async(() => {
+    it('should use default values if createFromHttpErrorResponse is called with an object with no properties', async(() => {
+        const result = BugSplatResponseData.createFromSuccessResponseObject({});
+        expect(result.success).toEqual(BugSplatResponseData.SUCCESS_DEFAULT);
+        expect(result.current_server_time).toEqual(BugSplatResponseData.SERVER_TIME_DEFAULT);
+        expect(result.message).toEqual(BugSplatResponseData.MESSAGE_DEFAULT);
+        expect(result.url).toEqual(BugSplatResponseData.URL_DEFAULT);
+        expect(result.crash_id).toEqual(BugSplatResponseData.CRASH_ID_DEFAULT);
+    }));
+    
+    it('should throw when createFromSuccessResponseObject is called with null response', async(() => {
         expect(() => BugSplatResponseData.createFromSuccessResponseObject(null)).toThrow();
     }));
 
-    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with valid parameters', async(() => {
+    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with null HttpErrorResponse', async(() => {
         expect(() => BugSplatResponseData.createFromHttpErrorResponse(null)).toThrow();
     }));
 });

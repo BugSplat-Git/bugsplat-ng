@@ -7,6 +7,12 @@ export class BugSplatResponseData {
         public url: string = "",
         public crash_id: number = 0) { }
 
+    static readonly SUCCESS_DEFAULT = false;
+    static readonly SERVER_TIME_DEFAULT = 0;
+    static readonly MESSAGE_DEFAULT = "";
+    static readonly URL_DEFAULT = "";
+    static readonly CRASH_ID_DEFAULT = 0;
+
     static createFromSuccessResponseObject(response: object) {
 
         if(!response) {
@@ -14,11 +20,11 @@ export class BugSplatResponseData {
         }
         
         const responseAny = <any>response;
-        let success = false;
-        let current_server_time = 0;
-        let message = "";
-        let url = "";
-        let crash_id = 0;
+        let success = this.SUCCESS_DEFAULT;
+        let current_server_time = this.SERVER_TIME_DEFAULT;
+        let message = this.MESSAGE_DEFAULT;
+        let url = this.URL_DEFAULT;
+        let crash_id = this.CRASH_ID_DEFAULT;
 
         if (responseAny.status) {
             success = responseAny.status == "success";
