@@ -36,6 +36,11 @@ describe('BugSplat', () => {
             appVersion: "1.0.0.0",
             database: testDatabase
         };
+        const expectedResponse = {
+            success: true,
+            message: "Crash successfully posted",
+            crash_id: /\d{1,}/
+        };
         const http = TestBed.get(HttpClient);
         http.post = (url, body) => {
             return Observable.of(mockSuccessResponse);
@@ -43,9 +48,9 @@ describe('BugSplat', () => {
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Success);
-            expect(event.responseData.message).toEqual("Crash successfully posted");
-            expect(event.responseData.success).toEqual(true);
-            expect(event.responseData.crash_id).toMatch(/\d{1,}/);
+            expect(event.responseData.message).toEqual(expectedResponse.message);
+            expect(event.responseData.success).toEqual(expectedResponse.success);
+            expect(event.responseData.crash_id).toMatch(expectedResponse.crash_id);
         }, err => {
             throw err;
         });
@@ -65,15 +70,20 @@ describe('BugSplat', () => {
             appVersion: "",
             database: testDatabase
         };
+        const expectedResponse = {
+            type: BugSplatPostEventType.Error,
+            success: false,
+            message: "400 Bad Request"
+        };
         const http = TestBed.get(HttpClient);
         http.post = (url, body) => {
             return Observable.throw(mockFailureResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.getObservable().subscribe(event => {
-            expect(event.type).toEqual(BugSplatPostEventType.Error);
-            expect(event.responseData.success).toBe(false);
-            expect(event.responseData.message).toContain("400 Bad Request");
+            expect(event.type).toEqual(expectedResponse.type);
+            expect(event.responseData.success).toEqual(expectedResponse.success);
+            expect(event.responseData.message).toContain(expectedResponse.message);
         }, err => {
             throw err;
         });
