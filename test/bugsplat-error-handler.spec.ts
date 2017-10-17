@@ -6,12 +6,12 @@ import { MockBackend } from '@angular/http/testing';
 import { BugSplatErrorHandler } from '../src/bugsplat-error-handler';
 import { TestBedInitializer } from './init';
 import { BugSplatLogger } from '../src/bugsplat-logger';
-
-const testDatabase = "octomore"
+import { BugSplatConfiguration } from '../src/bugsplat-config';
 
 describe('BugSplatErrorHandler', () => {
     
     let TestBed;
+    const config = new BugSplatConfiguration("bugsplat-ng4-tests", "1.0.0.0", "fred");
 
     beforeAll(() => {
         TestBed = TestBedInitializer.getTestBed();
@@ -33,11 +33,6 @@ describe('BugSplatErrorHandler', () => {
 
     it('should call bugsplat.post when handleError is called', async(() => {
         const httpClient = TestBed.get(HttpClient);
-        const config = {
-            appName: "bugsplat-ng4-tests",
-            appVersion: "1.0.0.0",
-            database: testDatabase
-        };
         const expectedError = new Error("BugSplat rocks!");
         const sut = new BugSplatErrorHandler(config, httpClient, new BugSplatLogger());
         sut.bugsplat.post = (error) => {
@@ -48,11 +43,6 @@ describe('BugSplatErrorHandler', () => {
 
     it('should create instance of BugSplat at construction time', async(() => {
         const httpClient = TestBed.get(HttpClient);
-        const config = {
-            appName: "bugsplat-ng4-tests",
-            appVersion: "1.0.0.0",
-            database: testDatabase
-        };
         const sut = new BugSplatErrorHandler(config, httpClient, new BugSplatLogger());
         expect(sut.bugsplat).not.toBe(null);
     }));

@@ -4,7 +4,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 import { BugSplatErrorHandler } from "./bugsplat-error-handler";
 import { BugSplat } from "./bugsplat";
-import { BugSplatConfig } from "./bugsplat-config";
 import { Logger, BugSplatLogger } from "./bugsplat-logger";
 
 @NgModule({
@@ -13,8 +12,7 @@ import { Logger, BugSplatLogger } from "./bugsplat-logger";
         HttpClientModule
     ],
     providers: [
-        BugSplatErrorHandler,
-        { provide: "Logger", useClass: BugSplatLogger }
+        BugSplatErrorHandler
     ],
     exports: [
         BugSplat

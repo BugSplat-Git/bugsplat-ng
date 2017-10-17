@@ -1,8 +1,9 @@
 import { async } from "@angular/core/testing";
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { RequestOptions } from "@angular/http";
-import { BugSplat } from "../src/bugsplat";
 import { TestBedInitializer } from './init';
+import { BugSplat } from "../src/bugsplat";
+import { BugSplatConfiguration } from "../src/bugsplat-config";
 import { BugSplatLogger } from "../src/bugsplat-logger";
 
 const testUser = "Fred";
@@ -32,11 +33,7 @@ describe('BugSplat', () => {
         const email = "fred@bedrock.com";
         const description = "Description!";
         const errorMessage = "foobar!";
-        const config = {
-            appName,
-            appVersion,
-            database
-        }
+        const config = new BugSplatConfiguration(appName, appVersion, database);
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.appKey = appKey;
         bugsplat.user = user;
