@@ -19,16 +19,7 @@ export interface Logger {
 }
 
 export class BugSplatLogger implements Logger {
-    constructor(private level: BugSplatLogLevel = BugSplatLogLevel.None, private logger: Logger = null) {
-        if (!this.logger) {
-            this.logger = new BugSplatLogger(level, {
-                error: (msg) => console.error(msg),
-                warn: (msg) => console.warn(msg),
-                info: (msg) => console.info(msg),
-                log: (msg) => console.log(msg)
-            });
-        }
-    }
+    constructor(private level: BugSplatLogLevel = BugSplatLogLevel.None, private logger: Logger = console) { }
     error(msg: string): void {
         if (this.level >= BugSplatLogLevel.Error) {
             this.logger.error(msg);

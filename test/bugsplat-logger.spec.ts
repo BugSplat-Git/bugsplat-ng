@@ -100,6 +100,14 @@ describe('BugSplatLogger', () => {
         expect(logSpy).not.toHaveBeenCalled();
     }));
 
+    it('should use console for logging if no logger is provided', async(() => {
+        const consoleSpy = spyOn(console, "log");
+        const expectedMessage = "BugSplat rocks!";
+        const sut = new BugSplatLogger(BugSplatLogLevel.Log);
+        sut.log(expectedMessage);
+        expect(consoleSpy).toHaveBeenCalledWith(expectedMessage);
+    }));
+
     function createFakeLogger(): Logger {
         return {
             error: (msg) => {},
