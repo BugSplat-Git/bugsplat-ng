@@ -3,7 +3,7 @@ import { Subject } from "rxjs/Subject";
 import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
 import { BugSplatResponseData } from "./bugsplat-response-data";
 import { BugSplatConfig } from "./bugsplat-config";
-import { Logger } from "./bugsplat-logger";
+import { Logger, BugSplatLogger } from "./bugsplat-logger";
 
 export class BugSplat {
   public appKey: string = "";
@@ -17,7 +17,7 @@ export class BugSplat {
 
   constructor(private config: BugSplatConfig,
     private http: HttpClient,
-    private logger: Logger) { }
+    private logger: Logger = new BugSplatLogger()) { }
 
   getObservable() {
     return this.bugSplatPostEventSubject.asObservable();
