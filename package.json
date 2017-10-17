@@ -29,7 +29,8 @@
   "peerDependencies": {
     "@angular/core": "^4.3.6",
     "@angular/common": "^4.3.6",
-    "@angular/http": "^4.3.6"
+    "@angular/http": "^4.3.6",
+    "rxjs": "^5.4.3"
   },
   "devDependencies": {
     "@angular/common": "^4.3.6",
