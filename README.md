@@ -16,11 +16,11 @@ To collect errors and crashes in your Angular 4 application, run the following c
 npm install bugsplat-ng4 --save
 ```
 
-Import BugSplatErrorHandler, BugSplatConfiguration, BugSplatConfigToken, LoggerToken, BugSplatLogger and BugSplatLogLevel into your app module from bugsplat-ng4:
+Import BugSplatErrorHandler and BugSplatConfiguration into your app module from bugsplat-ng4:
 
 [app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
 ```typescript
-import { BugSplatErrorHandler, BugSplatConfiguration, BugSplatConfigToken, LoggerToken, BugSplatLogger, BugSplatLogLevel } from 'bugsplat-ng4';
+import { BugSplatErrorHandler, BugSplatConfiguration } from 'bugsplat-ng4';
 ```
 
 Add a provider for ErrorHandler with the useClass property set to BugSplatErrorHandler:
@@ -36,7 +36,7 @@ Add a provider for ErrorHandler with the useClass property set to BugSplatErrorH
 })
 ```
 
-Create a configuration for BugSplat in your app module and add a provider for BugSplatConfigToken with the useValue property set to the value of your configuration:
+In your app module, add a provider for BugSplatConfiguration with the useValue property set to an instance of your BugSplat configuration:
 
 [app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
 ```typescript
@@ -44,27 +44,11 @@ Create a configuration for BugSplat in your app module and add a provider for Bu
 const appName = "my-angular-4-crasher";
 const appVersion = "1.0.0.0";
 const database = "fred";
-const BUGSPLAT_CONFIG = new BugSplatConfiguration(appName, appVersion, database);
 
 @NgModule({
   providers: [
     { provide: ErrorHandler, useClass: BugSplatErrorHandler },
-    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG }
-  ],
-  ...
-})
-```
-
-Configure logging by creating a new instance of BugSplatLogger and set the log level to one of the BugSplatLogLevel options. You can provide an instance of your own custom logger as the second parameter granted it has error, warn, info and log methods. If no custom logger is provided console will be used:
-
-[app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
-```typescript
-...
-@NgModule({
-  providers: [
-    { provide: ErrorHandler, useClass: BugSplatErrorHandler },
-    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
-    { provide: LoggerToken, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
+    { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration(appName, appVersion, database) }
   ],
   ...
 })
@@ -83,8 +67,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     { provide: ErrorHandler, useClass: BugSplatErrorHandler },
-    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
-    { provide: LoggerToken, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
+    { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration(appName, appVersion, database) },
   ],
   ...
 })
@@ -148,9 +131,24 @@ In your app module, update the useClass property in your ErrorHandler provider t
 @NgModule({
   providers: [
     { provide: ErrorHandler, useClass: MyAngularErrorHandler },
-    { provide: BugSplatConfigToken, useValue: BUGSPLAT_CONFIG },
-    { provide: LoggerToken, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
+    { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration(appName, appVersion, database) },
   ]
+  ...
+})
+```
+
+You can also configure BugSplat's logging preferences. Start by adding BugSplatLogger and BugSplatLogLevel to the existing list of imports for bugsplat-ng4. Create a provider for BugSplatLogger with useValue set to a new instance of BugSplatLogger. Pass one of the BugSplatLogLevel options as the first parameter to BugSplatLogger. You can provide an instance of your own custom logger as the second parameter granted it has error, warn, info and log methods. If no custom logger is provided console will be used. The BugSplatLogger dependency is marked as optional so if you are not interested in log statements emitted by BugSplat you may omit this provider:
+
+[app.module.ts](https://github.com/BugSplat-Git/my-angular-4-crasher/blob/master/src/app/app.module.ts)
+```typescript
+import { ..., BugSplatLogger, BugSplatLogLevel } from 'bugsplat-ng4';
+...
+@NgModule({
+  providers: [
+    { provide: ErrorHandler, useClass: BugSplatErrorHandler },
+    { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration(appName, appVersion, database) },
+    { provide: BugSplatLogger, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
+  ],
   ...
 })
 ```
