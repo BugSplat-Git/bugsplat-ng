@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Subject } from "rxjs/Subject";
 import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
 import { BugSplatResponseData } from "./bugsplat-response-data";
-import { BugSplatConfig } from "./bugsplat-config";
-import { Logger, BugSplatLogger } from "./bugsplat-logger";
+import { BugSplatConfiguration } from "./bugsplat-config";
+import { BugSplatLogger } from "./bugsplat-logger";
 
 export class BugSplat {
   public appKey: string = "";
@@ -15,9 +15,9 @@ export class BugSplat {
 
   private files: File[] = [];
 
-  constructor(private config: BugSplatConfig,
+  constructor(private config: BugSplatConfiguration,
     private http: HttpClient,
-    private logger: Logger = new BugSplatLogger()) { }
+    private logger: BugSplatLogger = new BugSplatLogger()) { }
 
   getObservable() {
     return this.bugSplatPostEventSubject.asObservable();

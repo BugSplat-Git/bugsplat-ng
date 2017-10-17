@@ -1,20 +1,19 @@
-import { ErrorHandler, Injectable, Inject, InjectionToken } from '@angular/core';
+import { ErrorHandler, Injectable, Inject, InjectionToken, Optional } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { BugSplat } from "./bugsplat";
-import { BugSplatConfig, BugSplatConfigToken } from "./bugsplat-config";
-import { LoggerToken, Logger, BugSplatLogger, BugSplatLogLevel } from './bugsplat-logger';
+import { BugSplatConfiguration } from "./bugsplat-config";
+import { Logger, BugSplatLogger, BugSplatLogLevel } from './bugsplat-logger';
 
 @Injectable()
 export class BugSplatErrorHandler implements ErrorHandler {
   public bugsplat: BugSplat;
   
-  constructor( @Inject(BugSplatConfigToken) private config: BugSplatConfig,
+  constructor(private config: BugSplatConfiguration,
     private http: HttpClient,
-    @Inject(LoggerToken) private logger: Logger = null) {
+    @Optional()private logger: BugSplatLogger = new BugSplatLogger()) {
       if(!this.logger) {
         this.logger = new BugSplatLogger();
       }
-
       this.bugsplat = new BugSplat(this.config, this.http, this.logger);
   }
 

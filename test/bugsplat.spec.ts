@@ -6,15 +6,17 @@ import { BugSplat } from '../src/bugsplat';
 import { BugSplatPostEventType } from '../src/bugsplat-post-event';
 import { TestBedInitializer } from './init';
 import { Observable } from 'rxjs/Observable';
+import { BugSplatConfiguration } from '../src/bugsplat-config';
+import { BugSplatLogger } from '../src/bugsplat-logger';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
-import { BugSplatLogger } from '../src/bugsplat-logger';
 
 const testDatabase = "Fred"
 
 describe('BugSplat', () => {
 
     let TestBed;
+    const config = new BugSplatConfiguration("bugsplat-ng4-tests", "1.0.0.0", testDatabase);
 
     beforeAll(() => {
         TestBed = TestBedInitializer.getTestBed();
@@ -30,11 +32,6 @@ describe('BugSplat', () => {
             current_server_time: 1505832461,
             message: 'Crash successfully posted',
             crash_id: 785
-        };
-        const config = {
-            appName: "bugsplat-ng4-tests",
-            appVersion: "1.0.0.0",
-            database: testDatabase
         };
         const expectedResponse = {
             success: true,
@@ -64,12 +61,7 @@ describe('BugSplat', () => {
             statusText: 'Bad Request',
             url: 'https://octomore.bugsplat.com/post/js/',
             error: null
-        })
-        const config = {
-            appName: "",
-            appVersion: "",
-            database: testDatabase
-        };
+        });
         const expectedResponse = {
             type: BugSplatPostEventType.Error,
             success: false,
@@ -94,11 +86,6 @@ describe('BugSplat', () => {
         const http = TestBed.get(HttpClient);
         const logger = new BugSplatLogger();
         const spy = spyOn(logger, "warn");
-        const config = {
-            appName: "Foobar",
-            appVersion: "1.0.0.0",
-            database: testDatabase
-        }
         const sizeLimitBytes = 2 * 1024 * 1024;
         const fileName = "mario.png";
         const blob = new Blob([new Array(sizeLimitBytes + 1)], { type: 'image/png' });

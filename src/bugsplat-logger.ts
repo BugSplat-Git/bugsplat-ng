@@ -1,13 +1,10 @@
 import { InjectionToken } from "@angular/core";
 
-export let LoggerToken = new InjectionToken<Logger>('bugsplat.logger');
-
 export enum BugSplatLogLevel {
     None,
     Error,
     Warn,
     Info,
-    Debug,
     Log
 }
 
@@ -18,7 +15,7 @@ export interface Logger {
     log(msg: string): void;
 }
 
-export class BugSplatLogger implements Logger {
+export class BugSplatLogger {
     constructor(private level: BugSplatLogLevel = BugSplatLogLevel.None, private logger: Logger = console) { }
     error(msg: string): void {
         if (this.level >= BugSplatLogLevel.Error) {

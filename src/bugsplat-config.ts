@@ -1,12 +1,4 @@
-import { InjectionToken } from "@angular/core";
-
-export let BugSplatConfigToken = new InjectionToken<BugSplatConfig>('bugsplat.config');
-export interface BugSplatConfig {
-  appName: string;
-  appVersion: string;
-  database: string;
-}
-export class BugSplatConfiguration implements BugSplatConfig {
+export class BugSplatConfiguration {
 
   readonly DATABASE_AZ_09_UNDERSCORES_ONLY = /^[a-zA-Z0-9_]*$/;
 
