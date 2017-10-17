@@ -17,7 +17,11 @@ export class BugSplat {
 
   constructor(private config: BugSplatConfiguration,
     private http: HttpClient,
-    private logger: BugSplatLogger = new BugSplatLogger()) { }
+    private logger: BugSplatLogger = new BugSplatLogger) {
+      if(!this.logger) {
+        this.logger = new BugSplatLogger();
+      }
+    }
 
   getObservable() {
     return this.bugSplatPostEventSubject.asObservable();
