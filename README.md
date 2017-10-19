@@ -91,17 +91,18 @@ You can post additional information to BugSplat by creating a wrapper around the
 
 [my-angular-error-handler.ts](https://github.com/bobbyg603/my-angular-4-crasher/blob/master/src/app/my-angular-error-handler.ts)
 ```typescript
-import { ErrorHandler, Injectable, Inject, InjectionToken } from '@angular/core';
+import { ErrorHandler, Injectable, Inject, Optional } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { BugSplat, BugSplatConfigToken, BugSplatConfig, LoggerToken, Logger } from 'bugsplat-ng4';
+import { BugSplat, BugSplatConfiguration, BugSplatLogger } from 'bugsplat-ng4';
 
 @Injectable()
 export class MyAngularErrorHandler implements ErrorHandler {
     public bugsplat: BugSplat;
-    constructor(@Inject(BugSplatConfigToken) public config: BugSplatConfig,
-    private http: HttpClient,
-    @Inject(LoggerToken) private logger: Logger) {
-        this.bugsplat = new BugSplat(this.config, this.http, this.logger);
+    constructor(@Inject(BugSplatConfiguration)public config: BugSplatConfiguration,
+        @Inject(HttpClient)private http: HttpClient,
+        @Optional()private logger: BugSplatLogger) {
+            this.database = this.config.database;
+            this.bugsplat = new BugSplat(this.config, this.http, this.logger);
     }
     handleError(error) {
         // Add additional functionality here

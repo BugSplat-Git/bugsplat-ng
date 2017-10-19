@@ -18,18 +18,18 @@ export class BugSplat {
   constructor(private config: BugSplatConfiguration,
     private http: HttpClient,
     private logger: BugSplatLogger = new BugSplatLogger()) {
-      if(!this.logger) {
-        this.logger = new BugSplatLogger();
-      }
+    if (!this.logger) {
+      this.logger = new BugSplatLogger();
     }
+  }
 
   getObservable() {
     return this.bugSplatPostEventSubject.asObservable();
   }
 
-  post(error) {
+  post(error: Error) {
     const url = "https://" + this.config.database + ".bugsplat.com/post/js/";
-    const callstack = error.stack == null ? error : error.stack;
+    const callstack = error.stack == null ? error.toString() : error.stack;
     const body = new FormData();
     body.append("appName", this.config.appName);
     body.append("appVersion", this.config.appVersion);
@@ -68,7 +68,7 @@ export class BugSplat {
     }
   }
 
-  logPostInfo(url, callstack) {
+  logPostInfo(url: string, callstack: string) {
     this.logger.info("BugSplat POST Url: " + url);
     this.logger.info("BugSplat POST Callstack: " + JSON.stringify(callstack));
     this.logger.info("BugSplat POST appName: " + this.config.appName);
@@ -78,7 +78,7 @@ export class BugSplat {
     this.logger.info("BugSplat POST user: " + this.user);
     this.logger.info("BugSplat POST email: " + this.email);
     this.logger.info("BugSplat POST description: " + this.description);
-    for(let i = 0; i < this.files.length; i++) {
+    for (let i = 0; i < this.files.length; i++) {
       this.logger.info("BugSplat POST file[" + i + "]: " + this.files[i].name);
     }
   }

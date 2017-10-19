@@ -16,7 +16,18 @@ export interface Logger {
 }
 
 export class BugSplatLogger {
-    constructor(private level: BugSplatLogLevel = BugSplatLogLevel.None, private logger: Logger = console) { }
+
+    static readonly LEVEL_CANNOT_BE_NULL = "BugSplatLogger Error: level cannot be null!";
+    static readonly LOGGER_CANNOT_BE_NULL = "BugSplatLogger Error: logger cannot be null!";
+
+    constructor(private level: BugSplatLogLevel = BugSplatLogLevel.None, private logger: Logger = console) {
+        if (this.level == null) {
+            throw new Error(BugSplatLogger.LEVEL_CANNOT_BE_NULL)
+        }
+        if (!this.logger) {
+            throw new Error(BugSplatLogger.LOGGER_CANNOT_BE_NULL);
+        }
+    }
     error(msg: string): void {
         if (this.level >= BugSplatLogLevel.Error) {
             this.logger.error(msg);

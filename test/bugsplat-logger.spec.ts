@@ -3,12 +3,20 @@ import { TestBedInitializer } from './init';
 import { BugSplatLogger, BugSplatLogLevel, Logger } from '../src/bugsplat-logger';
 
 describe('BugSplatLogger', () => {
-    
+
     let TestBed;
 
     beforeAll(() => {
         TestBed = TestBedInitializer.getTestBed();
     });
+
+    it('should throw if level is null', async(() => {
+        expect(() => new BugSplatLogger(null)).toThrowError(BugSplatLogger.LEVEL_CANNOT_BE_NULL);
+    }));
+
+    it('should throw if logger is null', async(() => {
+        expect(() => new BugSplatLogger(BugSplatLogLevel.Info, null)).toThrowError(BugSplatLogger.LOGGER_CANNOT_BE_NULL);
+    }));
 
     it('should log errors when log level is set to Error', async(() => {
         const fakeLogger = createFakeLogger();
@@ -110,10 +118,10 @@ describe('BugSplatLogger', () => {
 
     function createFakeLogger(): Logger {
         return {
-            error: (msg) => {},
-            warn: (msg) => {},
-            info: (msg) => {},
-            log: (msg) => {}
+            error: (msg) => { },
+            warn: (msg) => { },
+            info: (msg) => { },
+            log: (msg) => { }
         }
     }
 });
