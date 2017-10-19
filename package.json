@@ -20,9 +20,11 @@
     "crash",
     "reporting"
   ],
+  "homepage": "https://www.bugsplat.com",
+  "bugs": "https://github.com/BugSplat-Git/bugsplat-ng4/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bobbyg603/bugsplat-ng4.git"
+    "url": "https://github.com/BugSplat-Git/bugsplat-ng4.git"
   },
   "author": "@bobbyg603",
   "license": "MIT",
