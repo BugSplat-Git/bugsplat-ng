@@ -1,4 +1,4 @@
-import { async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -15,14 +15,14 @@ const testDatabase = "Fred"
 
 describe('BugSplat', () => {
 
-    let TestBed;
+    let testBed: typeof TestBed;
     const config = new BugSplatConfiguration("bugsplat-ng4-tests", "1.0.0.0", testDatabase);
 
     beforeAll(() => {
-        TestBed = TestBedInitializer.getTestBed();
+        testBed = TestBedInitializer.getTestBed();
     });
-    
-    beforeEach(() => TestBed.configureTestingModule({
+
+    beforeEach(() => testBed.configureTestingModule({
         imports: [HttpClientTestingModule]
     }));
 
@@ -38,8 +38,8 @@ describe('BugSplat', () => {
             message: "Crash successfully posted",
             crash_id: /\d{1,}/
         };
-        const http = TestBed.get(HttpClient);
-        http.post = (url, body) => {
+        const http: any = testBed.get(HttpClient);
+        http.post = (url: string, body: any) => {
             return Observable.of(mockSuccessResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
@@ -67,8 +67,8 @@ describe('BugSplat', () => {
             success: false,
             message: "400 Bad Request"
         };
-        const http = TestBed.get(HttpClient);
-        http.post = (url, body) => {
+        const http: any = testBed.get(HttpClient);
+        http.post = (url: string, body: any) => {
             return Observable.throw(mockFailureResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
@@ -83,7 +83,7 @@ describe('BugSplat', () => {
     }));
 
     it('should log a warning if asked to upload a file that exceeds maximum bundle size', async(() => {
-        const http = TestBed.get(HttpClient);
+        const http: HttpClient = testBed.get(HttpClient);
         const logger = new BugSplatLogger();
         const spy = spyOn(logger, "warn");
         const sizeLimitBytes = 2 * 1024 * 1024;

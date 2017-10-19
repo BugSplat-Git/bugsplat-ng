@@ -5,8 +5,8 @@ export class TestBedInitializer {
 
     static isInitialized: Boolean = false;
 
-    static getTestBed() {
-        if(!this.isInitialized) {
+    static getTestBed(): typeof TestBed {
+        if (!this.isInitialized) {
             TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
             this.isInitialized = true;
         }
