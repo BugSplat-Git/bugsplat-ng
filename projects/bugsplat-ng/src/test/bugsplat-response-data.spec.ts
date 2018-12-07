@@ -3,18 +3,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Http, BaseRequestOptions, ConnectionBackend, RequestOptions } from "@angular/http";
 import { MockBackend } from '@angular/http/testing';
-import { BugSplatResponseData } from '../src/bugsplat-response-data';
-import { TestBedInitializer } from './init';
+import { BugSplatResponseData } from '../lib/bugsplat-response-data';
 
 describe('BugSplatResponseData', () => {
 
-    let testBed: typeof TestBed;
-
-    beforeAll(() => {
-        testBed = TestBedInitializer.getTestBed();
-    });
-
-    beforeEach(() => testBed.configureTestingModule({
+    beforeEach(() => TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
         providers: [
             HttpClient,

@@ -28,7 +28,7 @@ export class BugSplatErrorHandler implements ErrorHandler {
     if (!error) {
       throw new Error(BugSplatErrorHandler.ERROR_CANNOT_BE_NULL);
     } else {
-      this.logger.info('Exception caught by BugSplat!')
+      this.bugsplat.logger.info('Exception caught by BugSplat!');
       this.bugsplat.post(error);
     }
   }

@@ -1,14 +1,7 @@
 import { async } from '@angular/core/testing';
-import { TestBedInitializer } from './init';
-import { BugSplatConfiguration } from '../src/bugsplat-config';
+import { BugSplatConfiguration } from '../lib/bugsplat-config';
 
 describe('BugSplatConfiguration', () => {
-
-    let TestBed;
-
-    beforeAll(() => {
-        TestBed = TestBedInitializer.getTestBed();
-    });
 
     it('should throw if appName is null or empty', async(() => {
         expect(() => new BugSplatConfiguration(null, "1.0.0.0", "Fred")).toThrowError(BugSplatConfiguration.APP_NAME_IS_REQUIRED);

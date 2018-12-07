@@ -1,31 +1,25 @@
 import { async, TestBed } from "@angular/core/testing";
 import { HttpClientModule, HttpClient } from "@angular/common/http";
-import { RequestOptions } from "@angular/http";
-import { TestBedInitializer } from './init';
-import { BugSplat } from "../src/bugsplat";
-import { BugSplatConfiguration } from "../src/bugsplat-config";
-import { BugSplatLogger } from "../src/bugsplat-logger";
+import { BugSplat } from "../lib/bugsplat";
+import { BugSplatConfiguration } from "../lib/bugsplat-config";
+import { BugSplatLogger } from "../lib/bugsplat-logger";
 
-const testUser = "Fred";
-const testPassword = "Flintstone";
+const testUser = "support+ng@bugsplat.com";
+const testPassword = "0cdb551bf";
 const testDatabase = "octomore"
 
-describe('BugSplat', () => {
+// This test has a dependancy on one of our dev servers. We can use it to test the argument contract,
+// but it doesn't necessarily need to be run every time.
+xdescribe('BugSplat POST', () => {
 
-    let testBed: typeof TestBed;
-
-    beforeAll(() => {
-        testBed = TestBedInitializer.getTestBed();
-    });
-
-    beforeEach(() => testBed.configureTestingModule({
+    beforeEach(() => TestBed.configureTestingModule({
         imports: [HttpClientModule],
         providers: [HttpClient]
     }));
 
     it('should post crash with all properties', async(() => {
-        const http: HttpClient = testBed.get(HttpClient);
-        const appName = "bugsplat-ng4-tests";
+        const http: HttpClient = TestBed.get(HttpClient);
+        const appName = "bugsplat-ng6-tests";
         const database = testDatabase;
         const appVersion = "1.0.0.0";
         const appKey = "Key!";

@@ -3,23 +3,17 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient } from "@angular/common/http";
 import { Http, BaseRequestOptions, ConnectionBackend, RequestOptions } from "@angular/http";
 import { MockBackend } from '@angular/http/testing';
-import { BugSplatErrorHandler } from '../src/bugsplat-error-handler';
-import { TestBedInitializer } from './init';
-import { BugSplatLogger } from '../src/bugsplat-logger';
-import { BugSplatConfiguration } from '../src/bugsplat-config';
+import { BugSplatErrorHandler } from '../lib/bugsplat-error-handler';
+import { BugSplatLogger } from '../lib/bugsplat-logger';
+import { BugSplatConfiguration } from '../lib/bugsplat-config';
 import { TestBed } from '@angular/core/testing';
 
 describe('BugSplatErrorHandler', () => {
 
-    let testBed: typeof TestBed;
     let sut: BugSplatErrorHandler;
 
-    beforeAll(() => {
-        testBed = TestBedInitializer.getTestBed();
-    });
-
     beforeEach(() => {
-        testBed.configureTestingModule({
+        TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [
                 HttpClient,
@@ -32,8 +26,8 @@ describe('BugSplatErrorHandler', () => {
                 }
             ]
         });
-        const config = new BugSplatConfiguration("bugsplat-ng4-tests", "1.0.0.0", "fred");
-        const httpClient = testBed.get(HttpClient);
+        const config = new BugSplatConfiguration("bugsplat-ng6-tests", "1.0.0.0", "fred");
+        const httpClient = TestBed.get(HttpClient);
         const logger = new BugSplatLogger();
         sut = new BugSplatErrorHandler(config, httpClient, logger);
     });

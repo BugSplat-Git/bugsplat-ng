@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Subject } from "rxjs/Subject";
+import { Observable, Subject } from "rxjs";
 import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
 import { BugSplatResponseData } from "./bugsplat-response-data";
 import { BugSplatConfiguration } from "./bugsplat-config";
@@ -17,7 +17,7 @@ export class BugSplat {
 
   constructor(private config: BugSplatConfiguration,
     private http: HttpClient,
-    private logger: BugSplatLogger = new BugSplatLogger()) {
+    public logger: BugSplatLogger = new BugSplatLogger()) {
     if (!this.logger) {
       this.logger = new BugSplatLogger();
     }
@@ -57,7 +57,7 @@ export class BugSplat {
     });
   }
 
-  addAddtionalFile(file: File) {
+  addAdditionalFile(file: File) {
     const currentUploadSize = this.files.reduce((previous, current) => { return previous + current.size; }, 0);
     const newUploadSize = currentUploadSize + file.size;
     if (newUploadSize >= 2 * 1024 * 1024) {

@@ -1,28 +1,19 @@
 import { async, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Http, BaseRequestOptions } from "@angular/http";
-import { BugSplat } from '../src/bugsplat';
-import { BugSplatPostEventType } from '../src/bugsplat-post-event';
-import { TestBedInitializer } from './init';
-import { Observable } from 'rxjs/Observable';
-import { BugSplatConfiguration } from '../src/bugsplat-config';
-import { BugSplatLogger } from '../src/bugsplat-logger';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
+import { BugSplat } from '../lib/bugsplat';
+import { BugSplatPostEventType } from '../lib/bugsplat-post-event';
+import { Observable, of, throwError } from 'rxjs';
+import { BugSplatConfiguration } from '../lib/bugsplat-config';
+import { BugSplatLogger } from '../lib/bugsplat-logger';
 
 const testDatabase = "Fred"
 
 describe('BugSplat', () => {
 
-    let testBed: typeof TestBed;
-    const config = new BugSplatConfiguration("bugsplat-ng4-tests", "1.0.0.0", testDatabase);
+    const config = new BugSplatConfiguration("bugsplat-ng6-tests", "1.0.0.0", testDatabase);
 
-    beforeAll(() => {
-        testBed = TestBedInitializer.getTestBed();
-    });
-
-    beforeEach(() => testBed.configureTestingModule({
+    beforeEach(() => TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
     }));
 
@@ -38,9 +29,9 @@ describe('BugSplat', () => {
             message: "Crash successfully posted",
             crash_id: /\d{1,}/
         };
-        const http: any = testBed.get(HttpClient);
+        const http: any = TestBed.get(HttpClient);
         http.post = (url: string, body: any) => {
-            return Observable.of(mockSuccessResponse);
+            return of(mockSuccessResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.getObservable().subscribe(event => {
@@ -67,9 +58,9 @@ describe('BugSplat', () => {
             success: false,
             message: "400 Bad Request"
         };
-        const http: any = testBed.get(HttpClient);
+        const http: any = TestBed.get(HttpClient);
         http.post = (url: string, body: any) => {
-            return Observable.throw(mockFailureResponse);
+            return throwError(mockFailureResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
         bugsplat.getObservable().subscribe(event => {
@@ -83,7 +74,7 @@ describe('BugSplat', () => {
     }));
 
     it('should log a warning if asked to upload a file that exceeds maximum bundle size', async(() => {
-        const http: HttpClient = testBed.get(HttpClient);
+        const http: HttpClient = TestBed.get(HttpClient);
         const logger = new BugSplatLogger();
         const spy = spyOn(logger, "warn");
         const sizeLimitBytes = 2 * 1024 * 1024;
@@ -92,7 +83,7 @@ describe('BugSplat', () => {
         const file = new File([blob], fileName);
         const bugsplat = new BugSplat(config, http, logger);
         const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
-        bugsplat.addAddtionalFile(file);
+        bugsplat.addAdditionalFile(file);
         expect(spy).toHaveBeenCalledWith(expectedMessage);
     }));
 });
