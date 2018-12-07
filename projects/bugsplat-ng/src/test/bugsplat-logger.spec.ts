@@ -1,14 +1,9 @@
 import { async } from '@angular/core/testing';
-import { TestBedInitializer } from './init';
-import { BugSplatLogger, BugSplatLogLevel, Logger } from '../src/bugsplat-logger';
+import { BugSplatLogger, BugSplatLogLevel, Logger } from '../lib/bugsplat-logger';
 
 describe('BugSplatLogger', () => {
 
     let TestBed;
-
-    beforeAll(() => {
-        TestBed = TestBedInitializer.getTestBed();
-    });
 
     it('should throw if level is null', async(() => {
         expect(() => new BugSplatLogger(null)).toThrowError(BugSplatLogger.LEVEL_CANNOT_BE_NULL);

@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Subject } from "rxjs/Subject";
-import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
-import { BugSplatResponseData } from "./bugsplat-response-data";
+import { Observable, Subject } from "rxjs";
 import { BugSplatConfiguration } from "./bugsplat-config";
 import { BugSplatLogger } from "./bugsplat-logger";
+import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
+import { BugSplatResponseData } from "./bugsplat-response-data";
 
 export class BugSplat {
   public appKey: string = "";
@@ -17,17 +17,17 @@ export class BugSplat {
 
   constructor(private config: BugSplatConfiguration,
     private http: HttpClient,
-    private logger: BugSplatLogger = new BugSplatLogger()) {
+    public logger: BugSplatLogger = new BugSplatLogger()) {
     if (!this.logger) {
       this.logger = new BugSplatLogger();
     }
   }
 
-  getObservable() {
+  getObservable(): Observable<BugSplatPostEvent> {
     return this.bugSplatPostEventSubject.asObservable();
   }
 
-  post(error: Error) {
+  post(error: Error): void {
     const url = "https://" + this.config.database + ".bugsplat.com/post/js/";
     const callstack = error.stack == null ? error.toString() : error.stack;
     const body = new FormData();
@@ -57,7 +57,7 @@ export class BugSplat {
     });
   }
 
-  addAddtionalFile(file: File) {
+  addAdditionalFile(file: File): void {
     const currentUploadSize = this.files.reduce((previous, current) => { return previous + current.size; }, 0);
     const newUploadSize = currentUploadSize + file.size;
     if (newUploadSize >= 2 * 1024 * 1024) {
@@ -68,9 +68,9 @@ export class BugSplat {
     }
   }
 
-  logPostInfo(url: string, callstack: string) {
-    this.logger.info("BugSplat POST Url: " + url);
-    this.logger.info("BugSplat POST Callstack: " + JSON.stringify(callstack));
+  logPostInfo(url: string, callstack: string): void {
+    this.logger.info("BugSplat POST url: " + url);
+    this.logger.info("BugSplat POST callstack: " + JSON.stringify(callstack));
     this.logger.info("BugSplat POST appName: " + this.config.appName);
     this.logger.info("BugSplat POST appVersion: " + this.config.appVersion);
     this.logger.info("BugSplat POST database: " + this.config.database);

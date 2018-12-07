@@ -1,8 +1,8 @@
-import { ErrorHandler, Injectable, Inject, Optional } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
+import { ErrorHandler, Inject, Injectable, Optional } from '@angular/core';
 import { BugSplat } from "./bugsplat";
 import { BugSplatConfiguration } from "./bugsplat-config";
-import { Logger, BugSplatLogger, BugSplatLogLevel } from './bugsplat-logger';
+import { BugSplatLogger } from './bugsplat-logger';
 
 @Injectable()
 export class BugSplatErrorHandler implements ErrorHandler {
@@ -28,7 +28,7 @@ export class BugSplatErrorHandler implements ErrorHandler {
     if (!error) {
       throw new Error(BugSplatErrorHandler.ERROR_CANNOT_BE_NULL);
     } else {
-      this.logger.info('Exception caught by BugSplat!')
+      this.bugsplat.logger.info('Exception caught by BugSplat!');
       this.bugsplat.post(error);
     }
   }

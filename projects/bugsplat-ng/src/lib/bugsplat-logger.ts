@@ -1,4 +1,3 @@
-import { InjectionToken } from "@angular/core";
 
 export enum BugSplatLogLevel {
     None,

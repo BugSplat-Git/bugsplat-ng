@@ -1,0 +1,13 @@
+<div style="text-align:center">
+  <img width="700" src="https://s3.amazonaws.com/bugsplat-public/npm/header.png">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+  <button (click)="myEvent($event)">Crash!</button>
+  <br/>
+  <br/>
+  <div><a href="{{ link }}">{{ linkText }}</a></div>
+  <br/>
+  <div [innerHTML]="logs" style="height: 300px; width: 700px; border: 1px solid black; margin: 0 auto; overflow: scroll; text-align:left;"></div>
+</div>
+
