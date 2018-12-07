@@ -19,7 +19,7 @@ describe('DatabaseApplicationVersionSelector', () => {
       ],
       providers: [
         { provide: ErrorHandler, useClass: MyAngularErrorHandler },
-        { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-6-crasher", "1.0.0.0", "fred") },
+        { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-crasher", "1.0.0.0", "fred") },
       ],
     })
       .compileComponents();

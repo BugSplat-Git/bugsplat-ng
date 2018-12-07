@@ -1,5 +1,4 @@
 #.travis.yml
-
 sudo: required
 
 dist: trusty
@@ -29,4 +28,12 @@ install:
 
 script:
   - npm run test "bugsplat-ng" -- --watch=false --progress=false
-  - npm run test "my-angular6-crasher" -- --watch=false --progress=false
+  - npm run test "my-angular-crasher" -- --watch=false --progress=false
+
+notifications:
+- npm run test "my-angular-crasher" -- --watch=false --progress=false
+email:
+  on_success: never
+  on_failure: always
+slack:
+  secure: "mTEksWc+C3amVA/O0ceTl1KrsLL9x7gDS3JYxN4+IqVjeMQiRv1MbQdxQ+Q6TGXSLM6irqBSBBLMpeW7QLktchHepDaNKHmlTYuIzNSjbQJdGaMtum376IQGjKNsxx16K+CCPDlVBubM+kJnrzmppwb/ZyBNCuGivYVAzZOaRZWPSLUppei0F5Wol56spLTI8T4L0ZfLTScaKsYOR7S63hfegOk4HSu3Sf3Ruqo48QUNoco7mgIien/jKvJSn32hHY5hXl3SmBP2Uph4XxuhlTfYnednmYEODeOrXGc3ZlL0YV65xZlIAGItcYqQKuMF6G7FehHiP1A3wDPKu37a1YJeYsHlIH67QUHAl8crxdHIF5VhPuLEm8i0u18alnYOmN6nAWk94nLDAGHMNsw/m+Vk58BrGSjVE1KVzyoK7Ie2ap2ORdKvQM4dpDJPHC6gyG19ZMHdv/JTJcHDxH6sZ56TRags6MwCsgs2iN3UVX5L4FkaUV//y6HbHS56vejg2Dpd8/Jlc3UrRjPZjKXciJLneMI+4M/kYtaVu40IiJjy3DsO6rvH+P/+kstl+94La2xVE0MOoy5Mm56+hsfPeiOK/q843EVaMGTtO9CkJx82SpgrFSMSnFk/ealW5ZYSYFLKYWU7NNn/rqyv8D17Rm7SKgCAZK2RESDIN2bK/qw="

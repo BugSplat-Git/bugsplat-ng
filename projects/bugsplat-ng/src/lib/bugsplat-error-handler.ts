@@ -1,8 +1,8 @@
-import { ErrorHandler, Injectable, Inject, Optional } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
+import { ErrorHandler, Inject, Injectable, Optional } from '@angular/core';
 import { BugSplat } from "./bugsplat";
 import { BugSplatConfiguration } from "./bugsplat-config";
-import { Logger, BugSplatLogger, BugSplatLogLevel } from './bugsplat-logger';
+import { BugSplatLogger } from './bugsplat-logger';
 
 @Injectable()
 export class BugSplatErrorHandler implements ErrorHandler {

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "my-angular6-crasher": {
+    "my-angular-crasher": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/my-angular6-crasher",
+            "outputPath": "dist/my-angular-crasher",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "my-angular6-crasher:build"
+            "browserTarget": "my-angular-crasher:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "my-angular6-crasher:build:production"
+              "browserTarget": "my-angular-crasher:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "my-angular6-crasher:build"
+            "browserTarget": "my-angular-crasher:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "my-angular6-crasher-e2e": {
+    "my-angular-crasher-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "my-angular6-crasher:serve"
+            "devServerTarget": "my-angular-crasher:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "my-angular6-crasher:serve:production"
+              "devServerTarget": "my-angular-crasher:serve:production"
             }
           }
         },
@@ -163,5 +163,5 @@
       }
     }
   },
-  "defaultProject": "my-angular6-crasher"
+  "defaultProject": "my-angular-crasher"
 }

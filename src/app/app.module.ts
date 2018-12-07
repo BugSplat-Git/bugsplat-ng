@@ -16,7 +16,7 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
 //   ],
 //   providers: [
 //     { provide: ErrorHandler, useClass: BugSplatErrorHandler },
-//     { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-4-crasher", "1.0.0.0", "fred") }
+//     { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-crasher", "1.0.0.0", "fred") }
 //   ],
 //   bootstrap: [AppComponent]
 // })
@@ -32,7 +32,7 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
   ],
   providers: [
     { provide: ErrorHandler, useClass: MyAngularErrorHandler },
-    { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-4-crasher", "1.0.0.0", "fred") },
+    { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-crasher", "1.0.0.0", "fred") },
     { provide: BugSplatLogger, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
   ],
   bootstrap: [AppComponent]
