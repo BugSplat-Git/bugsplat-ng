@@ -11,6 +11,7 @@ import { TestBed } from '@angular/core/testing';
 describe('BugSplatErrorHandler', () => {
 
     let sut: BugSplatErrorHandler;
+    let expectedError: Error;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -30,19 +31,25 @@ describe('BugSplatErrorHandler', () => {
         const httpClient = TestBed.get(HttpClient);
         const logger = new BugSplatLogger();
         sut = new BugSplatErrorHandler(config, httpClient, logger);
+        expectedError = new Error("BugSplat rocks!");
     });
 
-    it('should call bugsplat.post when handleError is called', async(() => {
-        const expectedError = new Error("BugSplat rocks!");
+    it('should call bugsplat.post when handleError is called', () => {
+        sut.bugsplat.rethrowErrors = false;
         sut.bugsplat.post = (error) => expect(error).toBe(expectedError);
         sut.handleError(expectedError);
-    }));
+    });
 
-    it('should create instance of BugSplat at construction time', async(() => {
+    it('should rethrow error if rethrowErrors is true', () => {
+        sut.bugsplat.rethrowErrors = true;
+        expect(() => sut.handleError(expectedError)).toThrowError(expectedError.message);
+    });
+
+    it('should create instance of BugSplat at construction time', () => {
         expect(sut.bugsplat).not.toBe(null);
-    }));
+    });
 
-    it('should throw if handleError is called with null', async(() => {
+    it('should throw if handleError is called with null', () => {
         expect(() => sut.handleError(null)).toThrowError(BugSplatErrorHandler.ERROR_CANNOT_BE_NULL);
-    }));
+    });
 });
