@@ -44,18 +44,23 @@ export class BugSplat {
       body.append(file.name, file, file.name);
     });
     this.logPostInfo(url, callstack);
-    this.http.post(url, body).subscribe(data => {
-      this.logger.info("BugSplat POST Success: " + JSON.stringify(data));
-      const responseData = BugSplatResponseData.createFromSuccessResponseObject(data);
-      const event = new BugSplatPostEvent(BugSplatPostEventType.Success, responseData);
-      this.bugSplatPostEventSubject.next(event);
-    }, err => {
-      this.logger.error("BugSplat POST Error: " + JSON.stringify(err));
-      const httpErrorResponse = <HttpErrorResponse>err;
-      const responseData = BugSplatResponseData.createFromHttpErrorResponse(httpErrorResponse);
-      const event = new BugSplatPostEvent(BugSplatPostEventType.Error, responseData);
-      this.bugSplatPostEventSubject.next(event);
+    this.http.post(url, body)
+      .toPromise()
+      .then(data => {
+        this.logger.info("BugSplat POST Success: " + JSON.stringify(data));
+        const responseData = BugSplatResponseData.createFromSuccessResponseObject(data);
+        const event = new BugSplatPostEvent(BugSplatPostEventType.Success, responseData);
+        this.bugSplatPostEventSubject.next(event);
+      }, err => {
+        this.logger.error("BugSplat POST Error: " + JSON.stringify(err));
+        const httpErrorResponse = <HttpErrorResponse>err;
+        const responseData = BugSplatResponseData.createFromHttpErrorResponse(httpErrorResponse);
+        const event = new BugSplatPostEvent(BugSplatPostEventType.Error, responseData);
+        this.bugSplatPostEventSubject.next(event);
     });
+    if (this.rethrowErrors) {
+      throw error;
+    }
   }
 
   addAdditionalFile(file: File): void {

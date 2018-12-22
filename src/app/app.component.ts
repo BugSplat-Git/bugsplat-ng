@@ -23,6 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const myAngularErrorHandler = (<MyAngularErrorHandler>this.errorHandler);
+    myAngularErrorHandler.bugsplat.rethrowErrors = false;
     this.bugSplatEventSubscription = myAngularErrorHandler.bugsplat.getObservable()
       .subscribe((event) => {
         this.database = myAngularErrorHandler.config.database;

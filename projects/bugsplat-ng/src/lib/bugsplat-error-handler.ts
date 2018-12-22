@@ -30,9 +30,6 @@ export class BugSplatErrorHandler implements ErrorHandler {
     } else {
       this.bugsplat.logger.info('Exception caught by BugSplat!');
       this.bugsplat.post(error);
-      if (this.bugsplat.rethrowErrors) {
-        throw error;
-      }
     }
   }
 }
