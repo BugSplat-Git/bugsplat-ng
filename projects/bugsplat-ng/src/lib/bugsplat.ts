@@ -10,6 +10,7 @@ export class BugSplat {
   public user: string = "";
   public email: string = "";
   public description: string = "";
+  public rethrowErrors: boolean = true;
 
   public bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
 
