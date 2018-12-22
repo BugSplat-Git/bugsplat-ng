@@ -34,6 +34,7 @@ describe('BugSplat', () => {
             return of(mockSuccessResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
+        bugsplat.rethrowErrors = false;
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Success);
             expect(event.responseData.message).toEqual(expectedResponse.message);
@@ -63,6 +64,7 @@ describe('BugSplat', () => {
             return throwError(mockFailureResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
+        bugsplat.rethrowErrors = false;
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(expectedResponse.type);
             expect(event.responseData.success).toEqual(expectedResponse.success);
@@ -79,7 +81,7 @@ describe('BugSplat', () => {
         const spy = spyOn(logger, "warn");
         const sizeLimitBytes = 2 * 1024 * 1024;
         const fileName = "mario.png";
-        const blob = new Blob([new Array(sizeLimitBytes + 1)], { type: 'image/png' });
+        const blob = new Blob([(new Array(sizeLimitBytes + 1)).toString()], { type: 'image/png' });
         const file = new File([blob], fileName);
         const bugsplat = new BugSplat(config, http, logger);
         const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
