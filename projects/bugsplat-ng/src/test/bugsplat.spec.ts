@@ -1,17 +1,18 @@
-import { async, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, TestBed } from '@angular/core/testing';
+import { of, throwError } from 'rxjs';
 import { BugSplat } from '../lib/bugsplat';
-import { BugSplatPostEventType } from '../lib/bugsplat-post-event';
-import { Observable, of, throwError } from 'rxjs';
 import { BugSplatConfiguration } from '../lib/bugsplat-config';
-import { BugSplatLogger } from '../lib/bugsplat-logger';
+import { BugSplatLogger, BugSplatLogLevel } from '../lib/bugsplat-logger';
+import { BugSplatPostEventType } from '../lib/bugsplat-post-event';
 
 const testDatabase = "Fred"
 
 describe('BugSplat', () => {
 
     const config = new BugSplatConfiguration("bugsplat-ng6-tests", "1.0.0.0", testDatabase);
+    const nullLogger = new BugSplatLogger(BugSplatLogLevel.None);
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
@@ -33,7 +34,7 @@ describe('BugSplat', () => {
         http.post = (url: string, body: any) => {
             return of(mockSuccessResponse);
         };
-        const bugsplat = new BugSplat(config, http, new BugSplatLogger());
+        const bugsplat = new BugSplat(config, http, nullLogger);
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Success);
             expect(event.responseData.message).toEqual(expectedResponse.message);
@@ -62,7 +63,7 @@ describe('BugSplat', () => {
         http.post = (url: string, body: any) => {
             return throwError(mockFailureResponse);
         };
-        const bugsplat = new BugSplat(config, http, new BugSplatLogger());
+        const bugsplat = new BugSplat(config, http, nullLogger);
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(expectedResponse.type);
             expect(event.responseData.success).toEqual(expectedResponse.success);
@@ -75,13 +76,12 @@ describe('BugSplat', () => {
 
     it('should log a warning if asked to upload a file that exceeds maximum bundle size', async(() => {
         const http: HttpClient = TestBed.get(HttpClient);
-        const logger = new BugSplatLogger();
-        const spy = spyOn(logger, "warn");
+        const spy = spyOn(nullLogger, "warn");
         const sizeLimitBytes = 2 * 1024 * 1024;
         const fileName = "mario.png";
         const blob = new Blob([(new Array(sizeLimitBytes + 1)).toString()], { type: 'image/png' });
         const file = new File([blob], fileName);
-        const bugsplat = new BugSplat(config, http, logger);
+        const bugsplat = new BugSplat(config, http, nullLogger);
         const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
         bugsplat.addAdditionalFile(file);
         expect(spy).toHaveBeenCalledWith(expectedMessage);
