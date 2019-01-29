@@ -35,15 +35,10 @@ describe('BugSplatErrorHandler', () => {
     });
 
     it('should call bugsplat.post when handleError is called', () => {
-        sut.bugsplat.rethrowErrors = false;
         sut.bugsplat.post = (error) => expect(error).toBe(expectedError);
         sut.handleError(expectedError);
     });
 
-    it('should rethrow error if rethrowErrors is true', () => {
-        sut.bugsplat.rethrowErrors = true;
-        expect(() => sut.handleError(expectedError)).toThrowError(expectedError.message);
-    });
 
     it('should create instance of BugSplat at construction time', () => {
         expect(sut.bugsplat).not.toBe(null);

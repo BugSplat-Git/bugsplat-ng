@@ -34,7 +34,6 @@ describe('BugSplat', () => {
             return of(mockSuccessResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
-        bugsplat.rethrowErrors = false;
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(BugSplatPostEventType.Success);
             expect(event.responseData.message).toEqual(expectedResponse.message);
@@ -64,7 +63,6 @@ describe('BugSplat', () => {
             return throwError(mockFailureResponse);
         };
         const bugsplat = new BugSplat(config, http, new BugSplatLogger());
-        bugsplat.rethrowErrors = false;
         bugsplat.getObservable().subscribe(event => {
             expect(event.type).toEqual(expectedResponse.type);
             expect(event.responseData.success).toEqual(expectedResponse.success);

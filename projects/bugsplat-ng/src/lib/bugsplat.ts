@@ -10,7 +10,6 @@ export class BugSplat {
   public user: string = "";
   public email: string = "";
   public description: string = "";
-  public rethrowErrors: boolean = true;
 
   public bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
 
@@ -58,9 +57,6 @@ export class BugSplat {
         const event = new BugSplatPostEvent(BugSplatPostEventType.Error, responseData);
         this.bugSplatPostEventSubject.next(event);
     });
-    if (this.rethrowErrors) {
-      throw error;
-    }
   }
 
   addAdditionalFile(file: File): void {
