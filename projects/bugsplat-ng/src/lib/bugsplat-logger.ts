@@ -8,10 +8,10 @@ export enum BugSplatLogLevel {
 }
 
 export interface Logger {
-    error(msg: string): void;
-    warn(msg: string): void;
-    info(msg: string): void;
-    log(msg: string): void;
+    error(...params: (string | Object)[]): void;
+    warn(...params: (string | Object)[]): void;
+    info(...params: (string | Object)[]): void;
+    log(...params: (string | Object)[]): void;
 }
 
 export class BugSplatLogger {
@@ -19,7 +19,7 @@ export class BugSplatLogger {
     static readonly LEVEL_CANNOT_BE_NULL = "BugSplatLogger Error: level cannot be null!";
     static readonly LOGGER_CANNOT_BE_NULL = "BugSplatLogger Error: logger cannot be null!";
 
-    constructor(private level: BugSplatLogLevel = BugSplatLogLevel.None, private logger: Logger = console) {
+    constructor(private level: BugSplatLogLevel = BugSplatLogLevel.Error, private logger: Logger = console) {
         if (this.level == null) {
             throw new Error(BugSplatLogger.LEVEL_CANNOT_BE_NULL)
         }
@@ -27,24 +27,24 @@ export class BugSplatLogger {
             throw new Error(BugSplatLogger.LOGGER_CANNOT_BE_NULL);
         }
     }
-    error(msg: string): void {
+    error(...params: (string | Object)[]): void {
         if (this.level >= BugSplatLogLevel.Error) {
-            this.logger.error(msg);
+            this.logger.error(...params);
         }
     }
-    warn(msg: string): void {
+    warn(...params: (string | Object)[]): void {
         if (this.level >= BugSplatLogLevel.Warn) {
-            this.logger.warn(msg);
+            this.logger.warn(...params);
         }
     }
-    info(msg: string): void {
+    info(...params: (string | Object)[]): void {
         if (this.level >= BugSplatLogLevel.Info) {
-            this.logger.info(msg);
+            this.logger.info(...params);
         }
     }
-    log(msg: string): void {
+    log(...params: (string | Object)[]): void {
         if (this.level >= BugSplatLogLevel.Log) {
-            this.logger.log(msg);
+            this.logger.log(...params);
         }
     }
 }

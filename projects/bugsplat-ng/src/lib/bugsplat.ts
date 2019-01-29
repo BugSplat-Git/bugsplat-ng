@@ -43,6 +43,7 @@ export class BugSplat {
       body.append(file.name, file, file.name);
     });
     this.logPostInfo(url, callstack);
+    this.logError(error);
     this.http.post(url, body)
       .toPromise()
       .then(data => {
@@ -83,5 +84,9 @@ export class BugSplat {
     for (let i = 0; i < this.files.length; i++) {
       this.logger.info("BugSplat POST file[" + i + "]: " + this.files[i].name);
     }
+  }
+
+  logError(error: Error): void {
+    this.logger.error(error);
   }
 }
