@@ -1,12 +1,11 @@
-import { async } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient } from "@angular/common/http";
-import { Http, BaseRequestOptions, ConnectionBackend, RequestOptions } from "@angular/http";
-import { MockBackend } from '@angular/http/testing';
-import { BugSplatErrorHandler } from '../lib/bugsplat-error-handler';
-import { BugSplatLogger } from '../lib/bugsplat-logger';
-import { BugSplatConfiguration } from '../lib/bugsplat-config';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { BaseRequestOptions, ConnectionBackend, Http, RequestOptions } from "@angular/http";
+import { MockBackend } from '@angular/http/testing';
+import { BugSplatConfiguration } from '../lib/bugsplat-config';
+import { BugSplatErrorHandler } from '../lib/bugsplat-error-handler';
+import { BugSplatLogger, BugSplatLogLevel } from '../lib/bugsplat-logger';
 
 describe('BugSplatErrorHandler', () => {
 
@@ -29,21 +28,16 @@ describe('BugSplatErrorHandler', () => {
         });
         const config = new BugSplatConfiguration("bugsplat-ng6-tests", "1.0.0.0", "fred");
         const httpClient = TestBed.get(HttpClient);
-        const logger = new BugSplatLogger();
+        const logger = new BugSplatLogger(BugSplatLogLevel.None);
         sut = new BugSplatErrorHandler(config, httpClient, logger);
         expectedError = new Error("BugSplat rocks!");
     });
 
     it('should call bugsplat.post when handleError is called', () => {
-        sut.bugsplat.rethrowErrors = false;
         sut.bugsplat.post = (error) => expect(error).toBe(expectedError);
         sut.handleError(expectedError);
     });
 
-    it('should rethrow error if rethrowErrors is true', () => {
-        sut.bugsplat.rethrowErrors = true;
-        expect(() => sut.handleError(expectedError)).toThrowError(expectedError.message);
-    });
 
     it('should create instance of BugSplat at construction time', () => {
         expect(sut.bugsplat).not.toBe(null);

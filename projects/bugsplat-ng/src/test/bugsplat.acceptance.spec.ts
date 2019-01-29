@@ -45,7 +45,7 @@ xdescribe('BugSplat POST', () => {
                 const individualCrashUrl = baseUrl + "/browse/individualCrash.php?database=" + testDatabase + "&id=" + expectedCrashId;
                 http.get(individualCrashUrl + "&data", options).subscribe(data => {
                     const dataAny = <any>data;
-                    expect(dataAny.additionalInfo).toEqual(description);
+                    expect(dataAny.userDescription).toEqual(description);
                     expect(dataAny.appDescription).toEqual(appKey);
                     expect(dataAny.appName).toEqual(appName);
                     expect(dataAny.appVersion).toEqual(appVersion);
