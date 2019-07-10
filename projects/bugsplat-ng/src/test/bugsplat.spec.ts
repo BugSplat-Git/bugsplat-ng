@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { BugSplat } from '../lib/bugsplat';
 import { BugSplatConfiguration } from '../lib/bugsplat-config';
@@ -18,7 +18,7 @@ describe('BugSplat', () => {
         imports: [HttpClientTestingModule]
     }));
 
-    it('should publish an event on post success', async(() => {
+    it('should publish an event on post success', fakeAsync(async () => {
         const mockSuccessResponse = {
             status: 'success',
             current_server_time: 1505832461,
@@ -43,10 +43,11 @@ describe('BugSplat', () => {
         }, err => {
             throw err;
         });
-        bugsplat.post(new Error("foobar!"));
+        await bugsplat.post(new Error("foobar!"));
+        tick();
     }));
 
-    it('should publish an event on post error', async(() => {
+    it('should publish an event on post error', fakeAsync(async () => {
         const mockFailureStatus = 400;
         const mockFailureResponse = new HttpErrorResponse({
             status: mockFailureStatus,
@@ -71,10 +72,11 @@ describe('BugSplat', () => {
         }, err => {
             throw err;
         });
-        bugsplat.post(new Error("foobar!"));
+        await bugsplat.post(new Error("foobar!"));
+        tick();
     }));
 
-    it('should log a warning if asked to upload a file that exceeds maximum bundle size', async(() => {
+    it('should log a warning if asked to upload a file that exceeds maximum bundle size', () => {
         const http: HttpClient = TestBed.get(HttpClient);
         const spy = spyOn(nullLogger, "warn");
         const sizeLimitBytes = 2 * 1024 * 1024;
@@ -85,5 +87,5 @@ describe('BugSplat', () => {
         const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
         bugsplat.addAdditionalFile(file);
         expect(spy).toHaveBeenCalledWith(expectedMessage);
-    }));
+    });
 });

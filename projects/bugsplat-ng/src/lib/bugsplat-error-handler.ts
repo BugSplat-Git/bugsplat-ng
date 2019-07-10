@@ -24,12 +24,12 @@ export class BugSplatErrorHandler implements ErrorHandler {
     this.bugsplat = new BugSplat(this.config, this.http, this.logger);
   }
 
-  handleError(error: Error) {
+  async handleError(error: Error): Promise<void> {
     if (!error) {
       throw new Error(BugSplatErrorHandler.ERROR_CANNOT_BE_NULL);
     } else {
       this.bugsplat.logger.info('Exception caught by BugSplat!');
-      this.bugsplat.post(error);
+      return this.bugsplat.post(error);
     }
   }
 }

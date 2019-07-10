@@ -1,5 +1,5 @@
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { async, TestBed } from "@angular/core/testing";
-import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { BugSplat } from "../lib/bugsplat";
 import { BugSplatConfiguration } from "../lib/bugsplat-config";
 import { BugSplatLogger } from "../lib/bugsplat-logger";
@@ -17,9 +17,9 @@ xdescribe('BugSplat POST', () => {
         providers: [HttpClient]
     }));
 
-    it('should post crash with all properties', async(() => {
+    it('should post crash with all properties', async(async () => {
         const http: HttpClient = TestBed.get(HttpClient);
-        const appName = "bugsplat-ng6-tests";
+        const appName = "bugsplat-ng-tests";
         const database = testDatabase;
         const appVersion = "1.0.0.0";
         const appKey = "Key!";
@@ -60,6 +60,6 @@ xdescribe('BugSplat POST', () => {
                 throw new Error(err.message);
             });
         });
-        bugsplat.post(new Error(errorMessage))
+        await bugsplat.post(new Error(errorMessage));
     }), 30000);
 });

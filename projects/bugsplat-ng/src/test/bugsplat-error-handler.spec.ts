@@ -26,15 +26,15 @@ describe('BugSplatErrorHandler', () => {
                 }
             ]
         });
-        const config = new BugSplatConfiguration("bugsplat-ng6-tests", "1.0.0.0", "fred");
+        const config = new BugSplatConfiguration("bugsplat-ng-tests", "1.0.0.0", "fred");
         const httpClient = TestBed.get(HttpClient);
         const logger = new BugSplatLogger(BugSplatLogLevel.None);
         sut = new BugSplatErrorHandler(config, httpClient, logger);
         expectedError = new Error("BugSplat rocks!");
     });
 
-    it('should call bugsplat.post when handleError is called', () => {
-        sut.bugsplat.post = (error) => expect(error).toBe(expectedError);
+    it('should call bugsplat.post when handleError is called', async () => {
+        sut.bugsplat.post = async (error) => { expect(error).toBe(expectedError) };
         sut.handleError(expectedError);
     });
 
@@ -43,7 +43,12 @@ describe('BugSplatErrorHandler', () => {
         expect(sut.bugsplat).not.toBe(null);
     });
 
-    it('should throw if handleError is called with null', () => {
-        expect(() => sut.handleError(null)).toThrowError(BugSplatErrorHandler.ERROR_CANNOT_BE_NULL);
+    it('should throw if handleError is called with null', async () => {
+        try {
+            await sut.handleError(null);
+            fail('Handle error should have thrown!');
+        } catch(error) {
+            expect(error.message).toEqual(BugSplatErrorHandler.ERROR_CANNOT_BE_NULL);
+        }
     });
 });
