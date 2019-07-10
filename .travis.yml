@@ -6,7 +6,7 @@ dist: trusty
 language: node_js
 
 node_js:
-  - 8
+  - 10
 
 before_deploy:
   - ssh-agent -k
