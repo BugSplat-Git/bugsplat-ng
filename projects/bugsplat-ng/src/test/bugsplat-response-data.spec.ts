@@ -1,7 +1,7 @@
-import { async, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Http, BaseRequestOptions, ConnectionBackend, RequestOptions } from "@angular/http";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { BaseRequestOptions, ConnectionBackend, Http, RequestOptions } from "@angular/http";
 import { MockBackend } from '@angular/http/testing';
 import { BugSplatResponseData } from '../lib/bugsplat-response-data';
 
@@ -21,27 +21,27 @@ describe('BugSplatResponseData', () => {
         ]
     }));
 
-    it('should throw if success is null', async(() => {
+    it('should throw if success is null', () => {
         expect(() => new BugSplatResponseData(null)).toThrowError(BugSplatResponseData.SUCCESS_CANNOT_BE_NULL);
-    }));
+    });
 
-    it('should throw if current_server_time is null', async(() => {
+    it('should throw if current_server_time is null', () => {
         expect(() => new BugSplatResponseData(false, null)).toThrowError(BugSplatResponseData.CURRENT_SERVER_TIME_CANNOT_BE_NULL);
-    }));
+    });
 
-    it('should throw if message is null', async(() => {
+    it('should throw if message is null', () => {
         expect(() => new BugSplatResponseData(false, 0, null)).toThrowError(BugSplatResponseData.MESSAGE_CANNOT_BE_NULL);
-    }));
+    });
 
-    it('should throw if url is null', async(() => {
+    it('should throw if url is null', () => {
         expect(() => new BugSplatResponseData(false, 0, "message", null)).toThrowError(BugSplatResponseData.URL_CANNOT_BE_NULL);
-    }));
+    });
 
-    it('should throw if crash_id is null', async(() => {
+    it('should throw if crash_id is null', () => {
         expect(() => new BugSplatResponseData(false, 0, "message", "url", null)).toThrowError(BugSplatResponseData.CRASH_ID_CANNOT_BE_NULL);
-    }));
+    });
 
-    it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', async(() => {
+    it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', () => {
         const status = "success";
         const current_server_time = 1506381722;
         const message = "Crash successfully posted";
@@ -60,9 +60,9 @@ describe('BugSplatResponseData', () => {
         expect(result.message).toEqual(message);
         expect(result.url).toEqual(url);
         expect(result.crash_id).toEqual(crash_id);
-    }));
+    });
 
-    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with valid parameters', async(() => {
+    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with valid parameters', () => {
         const url = "https://octomore.bugsplat.com/post/js/"
         const httpErrorResponse = new HttpErrorResponse({
             status: 400,
@@ -75,22 +75,22 @@ describe('BugSplatResponseData', () => {
         expect(result.message).toContain("400 Bad Request");
         expect(result.url).toEqual(url);
         expect(result.crash_id).toEqual(0);
-    }));
+    });
 
-    it('should use default values if createFromHttpErrorResponse is called with an object with no properties', async(() => {
+    it('should use default values if createFromHttpErrorResponse is called with an object with no properties', () => {
         const result = BugSplatResponseData.createFromSuccessResponseObject({});
         expect(result.success).toEqual(BugSplatResponseData.SUCCESS_DEFAULT);
         expect(result.current_server_time).toEqual(BugSplatResponseData.SERVER_TIME_DEFAULT);
         expect(result.message).toEqual(BugSplatResponseData.MESSAGE_DEFAULT);
         expect(result.url).toEqual(BugSplatResponseData.URL_DEFAULT);
         expect(result.crash_id).toEqual(BugSplatResponseData.CRASH_ID_DEFAULT);
-    }));
+    });
 
-    it('should throw when createFromSuccessResponseObject is called with null response', async(() => {
+    it('should throw when createFromSuccessResponseObject is called with null response', () => {
         expect(() => BugSplatResponseData.createFromSuccessResponseObject(null)).toThrowError(BugSplatResponseData.RESPONSE_CANNOT_BE_NULL);
-    }));
+    });
 
-    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with null HttpErrorResponse', async(() => {
+    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with null HttpErrorResponse', () => {
         expect(() => BugSplatResponseData.createFromHttpErrorResponse(null)).toThrowError(BugSplatResponseData.ERROR_CANNOT_BE_NULL);
-    }));
+    });
 });
