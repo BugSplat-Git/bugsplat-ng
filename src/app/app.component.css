@@ -1,0 +1,28 @@
+a {
+    margin-bottom: 15px;
+}
+
+button {
+    margin-bottom: 15px;
+}
+
+.container {
+    text-align: center;
+}
+
+img {
+    width: 700px;
+}
+
+.logs {
+    height: 300px;
+    width: 700px;
+    border: 1px solid black;
+    margin: 0 auto;
+    overflow: scroll;
+    text-align:left;
+}
+
+.log-entry {
+    display: block;
+}
