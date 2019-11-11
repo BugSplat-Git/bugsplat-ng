@@ -4,9 +4,9 @@
 ## Introduction
 BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular’s [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started please complete the following tasks:
 
-* [Sign up](http://www.bugsplat.com/account-registration/) for BugSplat
-* Create a new [database](https://www.bugsplat.com/databases/) for your application
-* Check out the [live demo](http://newayz.net/my-angular-crasher/) of BugSplat’s Angular error reporting
+* [Sign up](http://www.bugsplat.com/v2/sign-up) for BugSplat
+* Create a new [database](https://app.bugsplat.com/v2/database) for your application
+* Check out the [live demo](https://www.bugsplat.com/samples/my-angular-crasher) of BugSplat’s Angular error reporting
 
 ## Simple Configuration
 To collect errors and crashes in your Angular application, run the following command in terminal or cmd at the root of your project to install bugsplat-ng:
@@ -79,11 +79,11 @@ Throw a new error in your application to test the bugsplat-ng integration:
 throw new Error("foobar!");
 ```
 
-Navigate to the [All Crashes](http://www.bugsplat.com/allcrash/) page in BugSplat and you should see a new crash report for the application you just configured. Click the link in the Id column to see details about your crash on the Individual Crash page:
+Navigate to the [Crashes](https://app.bugsplat.com/v2/crashes) page in BugSplat and you should see a new crash report for the application you just configured. Click the link in the ID column to see details about your crash on the Crash page:
 
-![AllCrash](https://s3.amazonaws.com/bugsplat-public/npm/allCrash.png)
+![Crashes Page](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-ng/crashes-page.png)
 
-![IndividualCrash](https://s3.amazonaws.com/bugsplat-public/npm/individualCrash.png)
+![Crash Page](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-ng/crash-page.png)
 
 ## Extended Configuration
 You can post additional information to BugSplat by creating a wrapper around the BugSplat object. To do so, create a new class that implements Angular’s ErrorHandler interface. In the handlerError method make a call to BugSplat.post passing it the error object:
@@ -161,7 +161,7 @@ The my-angular-crasher sample demonstrates how to use BugSplat's npm package to 
 2. Open terminal or command prompt in this project's root directory
 3. run 'npm install'
 4. run 'ng build bugsplat-ng' then 'ng serve'
-5. Navigate to https://localhost:4200
+5. Navigate to http://localhost:4200
 6. Click the 'Crash!' button, then follow the link that appears to view the crash on the BugSplat website
 7. When prompted to log in, use the username "Fred" and password "Flintstone"
 
