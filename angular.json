@@ -143,9 +143,9 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/bugsplat-ng/ng-package.prod.json"
-            ,              "tsConfig": "projects/bugsplat-ng/tsconfig.lib.prod.json"
-}
+              "project": "projects/bugsplat-ng/ng-package.prod.json",
+              "tsConfig": "projects/bugsplat-ng/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -171,5 +171,8 @@
       }
     }
   },
-  "defaultProject": "my-angular-crasher"
+  "defaultProject": "my-angular-crasher",
+  "cli": {
+    "analytics": "05c6acf5-d643-470e-b261-021c03f97339"
+  }
 }
