@@ -1,6 +1,11 @@
 {
   "name": "bugsplat-ng",
-  "version": "2.0.0",
+  "version": "3.0.0",
+  "description": "BugSplat error reporting for Angular",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BugSplat-Git/bugsplat-ng"
+  },
   "dependencies": {
     "tslib": "^2.0.0"
   },
