@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-prod": "ng build bugsplat-ng --prod && cp README.md dist/bugsplat-ng",
+    "release": "npm run build-prod && cd dist/bugsplat-ng && npm release"
   },
   "private": true,
   "dependencies": {
