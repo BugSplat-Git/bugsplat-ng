@@ -4,7 +4,9 @@ import { BugSplatConfiguration } from "./bugsplat-config";
 import { BugSplatLogger } from "./bugsplat-logger";
 import { BugSplatPostEvent, BugSplatPostEventType } from "./bugsplat-post-event";
 import { BugSplatResponseData } from "./bugsplat-response-data";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class BugSplat {
   public appKey: string = "";
   public user: string = "";
