@@ -1,24 +1,12 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from "@angular/common/http";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { BaseRequestOptions, ConnectionBackend, Http, RequestOptions } from "@angular/http";
-import { MockBackend } from '@angular/http/testing';
 import { BugSplatResponseData } from '../lib/bugsplat-response-data';
 
 describe('BugSplatResponseData', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
-        providers: [
-            HttpClient,
-            MockBackend,
-            BaseRequestOptions,
-            {
-                provide: Http,
-                useFactory: (backend: ConnectionBackend, options: RequestOptions) => new Http(backend, options),
-                deps: [MockBackend, BaseRequestOptions]
-            }
-        ]
     }));
 
     it('should throw if success is null', () => {
