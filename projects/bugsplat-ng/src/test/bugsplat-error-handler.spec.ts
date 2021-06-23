@@ -1,8 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { BaseRequestOptions, ConnectionBackend, Http, RequestOptions } from "@angular/http";
-import { MockBackend } from '@angular/http/testing';
 import { BugSplatConfiguration } from '../lib/bugsplat-config';
 import { BugSplatErrorHandler } from '../lib/bugsplat-error-handler';
 import { BugSplatLogger, BugSplatLogLevel } from '../lib/bugsplat-logger';
@@ -15,16 +13,6 @@ describe('BugSplatErrorHandler', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [
-                HttpClient,
-                MockBackend,
-                BaseRequestOptions,
-                {
-                    provide: Http,
-                    useFactory: (backend: ConnectionBackend, options: RequestOptions) => new Http(backend, options),
-                    deps: [MockBackend, BaseRequestOptions]
-                }
-            ]
         });
         const config = new BugSplatConfiguration("bugsplat-ng-tests", "1.0.0.0", "fred");
         const httpClient = TestBed.get(HttpClient);
@@ -47,7 +35,7 @@ describe('BugSplatErrorHandler', () => {
         try {
             await sut.handleError(null);
             fail('Handle error should have thrown!');
-        } catch(error) {
+        } catch (error) {
             expect(error.message).toEqual(BugSplatErrorHandler.ERROR_CANNOT_BE_NULL);
         }
     });
