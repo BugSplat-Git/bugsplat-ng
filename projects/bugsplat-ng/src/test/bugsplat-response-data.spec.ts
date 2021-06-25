@@ -13,20 +13,20 @@ describe('BugSplatResponseData', () => {
         expect(() => new BugSplatResponseData(null)).toThrowError(BugSplatResponseData.SUCCESS_CANNOT_BE_NULL);
     });
 
-    it('should throw if current_server_time is null', () => {
-        expect(() => new BugSplatResponseData(false, null)).toThrowError(BugSplatResponseData.CURRENT_SERVER_TIME_CANNOT_BE_NULL);
+    it('should throw if message is null', () => {
+        expect(() => new BugSplatResponseData(false, null)).toThrowError(BugSplatResponseData.MESSAGE_CANNOT_BE_NULL);
     });
 
-    it('should throw if message is null', () => {
-        expect(() => new BugSplatResponseData(false, 0, null)).toThrowError(BugSplatResponseData.MESSAGE_CANNOT_BE_NULL);
+    it('should throw if current_server_time is null', () => {
+        expect(() => new BugSplatResponseData(false, "message", null)).toThrowError(BugSplatResponseData.CURRENT_SERVER_TIME_CANNOT_BE_NULL);
     });
 
     it('should throw if url is null', () => {
-        expect(() => new BugSplatResponseData(false, 0, "message", null)).toThrowError(BugSplatResponseData.URL_CANNOT_BE_NULL);
+        expect(() => new BugSplatResponseData(false, "message", 0, null)).toThrowError(BugSplatResponseData.URL_CANNOT_BE_NULL);
     });
 
     it('should throw if crash_id is null', () => {
-        expect(() => new BugSplatResponseData(false, 0, "message", "url", null)).toThrowError(BugSplatResponseData.CRASH_ID_CANNOT_BE_NULL);
+        expect(() => new BugSplatResponseData(false, "message", 0, "url", null)).toThrowError(BugSplatResponseData.CRASH_ID_CANNOT_BE_NULL);
     });
 
     it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', () => {
@@ -51,17 +51,13 @@ describe('BugSplatResponseData', () => {
     });
 
     it('should return BugSplatResponseData when createFromHttpErrorResponse is called with valid parameters', () => {
-        const url = "https://octomore.bugsplat.com/post/js/"
-        const httpErrorResponse = new HttpErrorResponse({
-            status: 400,
-            statusText: "Bad Request",
-            url: url
-        });
-        const result = BugSplatResponseData.createFromHttpErrorResponse(httpErrorResponse);
+        const message = "Bad Request";
+        const error = new Error(message)
+        const result = BugSplatResponseData.createFromError(error);
         expect(result.success).toEqual(false);
+        expect(result.message).toContain(message);
         expect(result.current_server_time).toEqual(0);
-        expect(result.message).toContain("400 Bad Request");
-        expect(result.url).toEqual(url);
+        expect(result.url).toEqual("");
         expect(result.crash_id).toEqual(0);
     });
 
@@ -79,6 +75,6 @@ describe('BugSplatResponseData', () => {
     });
 
     it('should return BugSplatResponseData when createFromHttpErrorResponse is called with null HttpErrorResponse', () => {
-        expect(() => BugSplatResponseData.createFromHttpErrorResponse(null)).toThrowError(BugSplatResponseData.ERROR_CANNOT_BE_NULL);
+        expect(() => BugSplatResponseData.createFromError(null)).toThrowError(BugSplatResponseData.ERROR_CANNOT_BE_NULL);
     });
 });

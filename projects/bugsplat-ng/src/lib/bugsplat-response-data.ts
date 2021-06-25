@@ -8,23 +8,29 @@ export class BugSplatResponseData {
     static readonly URL_CANNOT_BE_NULL = "BugSplatResponseData Error: url cannot be null!";
     static readonly CRASH_ID_CANNOT_BE_NULL = "BugSplatResponseData Error: url cannot be null!";
 
-    constructor(public success: boolean = false,
-        public current_server_time: number = 0,
+    constructor(
+        public success: boolean = false,
         public message: string = "",
+        public current_server_time: number = 0,
         public url: string = "",
-        public crash_id: number = 0) {
+        public crash_id: number = 0
+    ) {
         if (success == null) {
             throw new Error(BugSplatResponseData.SUCCESS_CANNOT_BE_NULL);
         }
-        if (current_server_time == null) {
-            throw new Error(BugSplatResponseData.CURRENT_SERVER_TIME_CANNOT_BE_NULL);
-        }
+
         if (message == null) {
             throw new Error(BugSplatResponseData.MESSAGE_CANNOT_BE_NULL);
         }
+
+        if (current_server_time == null) {
+            throw new Error(BugSplatResponseData.CURRENT_SERVER_TIME_CANNOT_BE_NULL);
+        }
+
         if (url == null) {
             throw new Error(BugSplatResponseData.URL_CANNOT_BE_NULL);
         }
+        
         if (crash_id == null) {
             throw new Error(BugSplatResponseData.CRASH_ID_CANNOT_BE_NULL);
         }
@@ -40,7 +46,6 @@ export class BugSplatResponseData {
     static readonly ERROR_CANNOT_BE_NULL = "BugSplatResponseData.createFromHttpErrorResponse Error: error cannot be null!";
 
     static createFromSuccessResponseObject(response: object) {
-
         if (!response) {
             throw new Error(BugSplatResponseData.RESPONSE_CANNOT_BE_NULL);
         }
@@ -68,15 +73,14 @@ export class BugSplatResponseData {
             crash_id = responseAny.crash_id;
         }
 
-        return new BugSplatResponseData(success, current_server_time, message, url, crash_id);
+        return new BugSplatResponseData(success, message, current_server_time, url, crash_id);
     }
 
-    static createFromHttpErrorResponse(error: HttpErrorResponse) {
-
+    static createFromError(error: Error) {
         if (!error) {
             throw new Error(BugSplatResponseData.ERROR_CANNOT_BE_NULL);
         }
 
-        return new BugSplatResponseData(false, 0, error.message, error.url, 0);
+        return new BugSplatResponseData(false, error.message);
     }
 }

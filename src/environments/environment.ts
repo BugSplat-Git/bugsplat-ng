@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  bugsplat: {
+    database: 'fred',
+    application: 'my-angular-crasher',
+    version: '1.0.0-dev'
+  }
 };
 
 /*
