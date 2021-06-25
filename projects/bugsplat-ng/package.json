@@ -8,11 +8,11 @@
     "url": "https://github.com/BugSplat-Git/bugsplat-ng"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "bugsplat": "^7.1.0"
   },
   "peerDependencies": {
     "@angular/common": ">=5.0.0",
-    "@angular/core": ">=5.0.0",
-    "bugsplat": "^7.0.2"
+    "@angular/core": ">=5.0.0"
   }
 }
