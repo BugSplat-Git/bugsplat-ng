@@ -49,17 +49,4 @@ describe('BugSplat', () => {
         expect(event.responseData.success).toEqual(false);
         expect(event.responseData.message).toContain('Bad Request');
     });
-
-    // TODO BG
-    // it('should log a warning if asked to upload a file that exceeds maximum bundle size', () => {
-    //     const spy = spyOn(nullLogger, "warn");
-    //     const sizeLimitBytes = 2 * 1024 * 1024;
-    //     const fileName = "mario.png";
-    //     const blob = new Blob([(new Array(sizeLimitBytes + 1)).toString()], { type: 'image/png' });
-    //     const file = new File([blob], fileName);
-    //     const bugsplat = new BugSplat(config, nullLogger);
-    //     const expectedMessage = "BugSplat Error: Could not add file " + file.name + ". Upload bundle size limit exceeded!";
-    //     bugsplat.addAdditionalFile(file);
-    //     expect(spy).toHaveBeenCalledWith(expectedMessage);
-    // });
 });
