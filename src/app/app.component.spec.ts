@@ -10,11 +10,10 @@ describe('AppComponent', () => {
   beforeEach(() => {
     let errorHandler = {
       bugsplat: {
+        database: 'fred',
+        files: [],
         getObservable: () => of({ responseData: { crash_id: 99 } })
       },
-      config: {
-        database: 'Fred'
-      }
     };
 
     TestBed.configureTestingModule({
