@@ -14,11 +14,8 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
 //   ],
 //   imports: [
 //     BrowserModule,
-//     HttpClientModule
-//   ],
-//   providers: [
-//     { provide: ErrorHandler, useClass: BugSplatErrorHandler },
-//     { provide: BugSplat, useValue: bugsplat }
+//     HttpClientModule,
+//     BugSplatModule.initializeApp(environment.bugsplat)
 //   ],
 //   bootstrap: [AppComponent]
 // })
