@@ -11,26 +11,26 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
 export class AppComponent implements OnInit {
 
   title: string = 'my-angular-crasher';
-  database: string = '';
   logEntries: Array<string> = [];
-  
-  crashId$: Observable<number>;
-  crashLink$: Observable<Link>;
+  link$: Observable<Link>;
 
   constructor(private errorHandler: ErrorHandler) { }
 
   ngOnInit(): void {
     const myAngularErrorHandler = (<MyAngularErrorHandler>this.errorHandler);
-    const bugSplat$ = myAngularErrorHandler.bugsplat.getObservable();
-
-    this.database = myAngularErrorHandler.config.database;
-    this.crashId$ = bugSplat$.pipe(map(bugSplatEvent => bugSplatEvent.responseData.crash_id));
-    this.crashLink$ = this.crashId$.pipe(map(crashId => {
-      return {
-        href: `https://app.bugsplat.com/v2/crash?database=${this.database}&id=${crashId}`,
-        text: `Crash ${crashId} in database ${this.database}`
-      };
-    }));
+    const file = this.createAdditionalFile();
+    myAngularErrorHandler.bugsplat.files.push(file);
+    this.link$ = myAngularErrorHandler.bugsplat.getObservable()
+      .pipe(
+        map(bugSplatEvent => {
+          const database = myAngularErrorHandler.bugsplat.database;
+          const crashId = bugSplatEvent.responseData.crash_id;
+          return {
+            href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
+            text: `Crash ${crashId} in database ${database}`
+          };
+        })
+      );
   }
 
   onButtonClick(): void {
@@ -39,6 +39,32 @@ export class AppComponent implements OnInit {
     this.logEntries.push(error.message);
     this.logEntries.push(error.stack);
     throw error;
+  }
+
+  private createAdditionalFile(): File {
+    const base64data = 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAADAFBMVEUAAACSbQD/AAD/tgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC44PiAAABAHRSTlP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AU/cHJQAAAIBJREFUeJydk9EOgCAIRQ3+/5utG0OFdEDnwaac6fRS6wMa9IWWFuhDVbhe+AHj5ohAwKKU5/ePsFPygi6KCNwRgQDYsMkiELAp0bp5TZCCCFbLCXoxDXq9aE6Q5yFiRhmjPFtNkKLiwkoJvmVrApitbn+erGBDOmZxFGyT2Xko3B8VxpwwVaA4AAAAAElFTkSuQmCC';
+    const contentType = 'image/png';
+    const fileName = 'mario.png';
+    const blob = this.base64toBlob(base64data, contentType, 512);
+    return new File([blob], fileName);
+  }
+
+  private base64toBlob(base64Data: string, contentType: string, sliceSize: number): Blob {
+    const byteCharacters = atob(base64Data);
+    const byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      byteArrays.push(new Uint8Array(byteNumbers));
+    }
+
+    return new Blob(byteArrays, { type: contentType });
   }
 }
 

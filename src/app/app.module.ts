@@ -1,8 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
-import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { BugSplatErrorHandler, BugSplatConfiguration, BugSplatLogger, BugSplatLogLevel } from 'bugsplat-ng';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BugSplatModule } from 'bugsplat-ng';
+import { BugSplatLogger, BugSplatLogLevel } from 'projects/bugsplat-ng/src/public_api';
+import { environment } from 'src/environments/environment';
+import { AppComponent } from './app.component';
 import { MyAngularErrorHandler } from './my-angular-error-handler';
 
 //Uncomment this to use the simple error handler
@@ -12,11 +14,8 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
 //   ],
 //   imports: [
 //     BrowserModule,
-//     HttpClientModule
-//   ],
-//   providers: [
-//     { provide: ErrorHandler, useClass: BugSplatErrorHandler },
-//     { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-crasher", "1.0.0.0", "fred") }
+//     HttpClientModule,
+//     BugSplatModule.initializeApp(environment.bugsplat)
 //   ],
 //   bootstrap: [AppComponent]
 // })
@@ -28,12 +27,21 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    BugSplatModule.initializeApp(environment.bugsplat)
   ],
   providers: [
-    { provide: ErrorHandler, useClass: MyAngularErrorHandler },
-    { provide: BugSplatConfiguration, useValue: new BugSplatConfiguration("my-angular-crasher", "1.0.0.0", "fred") },
-    { provide: BugSplatLogger, useValue: new BugSplatLogger(BugSplatLogLevel.Log) }
+    {
+      provide: ErrorHandler,
+      useClass: MyAngularErrorHandler
+    },
+    {
+      provide: BugSplatLogger,
+      useValue: new BugSplatLogger(
+        BugSplatLogLevel.Info,
+        console
+      )
+    }
   ],
   bootstrap: [AppComponent]
 })

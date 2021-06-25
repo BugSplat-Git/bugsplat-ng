@@ -4,8 +4,8 @@
     Welcome to {{ title }}!
   </h1>
   <button (click)="onButtonClick()">Crash!</button>
-  <div *ngIf="crashLink$ | async as crashLink">
-    <a [href]="crashLink.href">{{ crashLink.text }}</a>
+  <div *ngIf="link$ | async as link">
+    <a [href]="link.href">{{ link.text }}</a>
   </div>
   <div class="logs">
     <ng-container *ngFor="let entry of logEntries">
