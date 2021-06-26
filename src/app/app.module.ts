@@ -1,8 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BugSplatModule } from 'bugsplat-ng';
-import { BugSplatLogger, BugSplatLogLevel } from 'projects/bugsplat-ng/src/public_api';
+import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { MyAngularErrorHandler } from './my-angular-error-handler';
