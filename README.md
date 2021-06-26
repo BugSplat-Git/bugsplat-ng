@@ -1,6 +1,7 @@
 [![BugSplat](https://s3.amazonaws.com/bugsplat-public/npm/header.png)](https://www.bugsplat.com)
 
 [![travis-ci](https://travis-ci.org/BugSplat-Git/bugsplat-ng.svg?branch=master)](https://travis-ci.org/BugSplat-Git/bugsplat-ng)
+
 ## Introduction
 BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular’s [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started please complete the following tasks:
 
@@ -24,13 +25,6 @@ To collect errors and crashes in your Angular application, run the following com
 npm i bugsplat-ng --save
 ```
 
-Import BugSplatModule into your app module from bugsplat-ng:
-
-[app.module.ts](hhttps://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/app/app.module.ts#L4)
-```typescript
-import { BugSplatModule } from 'bugsplat-ng';
-```
-
 Add values for your BugSplat database, application and version to your application's environment files:
 
 [environment.prod.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/environments/environment.prod.ts#L1)
@@ -43,6 +37,13 @@ export const environment = {
     version: '1.0.0'
   }
 };
+```
+
+Add an import for BugSplatModule to your AppModule:
+
+[app.module.ts](hhttps://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/app/app.module.ts#L4)
+```typescript
+import { BugSplatModule } from 'bugsplat-ng';
 ```
 
 Add a call BugSplatModule.initializeApp in your AppModule's imports array passing it your database, application and version:
