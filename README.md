@@ -30,7 +30,7 @@ Add values for your BugSplat database, application and version to your applicati
 [environment.prod.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/environments/environment.prod.ts#L1)
 ```typescript
 export const environment = {
-  production: false,
+  production: true,
   bugsplat: {
     database: 'fred',
     application: 'my-angular-crasher',
