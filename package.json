@@ -1,10 +1,11 @@
 {
   "name": "my-angular-crasher",
   "version": "4.0.0",
+  "database": "fred",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration=production",
     "postbuild": "node ./scripts/symbols.js && http-server ./dist/my-angular-crasher",
     "test": "ng test",
     "lint": "ng lint",
