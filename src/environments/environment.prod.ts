@@ -1,8 +1,10 @@
+const packageJson = require('../../package.json');
+
 export const environment = {
   production: true,
   bugsplat: {
-    database: 'fred',
-    application: 'my-angular-crasher',
-    version: '1.0.0'
+    database: packageJson.database,
+    application: packageJson.name,
+    version: packageJson.version
   }
 };

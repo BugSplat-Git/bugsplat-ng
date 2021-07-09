@@ -14,9 +14,13 @@ This repository includes a sample my-angular-crasher application that has be pre
 
 1. `git clone https://github.com/BugSplat-Git/bugsplat-ng`
 2. `cd bugsplat-ng && npm i`
-3. `ng serve`
+3. `npm run build`
 
-Click the button labeled Crash to generate a crash report. A link to the crash report should display below the button. Click the link to the crash report and when prompted to log in use the email 'fred@bugsplat.com' and password 'Flintstone'.
+The `npm run build` command will build the sample application and upload source maps to BugSplat so that the JavaScript call stack can be mapped back to TypeScript. Once the build has completed the source maps will be uploaded and http-server will serve the app.
+
+Navigate to the url displayed in the console by http-server (usually [localhost:8080](http://127.0.0.1:8080)). Click the button labeled `Crash` to generate a crash report. A link to the crash report should display below the button. Click the link to the crash report and when prompted to log in use the email `fred@bugsplat.com` and password `Flintstone`.
+
+If everything worked correctly you should see information about your crash as well as a TypeScript stack trace.
 
 ## Integration
 To collect errors and crashes in your Angular application, run the following command in terminal or cmd at the root of your project to install bugsplat-ng:
@@ -25,7 +29,7 @@ To collect errors and crashes in your Angular application, run the following com
 npm i bugsplat-ng --save
 ```
 
-Add values for your BugSplat database, application and version to your application's environment files:
+Add values for your BugSplat database, application and version to your application's environment filesx:
 
 [environment.prod.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/environments/environment.prod.ts#L1)
 ```typescript
