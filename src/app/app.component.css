@@ -1,28 +1,33 @@
 a {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 button {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .container {
-    text-align: center;
+  text-align: center;
+}
+
+.content {
+  width: 700px;
 }
 
 img {
-    width: 700px;
+  width: 700px;
 }
 
 .logs {
-    height: 300px;
-    width: 700px;
-    border: 1px solid black;
-    margin: 0 auto;
-    overflow: scroll;
-    text-align:left;
+  height: 300px;
+  width: 700px;
+  border: 1px solid black;
+  margin: 0 auto;
+  overflow: scroll;
+  text-align: left;
+  background: rgb(175, 175, 175);
 }
 
 .log-entry {
-    display: block;
+  display: block;
 }
