@@ -9,12 +9,26 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
   title: string = 'my-angular-crasher';
   logEntries: Array<string> = [];
   link$: Observable<Link>;
 
-  constructor(private errorHandler: ErrorHandler) { }
+  readonly links = {
+    home: {
+      href: 'https://bugsplat.com/',
+      text: 'BugSplat',
+    },
+    angular: {
+      href: 'https://docs.bugsplat.com/introduction/getting-started/integrations/web/angular',
+      text: 'Angular',
+    },
+    typescript: {
+      href: 'https://docs.bugsplat.com/introduction/getting-started/integrations/web/angular#source-maps',
+      text: 'TypeScript',
+    },
+  };
+
+  constructor(private errorHandler: ErrorHandler) {}
 
   ngOnInit(): void {
     const myAngularErrorHandler = (<MyAngularErrorHandler>this.errorHandler);
