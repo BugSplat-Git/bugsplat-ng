@@ -1,29 +1,23 @@
 <div class="container">
-
-    <img class="logo" src="./assets/bugsplat-logo.png">
-    <div class="content">
-      <h1>
-        Welcome to {{ title }}!
-      </h1>
-      <p>This is a sample application that demonstrates <a [href]="links.home.href">{{ links.home.text }}</a> error reporting for <a [href]="links.angular.href">{{ links.angular.text }}</a> applications build with JavaScript or <a [href]="links.typescript.href">{{ links.typescript.text }}.</a></p>
-      <!-- <button (click)="onButtonClick()">Crash!</button> -->
-      <div *ngIf="link$ | async as link">
-        <a [href]="link.href">{{ link.text }}</a>
-      </div>
-      <div class="errors">
-        <h2>Errors</h2>
-        <ng-container *ngFor="let btn of errorBtns">
-          <button class="error">
-            <h2>{{ btn.title }}</h2>
-            <h4>{{ btn.subtitle }}</h4>
-          </button>
-        </ng-container>
-      </div>
-    <!-- <div class="logs">
-      <ng-container *ngFor="let entry of logEntries">
-        <span class="log-entry">{{entry}}</span>
+  <img class="logo" src="./assets/bugsplat-logo.png">
+  <div class="content">
+    <h1>
+      Welcome to {{ title }}!
+    </h1>
+    <p>This is a sample application that demonstrates <a [href]="links.home.href">{{ links.home.text }}</a> error reporting for <a [href]="links.angular.href">{{ links.angular.text }}</a> applications build with JavaScript or <a [href]="links.typescript.href">{{ links.typescript.text }}.</a></p>
+    <!-- <button (click)="onButtonClick()">Crash!</button> -->
+    <div *ngIf="link$ | async as link">
+      <a [href]="link.href">{{ link.text }}</a>
+    </div>
+    <div class="errors">
+      <h2>Errors</h2>
+      <ng-container *ngFor="let err of errors">
+        <button class="error" (click)="onButtonClick(err)">
+          <h2>{{ err.name }}</h2>
+          <h4>{{ err.message }}</h4>
+        </button>
       </ng-container>
-    </div> -->
+    </div>
   </div>
 </div>
 

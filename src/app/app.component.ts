@@ -28,11 +28,11 @@ export class AppComponent implements OnInit {
     },
   };
 
-  errorBtns = [
-    { title: 'TypeError', subtitle: 'obj.attributeInvalid is not a function' },
-    { title: 'URIError', subtitle: 'URI malformed' },
-    { title: 'SyntaxError', subtitle: 'Unexpected Identifier' },
-    { title: 'RangeError', subtitle: 'Parameter must be between 1 and 100' },
+  errors = [
+    TypeError('obj.attributeInvalid is not a function'),
+    URIError('URI malformed'),
+    SyntaxError('Unexpected Identifier'),
+    RangeError('Parameter must be between 1 and 100'),
   ];
 
   constructor(private errorHandler: ErrorHandler) {}
@@ -53,8 +53,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  onButtonClick(): void {
-    const error = new Error('Crush your bugs!');
+  onButtonClick(error: Error): void {
     this.logEntries.push('BugSplat!');
     this.logEntries.push(error.message);
     this.logEntries.push(error.stack);
