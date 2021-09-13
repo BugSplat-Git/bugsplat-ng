@@ -3,7 +3,32 @@
 }
 
 a {
-  margin-bottom: 15px;
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a,
+button {
+  transition: 220ms all ease-in-out;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+button {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
 }
 
 h1,
@@ -19,12 +44,12 @@ h2 {
 
 .content {
   background: #fff;
-  box-shadow: rgb(61, 61, 61);
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
   padding-top: 5px;
-  border: 2px solid rgb(225, 225, 225);
 }
 
 .errors {
+  margin-top: 5px;
   background: rgb(225, 225, 225);
   width: 100%;
   display: flex;
@@ -33,16 +58,7 @@ h2 {
 }
 
 button.error {
-  border: none;
-  background-color: #fff;
-  font-family: inherit;
-  padding: 0;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
+  background: #fff;
 }
 
 button.error:hover {
@@ -56,17 +72,4 @@ button.error:hover {
 .logo {
   width: 100%;
   padding: 15px;
-}
-
-.logs {
-  height: 300px;
-  width: 100%;
-  border: 1px solid black;
-  overflow: scroll;
-  text-align: left;
-  background: rgb(225, 225, 225);
-}
-
-.log-entry {
-  display: block;
 }
