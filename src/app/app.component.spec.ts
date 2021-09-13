@@ -4,7 +4,7 @@ import { ErrorHandler } from '../../node_modules/@angular/core';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  let component: AppComponent
+  let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(() => {
@@ -12,22 +12,19 @@ describe('AppComponent', () => {
       bugsplat: {
         database: 'fred',
         files: [],
-        getObservable: () => of({ responseData: { crash_id: 99 } })
+        getObservable: () => of({ responseData: { crash_id: 99 } }),
       },
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AppComponent],
       providers: [
-        { 
-          provide: ErrorHandler, 
-          useValue: errorHandler
-        }
+        {
+          provide: ErrorHandler,
+          useValue: errorHandler,
+        },
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -50,6 +47,8 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to my-angular-crasher!');
+    expect(compiled.querySelector('h1').textContent).toContain(
+      'Welcome to my-angular-crasher!'
+    );
   });
 });

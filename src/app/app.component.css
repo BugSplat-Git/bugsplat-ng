@@ -59,10 +59,16 @@ h2 {
 
 button.error {
   background: #fff;
+
+  transition-property: background-color;
 }
 
 button.error:hover {
   background: rgb(245, 245, 245);
+}
+
+button.error:focus {
+  border: 3px solid #007bff;
 }
 
 .error > h4 {
