@@ -79,3 +79,8 @@ button.error:focus {
   width: 60%;
   padding: 15px;
 }
+
+p {
+  padding-left: 24px;
+  padding-right: 24px;
+}
