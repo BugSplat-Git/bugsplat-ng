@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   };
 
   errors = [
-    TypeError('Yo.momma is not a function'),
+    TypeError('Bug.Splat is not a function'),
     URIError('Malformed URI sequence'),
     SyntaxError('Invalid character: \'@\''),
     RangeError('The argument must be between -500 and 500'),
