@@ -1,28 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+
 a {
-    margin-bottom: 15px;
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a,
+button {
+  transition: 220ms all ease-in-out;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
 }
 
 button {
-    margin-bottom: 15px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+h1,
+h2 {
+  color: #007bff;
 }
 
 .container {
-    text-align: center;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 700px;
 }
 
-img {
-    width: 700px;
+.content {
+  background: #fff;
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  padding-top: 5px;
+  overflow-y: auto;
 }
 
-.logs {
-    height: 300px;
-    width: 700px;
-    border: 1px solid black;
-    margin: 0 auto;
-    overflow: scroll;
-    text-align:left;
+.errors {
+  margin-top: 5px;
+  background: rgb(225, 225, 225);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.log-entry {
-    display: block;
+button.error {
+  background: #fff;
+  transition-property: background-color;
+}
+
+button.error:hover {
+  background: rgb(245, 245, 245);
+}
+
+button.error:focus {
+  border: 3px solid #007bff;
+}
+
+.error > h4 {
+  margin-top: 0;
+}
+
+.logo {
+  width: 60%;
+  padding: 15px;
+}
+
+p {
+  padding-left: 24px;
+  padding-right: 24px;
 }

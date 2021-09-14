@@ -6,35 +6,54 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-
   title: string = 'my-angular-crasher';
   logEntries: Array<string> = [];
   link$: Observable<Link>;
 
-  constructor(private errorHandler: ErrorHandler) { }
+  readonly links = {
+    home: {
+      href: 'https://bugsplat.com/',
+      text: 'BugSplat',
+    },
+    angular: {
+      href: 'https://docs.bugsplat.com/introduction/getting-started/integrations/web/angular',
+      text: 'Angular',
+    },
+    typescript: {
+      href: 'https://docs.bugsplat.com/introduction/getting-started/integrations/web/angular#source-maps',
+      text: 'TypeScript',
+    },
+  };
+
+  errors = [
+    TypeError('Bug.Splat is not a function'),
+    URIError('Malformed URI sequence'),
+    SyntaxError('Invalid character: \'@\''),
+    RangeError('The argument must be between -500 and 500'),
+  ];
+
+  constructor(private errorHandler: ErrorHandler) {}
 
   ngOnInit(): void {
-    const myAngularErrorHandler = (<MyAngularErrorHandler>this.errorHandler);
+    const myAngularErrorHandler = <MyAngularErrorHandler>this.errorHandler;
     const file = this.createAdditionalFile();
     myAngularErrorHandler.bugsplat.files.push(file);
-    this.link$ = myAngularErrorHandler.bugsplat.getObservable()
-      .pipe(
-        map(bugSplatEvent => {
-          const database = myAngularErrorHandler.bugsplat.database;
-          const crashId = bugSplatEvent.responseData.crash_id;
-          return {
-            href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
-            text: `Crash ${crashId} in database ${database}`
-          };
-        })
-      );
+    this.link$ = myAngularErrorHandler.bugsplat.getObservable().pipe(
+      map((bugSplatEvent) => {
+        const database = myAngularErrorHandler.bugsplat.database;
+        const crashId = bugSplatEvent.responseData.crash_id;
+        return {
+          href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
+          text: `Crash ${crashId} in database ${database}`,
+        };
+      })
+    );
   }
 
-  onButtonClick(): void {
-    const error = new Error('Crush your bugs!');
+  onButtonClick(error: Error): void {
     this.logEntries.push('BugSplat!');
     this.logEntries.push(error.message);
     this.logEntries.push(error.stack);
@@ -42,14 +61,19 @@ export class AppComponent implements OnInit {
   }
 
   private createAdditionalFile(): File {
-    const base64data = 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAADAFBMVEUAAACSbQD/AAD/tgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC44PiAAABAHRSTlP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AU/cHJQAAAIBJREFUeJydk9EOgCAIRQ3+/5utG0OFdEDnwaac6fRS6wMa9IWWFuhDVbhe+AHj5ohAwKKU5/ePsFPygi6KCNwRgQDYsMkiELAp0bp5TZCCCFbLCXoxDXq9aE6Q5yFiRhmjPFtNkKLiwkoJvmVrApitbn+erGBDOmZxFGyT2Xko3B8VxpwwVaA4AAAAAElFTkSuQmCC';
+    const base64data =
+      'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAADAFBMVEUAAACSbQD/AAD/tgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABC44PiAAABAHRSTlP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AU/cHJQAAAIBJREFUeJydk9EOgCAIRQ3+/5utG0OFdEDnwaac6fRS6wMa9IWWFuhDVbhe+AHj5ohAwKKU5/ePsFPygi6KCNwRgQDYsMkiELAp0bp5TZCCCFbLCXoxDXq9aE6Q5yFiRhmjPFtNkKLiwkoJvmVrApitbn+erGBDOmZxFGyT2Xko3B8VxpwwVaA4AAAAAElFTkSuQmCC';
     const contentType = 'image/png';
     const fileName = 'mario.png';
     const blob = this.base64toBlob(base64data, contentType, 512);
     return new File([blob], fileName);
   }
 
-  private base64toBlob(base64Data: string, contentType: string, sliceSize: number): Blob {
+  private base64toBlob(
+    base64Data: string,
+    contentType: string,
+    sliceSize: number
+  ): Blob {
     const byteCharacters = atob(base64Data);
     const byteArrays = [];
 

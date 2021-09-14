@@ -1,16 +1,24 @@
 <div class="container">
-  <img src="./assets/bugsplat-logo.png">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <button (click)="onButtonClick()">Crash!</button>
-  <div *ngIf="link$ | async as link">
-    <a [href]="link.href">{{ link.text }}</a>
-  </div>
-  <div class="logs">
-    <ng-container *ngFor="let entry of logEntries">
-      <span class="log-entry">{{entry}}</span>
-    </ng-container>
+  <a href="https://www.bugsplat.com">
+    <img class="logo" src="./assets/bugsplat-logo.png">
+  </a>
+  <div class="content">
+    <h1>
+      Welcome to {{ title }}!
+    </h1>
+    <p>This is a sample application that demonstrates <a [href]="links.home.href">{{ links.home.text }}</a> error reporting for <a [href]="links.angular.href">{{ links.angular.text }}</a> applications built with JavaScript or <a [href]="links.typescript.href">{{ links.typescript.text }}.</a></p>
+    <div *ngIf="link$ | async as link">
+      <a [href]="link.href" target="_blank" rel="noopener">{{ link.text }}</a>
+    </div>
+    <div class="errors">
+      <h2>Errors</h2>
+      <ng-container *ngFor="let err of errors">
+        <button class="error" (click)="onButtonClick(err)">
+          <h2>{{ err.name }}</h2>
+          <h4>{{ err.message }}</h4>
+        </button>
+      </ng-container>
+    </div>
   </div>
 </div>
 
