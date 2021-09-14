@@ -46,6 +46,7 @@ h2 {
   background: #fff;
   box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
   padding-top: 5px;
+  overflow-y: auto;
 }
 
 .errors {
@@ -59,7 +60,6 @@ h2 {
 
 button.error {
   background: #fff;
-
   transition-property: background-color;
 }
 
@@ -76,6 +76,6 @@ button.error:focus {
 }
 
 .logo {
-  width: 100%;
+  width: 60%;
   padding: 15px;
 }
