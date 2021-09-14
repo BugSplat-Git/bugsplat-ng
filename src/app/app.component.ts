@@ -29,10 +29,10 @@ export class AppComponent implements OnInit {
   };
 
   errors = [
-    TypeError('obj.attributeInvalid is not a function'),
-    URIError('URI malformed'),
-    SyntaxError('Unexpected Identifier'),
-    RangeError('Parameter must be between 1 and 100'),
+    TypeError('Yo.momma is not a function'),
+    URIError('Malformed URI sequence'),
+    SyntaxError('Invalid character: \'@\''),
+    RangeError('The argument must be between -500 and 500'),
   ];
 
   constructor(private errorHandler: ErrorHandler) {}
