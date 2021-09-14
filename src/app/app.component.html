@@ -4,7 +4,7 @@
     <h1>
       Welcome to {{ title }}!
     </h1>
-    <p>This is a sample application that demonstrates <a [href]="links.home.href">{{ links.home.text }}</a> error reporting for <a [href]="links.angular.href">{{ links.angular.text }}</a> applications build with JavaScript or <a [href]="links.typescript.href">{{ links.typescript.text }}.</a></p>
+    <p>This is a sample application that demonstrates <a [href]="links.home.href">{{ links.home.text }}</a> error reporting for <a [href]="links.angular.href">{{ links.angular.text }}</a> applications built with JavaScript or <a [href]="links.typescript.href">{{ links.typescript.text }}.</a></p>
     <div *ngIf="link$ | async as link">
       <a [href]="link.href" target="_blank" rel="noopener">{{ link.text }}</a>
     </div>
