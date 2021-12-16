@@ -5,7 +5,7 @@
 ## Introduction
 BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular’s [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started please complete the following tasks:
 
-* [Sign up](http://www.bugsplat.com/v2/sign-up) for BugSplat
+* [Sign up](https://app.bugsplat.com/v2/sign-up) for BugSplat
 * Create a new [database](https://app.bugsplat.com/v2/options?tab=database) for your application
 * Check out the [live demo](https://www.bugsplat.com/platforms/angular/my-angular-crasher) of BugSplat’s Angular error reporting
 
