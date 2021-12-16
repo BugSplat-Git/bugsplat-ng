@@ -10,30 +10,41 @@ BugSplat supports the collection of errors in Angular applications. The bugsplat
 * Check out the [live demo](https://www.bugsplat.com/samples/my-angular-crasher) of BugSplat’s Angular error reporting
 
 ## Sample
-This repository includes a sample my-angular-crasher application that has be pre-configured with BugSplat. To test the sample, perform the following steps:
+
+This repository includes a sample my-angular-crasher application that has be pre-configured with BugSplat. Before you try the sample, you'll need to create an OAuth2 ClientId/ClientSecret pair as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2).
+
+Once you've genereated OAuth2 credentials, create a file with the name `.env` at the root of the repository and populate with the correct values substituted for `{{clientId}}` and `{{clientSecret}}`:
+
+```
+SYMBOL_UPLOAD_CLIENT_ID={{clientId}}
+SYMBOL_UPLOAD_CLIENT_SECRET={{clientSecret}}
+```
+
+To test the sample, perform the following steps:
 
 1. `git clone https://github.com/BugSplat-Git/bugsplat-ng`
 2. `cd bugsplat-ng && npm i`
-3. `npm run build`
+3. `npm start`
 
-The `npm run build` command will build the sample application and upload source maps to BugSplat so that the JavaScript call stack can be mapped back to TypeScript. Once the build has completed the source maps will be uploaded and http-server will serve the app.
+The `npm start` command will build the sample application and upload source maps to BugSplat so that the JavaScript call stack can be mapped back to TypeScript. Once the build has completed the source maps will be uploaded and http-server will serve the app.
 
-Navigate to the url displayed in the console by http-server (usually [localhost:8080](http://127.0.0.1:8080)). Click the button labeled `Crash` to generate a crash report. A link to the crash report should display below the button. Click the link to the crash report and when prompted to log in use the email `fred@bugsplat.com` and password `Flintstone`.
+Navigate to the url displayed in the console by http-server (usually [localhost:8080](http://127.0.0.1:8080)). Click any of the button in the sample app to generate an error report. A link to the error report should display in the app shortly after clicking a button. Click the link to the error report and when prompted to log into BugSplat.
 
-If everything worked correctly you should see information about your crash as well as a TypeScript stack trace.
+If everything worked correctly you should see information about your error as well as a TypeScript stack trace.
 
 ## Integration
+
 To collect errors and crashes in your Angular application, run the following command in terminal or cmd at the root of your project to install bugsplat-ng:
 
 ```shell
 npm i bugsplat-ng --save
 ```
 
-Add a `database` property to your `package.json` file with the value of your BugSplat database.
+Add a `database` property to your `package.json` file with the value of your BugSplat database and subsitute `{{database}}` with the value of your BugSplat database.
 
 ```json
 {
-  "database": "{{ database }}"
+  "database": "{{database}}"
 }
 ```
 
@@ -59,7 +70,7 @@ Add an import for BugSplatModule to your AppModule:
 import { BugSplatModule } from 'bugsplat-ng';
 ```
 
-Add a call BugSplatModule.initializeApp in your AppModule's imports array passing it your database, application and version:
+Add a call `BugSplatModule.initializeApp` in your AppModule's imports array passing it your database, application and version:
 
 [app.module.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/app/app.module.ts#L31)
 ```typescript
@@ -187,48 +198,75 @@ Configure your `angular.json` file to output source maps. We suggest enabling so
 }
 ```
 
-Add `SYMBOL_UPLOAD_EMAIL` and `SYMBOL_UPLOAD_PASSWORD` environment variables for the BugSplat user that you will use to upload symbols. You can create these values as system environment variables or use [dotenv](https://www.npmjs.com/package/dotenv).
+Add `SYMBOL_UPLOAD_CLIENT_ID` and `SYMBOL_UPLOAD_CLIENT_SECRET` environment variables for the BugSplat user that you will use to upload symbols. You can create these values as system environment variables or use [dotenv](https://www.npmjs.com/package/dotenv).
 
 ```bash
-SYMBOL_UPLOAD_EMAIL=name@company.com
-SYMBOL_UPLOAD_PASSWORD=password
+SYMBOL_UPLOAD_CLIENT_ID={{clientId}}
+SYMBOL_UPLOAD_PASSWORD={{clientSecret}}
 ```
 
 Create a script for uploading source maps.
 
-```js
-const { BugSplatApiClient, Symbols } = require('@bugsplat/symbol-upload');
-const packageJson = require('../package.json');
+```ts
+const { OAuthClientCredentialsClient, SymbolsApiClient } = require('@bugsplat/symbol-upload');
 const fs = require('fs');
+const path = require('path');
+const packageJson = require('../package.json');
+require('dotenv').config();
 
-const dist = fs.readdirSync('./dist');
-const files = dist
-  .filter(file => file.endsWith('.js.map'))
-  .map(file => (`./dist/${file}`));
+(async () => {
+    const clientId = process.env.SYMBOL_UPLOAD_CLIENT_ID;
+    if (!clientId) {
+        throw new Error('Please set SYMBOL_UPLOAD_CLIENT_ID in .env file');
+    }
 
-const database = packageJson.database;
-const application = packageJson.name;
-const version = packageJson.version;
-const symbols = new Symbols(
-  database,
-  application,
-  version,
-  files
-);
+    const clientSecret = process.env.SYMBOL_UPLOAD_CLIENT_SECRET;
+    if (!clientSecret) {
+        throw new Error('Please set SYMBOL_UPLOAD_CLIENT_SECRET in .env file');
+    }
 
-const email = process.env.SYMBOL_UPLOAD_EMAIL;
-const password = process.env.SYMBOL_UPLOAD_PASSWORD;
-const client = new BugSplatApiClient();
-return client.login(email, password)
-  .then(() => symbols.post(client))
-  .then(() => console.log('Symbols uploaded successfully!'));
+    const database = packageJson.database;
+    const application = packageJson.name;
+    const version = packageJson.version;
+
+    const buildDirectory = `./dist/${application}`;
+    const files = fs.readdirSync(buildDirectory)
+        .filter(file => file.endsWith('.js.map'))
+        .map(file => {
+            const filePath = `${buildDirectory}/${file}`;
+            const stat = fs.statSync(filePath);
+            const name = path.basename(filePath);
+            const size = stat.size;
+            return {
+                name,
+                size,
+                file: fs.createReadStream(filePath)
+            };
+        });
+
+    const bugsplat = await OAuthClientCredentialsClient.createAuthenticatedClient(clientId, clientSecret);
+    const symbolsApiClient = new SymbolsApiClient(bugsplat);
+    await symbolsApiClient.deleteSymbols(
+        database,
+        application,
+        version
+    );
+    await symbolsApiClient.postSymbols(
+        database,
+        application,
+        version,
+        files
+    );
+    console.log(`Source maps uploaded to BugSplat ${database}-${application}-${version} successfully!`);
+})().catch(error => console.error(error));
 ```
 
-Add a `symbols` script to your `package.json`. 
+Add `postbuild` and `symbols` scripts to your `package.json`. 
 ```json
 {
   "scripts": {
-    "symbols": "node ./scripts/symbols.js"
+    "postbuild": "npm run symbols",
+    "symbols": "ts-node ./scripts/symbols.js"
   }
 }
 ```
@@ -238,6 +276,6 @@ For best results, please upload source maps for every released version of your a
 ## Contributing
 BugSplat loves open source software! If you have suggestions on how we can improve this integration, please reach out to support@bugsplat.com, create an [issue](https://github.com/BugSplat-Git/bugsplat-ng/issues) in our [GitHub repo](https://github.com/BugSplat-Git/bugsplat-ng) or send us a [pull request](https://github.com/BugSplat-Git/bugsplat-ng/pulls). 
 
-With :heart:,
+With ❤️,
 
 The BugSplat Team
