@@ -4,14 +4,16 @@
   "database": "fred",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "prestart": "ng build && npm run symbols",
+    "start": "http-server ./dist/my-angular-crasher",
     "build": "ng build --configuration=production",
-    "postbuild": "node ./scripts/symbols.js && http-server ./dist/my-angular-crasher",
+    "postbuild": "npm run symbols",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:lib": "ng build bugsplat-ng --configuration production && cp README.md dist/bugsplat-ng",
-    "release:lib": "npm run build:lib && cd dist/bugsplat-ng && npm publish"
+    "release:lib": "npm run build:lib && cd dist/bugsplat-ng && npm publish",
+    "symbols": "ts-node ./scripts/symbols.ts"
   },
   "private": true,
   "dependencies": {
@@ -35,11 +37,12 @@
     "@angular/cli": "^12.0.5",
     "@angular/compiler-cli": "^12.0.5",
     "@angular/language-service": "^12.0.5",
-    "@bugsplat/symbol-upload": "^3.0.0",
+    "@bugsplat/symbol-upload": "^4.1.1",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "^12.20.15",
     "codelyzer": "^5.1.2",
+    "dotenv": "^10.0.0",
     "http-server": "^0.12.3",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
