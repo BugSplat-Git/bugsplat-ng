@@ -4,9 +4,9 @@
   "database": "fred",
   "scripts": {
     "ng": "ng",
-    "prestart": "ng build && npm run symbols dev",
+    "prestart": "npm run build:lib && npm run build && npm run symbols dev",
     "start": "http-server ./dist/my-angular-crasher",
-    "build": "ng build --configuration production",
+    "build": "ng build my-angular-crasher --configuration production",
     "build:lib": "ng build bugsplat-ng --configuration production && cp README.md dist/bugsplat-ng",
     "build:example": "ng build my-angular-crasher --configuration production --base-href my-angular-crasher",
     "postbuild": "npm run symbols dev",
