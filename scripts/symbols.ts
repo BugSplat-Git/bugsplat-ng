@@ -17,7 +17,7 @@ require('dotenv').config();
 
     const database = packageJson.database;
     const application = packageJson.name;
-    const version = packageJson.version;
+    const version = process.argv[2] === 'dev' ? `${packageJson.version}-dev` : packageJson.version;
 
     const buildDirectory = `./dist/${application}`;
     const files = fs.readdirSync(buildDirectory)
