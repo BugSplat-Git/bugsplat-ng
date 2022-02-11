@@ -1,6 +1,6 @@
 {
   "name": "bugsplat-ng",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "BugSplat error reporting for Angular",
   "license": "MIT",
   "repository": {

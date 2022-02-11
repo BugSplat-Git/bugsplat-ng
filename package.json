@@ -1,6 +1,6 @@
 {
   "name": "my-angular-crasher",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "database": "fred",
   "scripts": {
     "ng": "ng",
