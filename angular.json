@@ -137,12 +137,22 @@
             "tsConfig": "projects/bugsplat-ng/tsconfig.spec.json",
             "karmaConfig": "projects/bugsplat-ng/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/bugsplat-ng/**/*.ts",
+              "projects/bugsplat-ng/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "defaultProject": "my-angular-crasher",
   "cli": {
-    "analytics": "05c6acf5-d643-470e-b261-021c03f97339"
+    "analytics": "05c6acf5-d643-470e-b261-021c03f97339",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }
