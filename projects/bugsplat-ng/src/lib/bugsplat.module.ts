@@ -3,9 +3,8 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BugSplat as BugSplatJs } from 'bugsplat';
 import { BugSplat } from "./bugsplat";
-import { BugSplatSettings } from "./bugsplat-settings";
 import { BugSplatErrorHandler } from "./bugsplat-error-handler";
-import { BugSplatLogger } from "./bugsplat-logger";
+import { BugSplatSettings } from "./bugsplat-settings";
 
 @NgModule({
     imports: [
@@ -29,10 +28,6 @@ export class BugSplatModule {
                         settings.application,
                         settings.version
                     )
-                },
-                {
-                    provide: BugSplatLogger,
-                    useValue: new BugSplatLogger()
                 }
             ]
           };

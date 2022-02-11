@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { BugSplat as BugSplatJs, BugSplatOptions } from 'bugsplat';
 import { Observable, Subject } from 'rxjs';
 import { BugSplatLogger } from './bugsplat-logger';
@@ -23,7 +23,7 @@ export class BugSplat {
     return this.bugsplatJs.application;
   }
 
-  get version(): string { 
+  get version(): string {
     return this.bugsplatJs.version;
   }
 
@@ -32,12 +32,8 @@ export class BugSplat {
 
   constructor(
     private bugsplatJs: BugSplatJs,
-    private logger: BugSplatLogger = new BugSplatLogger(),
-  ) {
-    if (!this.logger) {
-      this.logger = new BugSplatLogger();
-    }
-  }
+    @Optional() private logger: BugSplatLogger = new BugSplatLogger(),
+  ) { }
 
   getObservable(): Observable<BugSplatPostEvent> {
     if (!this.bugsplatPostEventObserverable) {
@@ -55,7 +51,7 @@ export class BugSplat {
     options.description = options.description ?? this.description;
     options.email = options.email ?? this.email;
     options.user = options.user ?? this.user;
-    
+
     if (!options?.additionalFormDataParams?.length) {
       options.additionalFormDataParams = [];
     }
@@ -79,7 +75,7 @@ export class BugSplat {
     for (let i = 0; i < options.additionalFormDataParams.length; i++) {
       this.logger.info('BugSplat POST additionalFormDataParams[' + i + ']: ' + options.additionalFormDataParams[i].key);
     }
-    
+
     const result = await this.bugsplatJs.post(error, options);
     if (result.error) {
       const responseData = BugSplatResponseData.createFromError(result.error);
