@@ -28,10 +28,10 @@ describe('BugSplat', () => {
         await bugsplat.post(new Error("foobar!"));
 
         const event = await promise;
-        expect(event.type).toEqual(BugSplatPostEventType.Success);
-        expect(event.responseData.message).toEqual('Crash successfully posted');
-        expect(event.responseData.success).toEqual(true);
-        expect(event.responseData.crash_id).toMatch(/\d{1,}/);
+        expect(event?.type).toEqual(BugSplatPostEventType.Success);
+        expect(event?.responseData.message).toEqual('Crash successfully posted');
+        expect(event?.responseData.success).toEqual(true);
+        expect(event?.responseData.crash_id).toMatch(/\d{1,}/);
     });
 
     it('should publish an event on post error', async () => {
@@ -45,8 +45,8 @@ describe('BugSplat', () => {
         await bugsplat.post(new Error("foobar!"));
         
         const event = await promise;
-        expect(event.type).toEqual(BugSplatPostEventType.Error);
-        expect(event.responseData.success).toEqual(false);
-        expect(event.responseData.message).toContain('Bad Request');
+        expect(event?.type).toEqual(BugSplatPostEventType.Error);
+        expect(event?.responseData.success).toEqual(false);
+        expect(event?.responseData.message).toContain('Bad Request');
     });
 });
