@@ -4,8 +4,8 @@
   "newProjectRoot": "projects",
   "projects": {
     "my-angular-crasher": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/my-angular-crasher",
+      "sourceRoot": "projects/my-angular-crasher/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
@@ -14,17 +14,17 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/my-angular-crasher",
-            "index": "src/index.html",
-            "main": "src/main.ts",
+            "index": "projects/my-angular-crasher/src/index.html",
+            "main": "projects/my-angular-crasher/src/main.ts",
             "sourceMap": true,
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "polyfills": "projects/my-angular-crasher/src/polyfills.ts",
+            "tsConfig": "projects/my-angular-crasher/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/my-angular-crasher/src/favicon.ico",
+              "projects/my-angular-crasher/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "projects/my-angular-crasher/src/styles.css"
             ],
             "scripts": [],
             "vendorChunk": true,
@@ -43,8 +43,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/my-angular-crasher/src/environments/environment.ts",
+                  "with": "projects/my-angular-crasher/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -77,36 +77,18 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "projects/my-angular-crasher/src/test.ts",
+            "polyfills": "projects/my-angular-crasher/src/polyfills.ts",
+            "tsConfig": "projects/my-angular-crasher/tsconfig.spec.json",
+            "karmaConfig": "projects/my-angular-crasher/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "projects/my-angular-crasher/src/styles.css"
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/my-angular-crasher/src/favicon.ico",
+              "projects/my-angular-crasher/src/assets"
             ]
-          }
-        }
-      }
-    },
-    "my-angular-crasher-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "my-angular-crasher:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "my-angular-crasher:serve:production"
-            }
           }
         }
       }

@@ -28,7 +28,7 @@ export class BugSplat {
   }
 
   private bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
-  private bugsplatPostEventObserverable: Observable<BugSplatPostEvent>;
+  private bugsplatPostEventObserverable!: Observable<BugSplatPostEvent>;
 
   constructor(
     private bugsplatJs: BugSplatJs,

@@ -1,4 +1,5 @@
 import { Component, ErrorHandler, OnInit } from '@angular/core';
+import { BugSplatErrorHandler } from 'bugsplat-ng';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MyAngularErrorHandler } from './my-angular-error-handler';
@@ -10,8 +11,8 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
 })
 export class AppComponent implements OnInit {
   title: string = 'my-angular-crasher';
-  logEntries: Array<string> = [];
-  link$: Observable<Link>;
+  logEntries: Array<string | undefined> = [];
+  link$!: Observable<Link>;
 
   readonly links = {
     home: {
@@ -34,23 +35,31 @@ export class AppComponent implements OnInit {
     SyntaxError('Invalid character: \'@\''),
     RangeError('The argument must be between -500 and 500'),
   ];
+ 
 
-  constructor(private errorHandler: ErrorHandler) {}
+  private myAngularErrorHandler: BugSplatErrorHandler
+
+  constructor(private errorHandler: ErrorHandler) {
+    this.myAngularErrorHandler = this.errorHandler as MyAngularErrorHandler;
+    
+    const bugsplat = this.myAngularErrorHandler.bugsplat;
+    const database = bugsplat.database;
+    
+    this.link$ = bugsplat.getObservable()
+      .pipe(
+        map((bugSplatEvent) => {
+          const crashId = bugSplatEvent.responseData.crash_id;
+          return {
+            href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
+            text: `Crash ${crashId} in database ${database}`,
+          };
+        })
+      );
+  }
 
   ngOnInit(): void {
-    const myAngularErrorHandler = <MyAngularErrorHandler>this.errorHandler;
     const file = this.createAdditionalFile();
-    myAngularErrorHandler.bugsplat.files.push(file);
-    this.link$ = myAngularErrorHandler.bugsplat.getObservable().pipe(
-      map((bugSplatEvent) => {
-        const database = myAngularErrorHandler.bugsplat.database;
-        const crashId = bugSplatEvent.responseData.crash_id;
-        return {
-          href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
-          text: `Crash ${crashId} in database ${database}`,
-        };
-      })
-    );
+    this.myAngularErrorHandler.bugsplat.files.push(file);
   }
 
   onButtonClick(error: Error): void {

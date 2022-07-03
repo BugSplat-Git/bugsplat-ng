@@ -7,11 +7,11 @@ export enum BugSplatPostEventType {
 
 export class BugSplatPostEvent {
 
-    static readonly TYPE_CANNOT_BE_NULL = "BugSplatPostEvent Error: type cannot be null";
-    static readonly RESPONSE_DATA_CANNOT_BE_NULL = "BugSplatPostEvent Error: responseData cannot be null";
+    static readonly TYPE_CANNOT_BE_NULL = "BugSplatPostEvent Error: type cannot be null, undefined, or empty";
+    static readonly RESPONSE_DATA_CANNOT_BE_NULL = "BugSplatPostEvent Error: responseData cannot be null, undefined, or empty";
 
     constructor(public type: BugSplatPostEventType, public responseData: BugSplatResponseData) {
-        if (this.type == null) {
+        if (this.type === null || this.type === undefined) {
             throw new Error(BugSplatPostEvent.TYPE_CANNOT_BE_NULL);
         }
         if (!this.responseData) {
