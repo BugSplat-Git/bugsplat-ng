@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  SYMBOL_UPLOAD_CLIENT_ID: ${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}
+  SYMBOL_UPLOAD_CLIENT_ID: ${{ secrets.SYMBOL_UPLOAD_CLIENT_ID }}
   SYMBOL_UPLOAD_CLIENT_SECRET: ${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}
 jobs:
   ci:
