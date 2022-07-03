@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+env:
+  SYMBOL_UPLOAD_CLIENT_ID: ${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}
+  SYMBOL_UPLOAD_CLIENT_SECRET: ${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}
 jobs:
   ci:
     runs-on: ubuntu-latest
