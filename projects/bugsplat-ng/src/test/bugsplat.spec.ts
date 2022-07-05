@@ -4,8 +4,8 @@ import { BugSplatLogger, BugSplatLogLevel } from '../lib/bugsplat-logger';
 import { BugSplatPostEventType } from '../lib/bugsplat-post-event';
 
 describe('BugSplat', () => {
-    let bugsplatJs;
-    let nullLogger;
+    let bugsplatJs: any;
+    let nullLogger: any;
 
     beforeEach(() => {
         nullLogger = new BugSplatLogger(BugSplatLogLevel.none);
