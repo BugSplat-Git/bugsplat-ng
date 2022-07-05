@@ -37,7 +37,7 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
     {
       provide: BugSplatLogger,
       useValue: new BugSplatLogger(
-        BugSplatLogLevel.Info,
+        BugSplatLogLevel.info,
         console
       )
     }
