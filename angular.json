@@ -132,7 +132,6 @@
       }
     }
   },
-  "defaultProject": "my-angular-crasher",
   "cli": {
     "analytics": "05c6acf5-d643-470e-b261-021c03f97339",
     "schematicCollections": [
