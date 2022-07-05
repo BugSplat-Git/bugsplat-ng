@@ -109,17 +109,19 @@
       "prefix": "bug",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/bugsplat-ng/tsconfig.lib.json",
             "project": "projects/bugsplat-ng/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/bugsplat-ng/ng-package.prod.json",
               "tsConfig": "projects/bugsplat-ng/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bugsplat-ng/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
