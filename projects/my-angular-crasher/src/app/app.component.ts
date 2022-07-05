@@ -10,7 +10,7 @@ import { MyAngularErrorHandler } from './my-angular-error-handler';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title: string = 'my-angular-crasher';
+  title = 'my-angular-crasher';
   logEntries: Array<string | undefined> = [];
   link$!: Observable<Link>;
 
@@ -86,11 +86,11 @@ export class AppComponent implements OnInit {
     const byteCharacters = atob(base64Data);
     const byteArrays = [];
 
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
       const slice = byteCharacters.slice(offset, offset + sliceSize);
       const byteNumbers = new Array(slice.length);
 
-      for (var i = 0; i < slice.length; i++) {
+      for (let i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }
 

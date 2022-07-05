@@ -9,11 +9,19 @@ import { BugSplatResponseData } from './bugsplat-response-data';
 export class BugSplat {
 
   // TODO BG replace with calls to bugsplat.setDefault
-  public description: string = '';
-  public files: Array<File> = [];
-  public key: string = '';
-  public email: string = '';
-  public user: string = '';
+  description = '';
+  files: Array<File> = [];
+  key = '';
+  email = '';
+  user = '';
+
+  private bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
+  private bugsplatPostEventObservable!: Observable<BugSplatPostEvent>;
+
+  constructor(
+    private bugsplatJs: BugSplatJs,
+    @Optional() private logger: BugSplatLogger = new BugSplatLogger(),
+  ) { }
 
   get database(): string {
     return this.bugsplatJs.database;
@@ -27,20 +35,12 @@ export class BugSplat {
     return this.bugsplatJs.version;
   }
 
-  private bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
-  private bugsplatPostEventObserverable!: Observable<BugSplatPostEvent>;
-
-  constructor(
-    private bugsplatJs: BugSplatJs,
-    @Optional() private logger: BugSplatLogger = new BugSplatLogger(),
-  ) { }
-
   getObservable(): Observable<BugSplatPostEvent> {
-    if (!this.bugsplatPostEventObserverable) {
-      this.bugsplatPostEventObserverable = this.bugSplatPostEventSubject.asObservable();
+    if (!this.bugsplatPostEventObservable) {
+      this.bugsplatPostEventObservable = this.bugSplatPostEventSubject.asObservable();
     }
 
-    return this.bugsplatPostEventObserverable;
+    return this.bugsplatPostEventObservable;
   }
 
   async post(error: Error, options: BugSplatOptions = {}): Promise<void> {
@@ -56,8 +56,7 @@ export class BugSplat {
       options.additionalFormDataParams = [];
     }
 
-    for (let i = 0; i < this.files.length; i++) {
-      const file = this.files[i];
+    for (const file of this.files) {
       options.additionalFormDataParams.push({
         key: file.name,
         value: file,
@@ -78,15 +77,15 @@ export class BugSplat {
 
     const result = await this.bugsplatJs.post(error, options);
     if (result.error) {
-      const responseData = BugSplatResponseData.createFromError(result.error);
-      const event = new BugSplatPostEvent(BugSplatPostEventType.Error, responseData);
+      const errorResponseData = BugSplatResponseData.createFromError(result.error);
+      const errorEvent = new BugSplatPostEvent(BugSplatPostEventType.error, errorResponseData);
       this.logger.error('BugSplat POST Error: ' + JSON.stringify(error));
-      this.bugSplatPostEventSubject.next(event);
+      this.bugSplatPostEventSubject.next(errorEvent);
       return;
     }
 
     const responseData = BugSplatResponseData.createFromSuccessResponseObject(result.response);
-    const event = new BugSplatPostEvent(BugSplatPostEventType.Success, responseData);
+    const event = new BugSplatPostEvent(BugSplatPostEventType.success, responseData);
     this.logger.info('BugSplat POST Success: ' + JSON.stringify(result));
     this.bugSplatPostEventSubject.next(event);
   }

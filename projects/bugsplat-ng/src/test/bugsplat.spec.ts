@@ -8,19 +8,17 @@ describe('BugSplat', () => {
     let nullLogger;
 
     beforeEach(() => {
-        nullLogger = new BugSplatLogger(BugSplatLogLevel.None);
+        nullLogger = new BugSplatLogger(BugSplatLogLevel.none);
         bugsplatJs = jasmine.createSpyObj('BugSplatJs', ['post']);
     })
 
     it('should publish an event on post success', async () => {
-        bugsplatJs.post.and.resolveTo({
-            response: {
-                status: 'success',
-                current_server_time: 1505832461,
-                message: 'Crash successfully posted',
-                crash_id: 785
-            }
-        });
+        const response = {} as Record<string, string | number>;
+        response['status'] = 'success';
+        response['current_server_time'] = 1505832461;
+        response['message'] = 'Crash successfully posted';
+        response['crash_id'] = 785
+        bugsplatJs.post.and.resolveTo({ response });
         
         const bugsplat = new BugSplat(bugsplatJs, nullLogger);
         const promise = bugsplat.getObservable().pipe(take(1)).toPromise();
@@ -28,10 +26,10 @@ describe('BugSplat', () => {
         await bugsplat.post(new Error("foobar!"));
 
         const event = await promise;
-        expect(event?.type).toEqual(BugSplatPostEventType.Success);
+        expect(event?.type).toEqual(BugSplatPostEventType.success);
         expect(event?.responseData.message).toEqual('Crash successfully posted');
         expect(event?.responseData.success).toEqual(true);
-        expect(event?.responseData.crash_id).toMatch(/\d{1,}/);
+        expect(event?.responseData.crashId).toMatch(/\d{1,}/);
     });
 
     it('should publish an event on post error', async () => {
@@ -45,7 +43,7 @@ describe('BugSplat', () => {
         await bugsplat.post(new Error("foobar!"));
         
         const event = await promise;
-        expect(event?.type).toEqual(BugSplatPostEventType.Error);
+        expect(event?.type).toEqual(BugSplatPostEventType.error);
         expect(event?.responseData.success).toEqual(false);
         expect(event?.responseData.message).toContain('Bad Request');
     });
