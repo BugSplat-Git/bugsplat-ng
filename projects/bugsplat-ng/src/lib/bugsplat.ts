@@ -44,7 +44,7 @@ export class BugSplat {
   }
 
   async post(error: Error, options: BugSplatOptions = {}): Promise<void> {
-    options = options ?? {}
+    options = options ?? {};
 
     // TODO BG move bugsplat-js
     options.appKey = options.appKey ?? this.key;
