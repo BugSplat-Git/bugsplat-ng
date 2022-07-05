@@ -8,12 +8,7 @@ import { BugSplatResponseData } from './bugsplat-response-data';
 @Injectable()
 export class BugSplat {
 
-  // TODO BG replace with calls to bugsplat.setDefault
-  description = '';
-  files: Array<File> = [];
-  key = '';
-  email = '';
-  user = '';
+  readonly files: Array<File> = [];
 
   private bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
   private bugsplatPostEventObservable!: Observable<BugSplatPostEvent>;
@@ -21,7 +16,12 @@ export class BugSplat {
   constructor(
     private bugsplatJs: BugSplatJs,
     @Optional() private logger: BugSplatLogger = new BugSplatLogger(),
-  ) { }
+  ) {
+    this.description = '';
+    this.email = '';
+    this.key = '';
+    this.user = '';
+  }
 
   get database(): string {
     return this.bugsplatJs.database;
@@ -33,6 +33,22 @@ export class BugSplat {
 
   get version(): string {
     return this.bugsplatJs.version;
+  }
+
+  set description(value: string) {
+    this.bugsplatJs.setDefaultDescription(value);
+  }
+
+  set email(value: string) {
+    this.bugsplatJs.setDefaultEmail(value);
+  }
+
+  set key(value: string) {
+    this.bugsplatJs.setDefaultAppKey(value);
+  }
+
+  set user(value: string) {
+    this.bugsplatJs.setDefaultUser(value);
   }
 
   getObservable(): Observable<BugSplatPostEvent> {
