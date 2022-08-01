@@ -215,25 +215,30 @@ const packageJson = require('../package.json');
 require('dotenv').config();
 
 (async () => {
-    const clientId = process.env.SYMBOL_UPLOAD_CLIENT_ID;
+    const clientId = process.env['SYMBOL_UPLOAD_CLIENT_ID'];
     if (!clientId) {
         throw new Error('Please set SYMBOL_UPLOAD_CLIENT_ID in .env file');
     }
 
-    const clientSecret = process.env.SYMBOL_UPLOAD_CLIENT_SECRET;
+    const clientSecret = process.env['SYMBOL_UPLOAD_CLIENT_SECRET'];
     if (!clientSecret) {
         throw new Error('Please set SYMBOL_UPLOAD_CLIENT_SECRET in .env file');
     }
 
     const database = packageJson.database;
     const application = packageJson.name;
-    const version = packageJson.version;
+    const version = process.argv[2] === 'dev' ? `${packageJson.version}-dev` : packageJson.version;
 
     const buildDirectory = `./dist/${application}`;
+
+    if (!fs.existsSync(buildDirectory)) {
+        throw new Error(`Build directory ${buildDirectory} does not exist!`);
+    }
+
     const files = fs.readdirSync(buildDirectory)
-        .filter(file => file.endsWith('.js.map'))
-        .map(file => {
-            const filePath = `${buildDirectory}/${file}`;
+        .filter((fileName: string) => fileName.endsWith('.js.map'))
+        .map((fileName: string) => {
+            const filePath = `${buildDirectory}/${fileName}`;
             const stat = fs.statSync(filePath);
             const name = path.basename(filePath);
             const size = stat.size;
@@ -243,6 +248,10 @@ require('dotenv').config();
                 file: fs.createReadStream(filePath)
             };
         });
+
+    if (!files.length) {
+        throw new Error(`No source map files found in ${buildDirectory}!`);
+    }
 
     const bugsplat = await OAuthClientCredentialsClient.createAuthenticatedClient(clientId, clientSecret);
     const symbolsApiClient = new SymbolsApiClient(bugsplat);
@@ -258,7 +267,10 @@ require('dotenv').config();
         files
     );
     console.log(`Source maps uploaded to BugSplat ${database}-${application}-${version} successfully!`);
-})().catch(error => console.error(error));
+})().catch(error => {
+    console.error(error);
+    process.exit(1);
+});
 ```
 
 Add `postbuild` and `symbols` scripts to your `package.json`. 
@@ -266,7 +278,7 @@ Add `postbuild` and `symbols` scripts to your `package.json`.
 {
   "scripts": {
     "postbuild": "npm run symbols",
-    "symbols": "ts-node ./scripts/symbols.js"
+    "symbols": "ts-node ./scripts/symbols.ts"
   }
 }
 ```

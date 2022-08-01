@@ -5,7 +5,8 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "noImplicitAny": false
   },
   "files": [
     "src/test.ts"

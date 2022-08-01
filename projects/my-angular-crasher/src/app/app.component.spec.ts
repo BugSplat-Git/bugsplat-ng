@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { ErrorHandler } from '../../node_modules/@angular/core';
+import { ErrorHandler } from '@angular/core';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {

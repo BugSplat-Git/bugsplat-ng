@@ -3,11 +3,11 @@ import { BugSplatLogger, BugSplatLogLevel, Logger } from '../lib/bugsplat-logger
 describe('BugSplatLogger', () => {
 
     it('should throw if level is null', () => {
-        expect(() => new BugSplatLogger(null)).toThrowError(BugSplatLogger.LEVEL_CANNOT_BE_NULL);
+        expect(() => new BugSplatLogger(null as any)).toThrowError(BugSplatLogger.LEVEL_CANNOT_BE_NULL);
     });
 
     it('should throw if logger is null', () => {
-        expect(() => new BugSplatLogger(BugSplatLogLevel.Info, null)).toThrowError(BugSplatLogger.LOGGER_CANNOT_BE_NULL);
+        expect(() => new BugSplatLogger(BugSplatLogLevel.Info, null as any)).toThrowError(BugSplatLogger.LOGGER_CANNOT_BE_NULL);
     });
 
     it('should log errors when log level is set to Error', () => {

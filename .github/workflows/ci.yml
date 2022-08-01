@@ -1,0 +1,26 @@
+# Based on https://github.com/actions/starter-workflows/blob/main/ci/node.js.yml
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+env:
+  SYMBOL_UPLOAD_CLIENT_ID: ${{ secrets.SYMBOL_UPLOAD_CLIENT_ID }}
+  SYMBOL_UPLOAD_CLIENT_SECRET: ${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ✅
+        uses: actions/checkout@v2
+      - name: Setup 🏗
+        uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - name: Install ⚙️
+        run: npm i --legacy-peer-deps
+      - name: Build 🛠
+        run: npm run build:ci
+      - name: Test 📋
+        run: npm run test:ci

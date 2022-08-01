@@ -9,26 +9,6 @@ describe('BugSplatResponseData', () => {
         imports: [HttpClientTestingModule],
     }));
 
-    it('should throw if success is null', () => {
-        expect(() => new BugSplatResponseData(null)).toThrowError(BugSplatResponseData.SUCCESS_CANNOT_BE_NULL);
-    });
-
-    it('should throw if message is null', () => {
-        expect(() => new BugSplatResponseData(false, null)).toThrowError(BugSplatResponseData.MESSAGE_CANNOT_BE_NULL);
-    });
-
-    it('should throw if current_server_time is null', () => {
-        expect(() => new BugSplatResponseData(false, "message", null)).toThrowError(BugSplatResponseData.CURRENT_SERVER_TIME_CANNOT_BE_NULL);
-    });
-
-    it('should throw if url is null', () => {
-        expect(() => new BugSplatResponseData(false, "message", 0, null)).toThrowError(BugSplatResponseData.URL_CANNOT_BE_NULL);
-    });
-
-    it('should throw if crash_id is null', () => {
-        expect(() => new BugSplatResponseData(false, "message", 0, "url", null)).toThrowError(BugSplatResponseData.CRASH_ID_CANNOT_BE_NULL);
-    });
-
     it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', () => {
         const status = "success";
         const current_server_time = 1506381722;
@@ -50,7 +30,7 @@ describe('BugSplatResponseData', () => {
         expect(result.crash_id).toEqual(crash_id);
     });
 
-    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with valid parameters', () => {
+    it('should return BugSplatResponseData when createFromError is called with valid parameters', () => {
         const message = "Bad Request";
         const error = new Error(message)
         const result = BugSplatResponseData.createFromError(error);
@@ -61,7 +41,7 @@ describe('BugSplatResponseData', () => {
         expect(result.crash_id).toEqual(0);
     });
 
-    it('should use default values if createFromHttpErrorResponse is called with an object with no properties', () => {
+    it('should use default values if createFromError is called with an object with no properties', () => {
         const result = BugSplatResponseData.createFromSuccessResponseObject({});
         expect(result.success).toEqual(BugSplatResponseData.SUCCESS_DEFAULT);
         expect(result.current_server_time).toEqual(BugSplatResponseData.SERVER_TIME_DEFAULT);
@@ -71,10 +51,10 @@ describe('BugSplatResponseData', () => {
     });
 
     it('should throw when createFromSuccessResponseObject is called with null response', () => {
-        expect(() => BugSplatResponseData.createFromSuccessResponseObject(null)).toThrowError(BugSplatResponseData.RESPONSE_CANNOT_BE_NULL);
+        expect(() => BugSplatResponseData.createFromSuccessResponseObject(null as any)).toThrowError(BugSplatResponseData.RESPONSE_CANNOT_BE_NULL);
     });
 
-    it('should return BugSplatResponseData when createFromHttpErrorResponse is called with null HttpErrorResponse', () => {
-        expect(() => BugSplatResponseData.createFromError(null)).toThrowError(BugSplatResponseData.ERROR_CANNOT_BE_NULL);
+    it('should return BugSplatResponseData when createFromError is called with null HttpErrorResponse', () => {
+        expect(() => BugSplatResponseData.createFromError(null as any)).toThrowError(BugSplatResponseData.ERROR_CANNOT_BE_NULL);
     });
 });
