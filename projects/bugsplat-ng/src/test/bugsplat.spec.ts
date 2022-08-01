@@ -1,4 +1,4 @@
-import { take } from "rxjs/operators";
+import { take } from 'rxjs/operators';
 import { BugSplat } from '../lib/bugsplat';
 import { BugSplatLogger, BugSplatLogLevel } from '../lib/bugsplat-logger';
 import { BugSplatPostEventType } from '../lib/bugsplat-post-event';
@@ -34,7 +34,7 @@ describe('BugSplat', () => {
                 bugsplat = new BugSplat(bugsplatJs, nullLogger);
                 const promise = bugsplat.getObservable().pipe(take(1)).toPromise();
 
-                await bugsplat.post(new Error("foobar!"));
+                await bugsplat.post(new Error('foobar!'));
 
                 const event = await promise;
                 expect(event?.type).toEqual(BugSplatPostEventType.success);
@@ -51,7 +51,7 @@ describe('BugSplat', () => {
                 bugsplat = new BugSplat(bugsplatJs, nullLogger);
                 const promise = bugsplat.getObservable().pipe(take(1)).toPromise();
 
-                await bugsplat.post(new Error("foobar!"));
+                await bugsplat.post(new Error('foobar!'));
 
                 const event = await promise;
                 expect(event?.type).toEqual(BugSplatPostEventType.error);

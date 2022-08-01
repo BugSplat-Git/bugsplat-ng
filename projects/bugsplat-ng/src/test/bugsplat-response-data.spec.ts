@@ -24,13 +24,13 @@ describe('BugSplatResponseData', () => {
     });
 
     it('should return BugSplatResponseData when createFromError is called with valid parameters', () => {
-        const message = "Bad Request";
+        const message = 'Bad Request';
         const error = new Error(message)
         const result = BugSplatResponseData.createFromError(error);
         expect(result.success).toEqual(false);
         expect(result.message).toContain(message);
         expect(result.currentServerTime).toEqual(0);
-        expect(result.url).toEqual("");
+        expect(result.url).toEqual('');
         expect(result.crashId).toEqual(0);
     });
 

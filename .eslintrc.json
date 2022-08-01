@@ -36,6 +36,13 @@
                         "prefix": "app",
                         "style": "kebab-case"
                     }
+                ],
+                "@typescript-eslint/quotes": [
+                    "error",
+                    "single",
+                    {
+                        "allowTemplateLiterals": true
+                    }
                 ]
             }
         },

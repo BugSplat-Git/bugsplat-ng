@@ -2,18 +2,18 @@ export class BugSplatResponseData {
 
     static readonly successDefault = false;
     static readonly serverTimeDefault = 0;
-    static readonly messageDefault = "";
-    static readonly urlDefault = "";
+    static readonly messageDefault = '';
+    static readonly urlDefault = '';
     static readonly crashIdDefault = 0;
 
-    static readonly responseCannotBeNull = "BugSplatResponseData.createFromSuccessResponseObject Error: response cannot be null, undefined, or empty!";
-    static readonly errorCannotBeNull = "BugSplatResponseData.createFromError Error: error cannot be null, undefined, or empty!";
+    static readonly responseCannotBeNull = 'BugSplatResponseData.createFromSuccessResponseObject Error: response cannot be null, undefined, or empty!';
+    static readonly errorCannotBeNull = 'BugSplatResponseData.createFromError Error: error cannot be null, undefined, or empty!';
 
     constructor(
         public readonly success: boolean = false,
-        public readonly message: string = "",
+        public readonly message: string = '',
         public readonly currentServerTime: number = 0,
-        public readonly url: string = "",
+        public readonly url: string = '',
         public readonly crashId: number = 0
     ) { }
 
@@ -24,7 +24,7 @@ export class BugSplatResponseData {
         }
 
         const responseAny = response as any;
-        const success = responseAny.status === "success" ?? this.successDefault;
+        const success = responseAny.status === 'success' ?? this.successDefault;
         const currentServerTime = responseAny.current_server_time ?? this.serverTimeDefault;
         const message = responseAny.message ?? this.messageDefault;
         const url = responseAny.url ?? this.urlDefault;

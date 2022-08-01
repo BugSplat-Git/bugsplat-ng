@@ -11,9 +11,9 @@ describe('BugSplatErrorHandler', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
         });
-        bugsplat = jasmine.createSpyObj("BugSplat", ['post']);
+        bugsplat = jasmine.createSpyObj('BugSplat', ['post']);
         bugsplat.post.and.resolveTo();
-        expectedError = new Error("BugSplat rocks!");
+        expectedError = new Error('BugSplat rocks!');
         
         sut = new BugSplatErrorHandler(bugsplat);
     });
