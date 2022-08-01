@@ -90,15 +90,6 @@
               "projects/my-angular-crasher/src/assets"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/my-angular-crasher/**/*.ts",
-              "projects/my-angular-crasher/**/*.html"
-            ]
-          }
         }
       }
     },

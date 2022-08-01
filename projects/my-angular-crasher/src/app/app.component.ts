@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
     this.link$ = bugsplat.getObservable()
       .pipe(
         map((bugSplatEvent) => {
+          // TODO BG test
           const crashId = bugSplatEvent.responseData.crashId;
           return {
             href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
