@@ -8,12 +8,20 @@ import { BugSplatResponseData } from './bugsplat-response-data';
 @Injectable()
 export class BugSplat {
 
-  // TODO BG replace with calls to bugsplat.setDefault
-  public description: string = '';
-  public files: Array<File> = [];
-  public key: string = '';
-  public email: string = '';
-  public user: string = '';
+  readonly files: Array<File> = [];
+
+  private bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
+  private bugsplatPostEventObservable!: Observable<BugSplatPostEvent>;
+
+  constructor(
+    private bugsplatJs: BugSplatJs,
+    @Optional() private logger: BugSplatLogger = new BugSplatLogger(),
+  ) {
+    this.description = '';
+    this.email = '';
+    this.key = '';
+    this.user = '';
+  }
 
   get database(): string {
     return this.bugsplatJs.database;
@@ -27,24 +35,32 @@ export class BugSplat {
     return this.bugsplatJs.version;
   }
 
-  private bugSplatPostEventSubject = new Subject<BugSplatPostEvent>();
-  private bugsplatPostEventObserverable!: Observable<BugSplatPostEvent>;
+  set description(value: string) {
+    this.bugsplatJs.setDefaultDescription(value);
+  }
 
-  constructor(
-    private bugsplatJs: BugSplatJs,
-    @Optional() private logger: BugSplatLogger = new BugSplatLogger(),
-  ) { }
+  set email(value: string) {
+    this.bugsplatJs.setDefaultEmail(value);
+  }
+
+  set key(value: string) {
+    this.bugsplatJs.setDefaultAppKey(value);
+  }
+
+  set user(value: string) {
+    this.bugsplatJs.setDefaultUser(value);
+  }
 
   getObservable(): Observable<BugSplatPostEvent> {
-    if (!this.bugsplatPostEventObserverable) {
-      this.bugsplatPostEventObserverable = this.bugSplatPostEventSubject.asObservable();
+    if (!this.bugsplatPostEventObservable) {
+      this.bugsplatPostEventObservable = this.bugSplatPostEventSubject.asObservable();
     }
 
-    return this.bugsplatPostEventObserverable;
+    return this.bugsplatPostEventObservable;
   }
 
   async post(error: Error, options: BugSplatOptions = {}): Promise<void> {
-    options = options ?? {}
+    options = options ?? {};
 
     // TODO BG move bugsplat-js
     options.appKey = options.appKey ?? this.key;
@@ -56,8 +72,7 @@ export class BugSplat {
       options.additionalFormDataParams = [];
     }
 
-    for (let i = 0; i < this.files.length; i++) {
-      const file = this.files[i];
+    for (const file of this.files) {
       options.additionalFormDataParams.push({
         key: file.name,
         value: file,
@@ -78,15 +93,15 @@ export class BugSplat {
 
     const result = await this.bugsplatJs.post(error, options);
     if (result.error) {
-      const responseData = BugSplatResponseData.createFromError(result.error);
-      const event = new BugSplatPostEvent(BugSplatPostEventType.Error, responseData);
+      const errorResponseData = BugSplatResponseData.createFromError(result.error);
+      const errorEvent = new BugSplatPostEvent(BugSplatPostEventType.error, errorResponseData);
       this.logger.error('BugSplat POST Error: ' + JSON.stringify(error));
-      this.bugSplatPostEventSubject.next(event);
+      this.bugSplatPostEventSubject.next(errorEvent);
       return;
     }
 
     const responseData = BugSplatResponseData.createFromSuccessResponseObject(result.response);
-    const event = new BugSplatPostEvent(BugSplatPostEventType.Success, responseData);
+    const event = new BugSplatPostEvent(BugSplatPostEventType.success, responseData);
     this.logger.info('BugSplat POST Success: ' + JSON.stringify(result));
     this.bugSplatPostEventSubject.next(event);
   }

@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
-import { BugSplat } from "./bugsplat";
+import { BugSplat } from './bugsplat';
 
 @Injectable()
 export class BugSplatErrorHandler implements ErrorHandler {

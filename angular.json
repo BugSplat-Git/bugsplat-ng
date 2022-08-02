@@ -90,6 +90,15 @@
               "projects/my-angular-crasher/src/assets"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/my-angular-crasher/**/*.ts",
+              "projects/my-angular-crasher/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -100,17 +109,19 @@
       "prefix": "bug",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/bugsplat-ng/tsconfig.lib.json",
             "project": "projects/bugsplat-ng/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/bugsplat-ng/ng-package.prod.json",
               "tsConfig": "projects/bugsplat-ng/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bugsplat-ng/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -132,9 +143,10 @@
       }
     }
   },
-  "defaultProject": "my-angular-crasher",
   "cli": {
     "analytics": "05c6acf5-d643-470e-b261-021c03f97339",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
