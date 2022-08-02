@@ -1,10 +1,10 @@
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BugSplat as BugSplatJs } from 'bugsplat';
-import { BugSplat } from "./bugsplat";
-import { BugSplatErrorHandler } from "./bugsplat-error-handler";
-import { BugSplatSettings } from "./bugsplat-settings";
+import { BugSplat } from './bugsplat';
+import { BugSplatErrorHandler } from './bugsplat-error-handler';
+import { BugSplatSettings } from './bugsplat-settings';
 
 @NgModule({
     imports: [

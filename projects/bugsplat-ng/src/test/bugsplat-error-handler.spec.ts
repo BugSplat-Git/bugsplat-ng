@@ -3,17 +3,17 @@ import { TestBed } from '@angular/core/testing';
 import { BugSplatErrorHandler } from '../lib/bugsplat-error-handler';
 
 describe('BugSplatErrorHandler', () => {
-    let bugsplat;
-    let expectedError;
+    let bugsplat: any;
+    let expectedError: any;
     let sut: BugSplatErrorHandler;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
         });
-        bugsplat = jasmine.createSpyObj("BugSplat", ['post']);
+        bugsplat = jasmine.createSpyObj('BugSplat', ['post']);
         bugsplat.post.and.resolveTo();
-        expectedError = new Error("BugSplat rocks!");
+        expectedError = new Error('BugSplat rocks!');
         
         sut = new BugSplatErrorHandler(bugsplat);
     });
