@@ -1,3 +1,10 @@
+## [14.0.1](https://github.com/BugSplat-Git/bugsplat-ng/compare/v14.0.0...v14.0.1) (2022-08-02)
+
+
+### Bug Fixes
+
+* run npm audit fix ([#96](https://github.com/BugSplat-Git/bugsplat-ng/issues/96)) ([022b883](https://github.com/BugSplat-Git/bugsplat-ng/commit/022b8831bfd758a1dd5d7cc869f60ec96b171dad))
+
 # [14.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v13.0.0...v14.0.0) (2022-08-02)
 
 
