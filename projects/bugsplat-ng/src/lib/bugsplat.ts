@@ -76,7 +76,7 @@ export class BugSplat {
       options.additionalFormDataParams.push({
         key: file.name,
         value: file,
-        options: file.name
+        filename: file.name
       });
     }
 
