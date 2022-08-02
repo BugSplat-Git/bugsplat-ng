@@ -102,5 +102,4 @@ describe('BugSplat', () => {
         it('should return version from bugsplat-js', () => {
                 expect(bugsplat.version).toEqual(bugsplatJs.version);
         });
-
 });
