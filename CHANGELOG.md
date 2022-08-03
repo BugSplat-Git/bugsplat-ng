@@ -1,3 +1,10 @@
+## [14.0.2](https://github.com/BugSplat-Git/bugsplat-ng/compare/v14.0.1...v14.0.2) (2022-08-03)
+
+
+### Bug Fixes
+
+* update README.md ([#98](https://github.com/BugSplat-Git/bugsplat-ng/issues/98)) ([c4f6698](https://github.com/BugSplat-Git/bugsplat-ng/commit/c4f6698dcd32d55b54055ad4cfd0c1777a2e2bd8)), closes [#94](https://github.com/BugSplat-Git/bugsplat-ng/issues/94)
+
 ## [14.0.1](https://github.com/BugSplat-Git/bugsplat-ng/compare/v14.0.0...v14.0.1) (2022-08-02)
 
 
