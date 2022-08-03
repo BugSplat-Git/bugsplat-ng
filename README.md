@@ -1,15 +1,25 @@
-[![BugSplat](https://s3.amazonaws.com/bugsplat-public/npm/header.png)](https://www.bugsplat.com)
+[![bugsplat-github-banner-basic-outline](https://user-images.githubusercontent.com/20464226/149019306-3186103c-5315-4dad-a499-4fd1df408475.png)](https://bugsplat.com)
+<br/>
+# <div align="center">BugSplat</div> 
+### **<div align="center">Crash and error reporting built for busy developers.</div>**
+<div align="center">
+    <a href="https://twitter.com/BugSplatCo">
+        <img alt="Follow @bugsplatco on Twitter" src="https://img.shields.io/twitter/follow/bugsplatco?label=Follow%20BugSplat&style=social">
+    </a>
+    <a href="https://discord.gg/K4KjjRV5ve">
+        <img alt="Join BugSplat on Discord" src="https://img.shields.io/discord/664965194799251487?label=Join%20Discord&logo=Discord&style=social">
+    </a>
+</div>
+<br>
 
-[![travis-ci](https://travis-ci.org/BugSplat-Git/bugsplat-ng.svg?branch=master)](https://travis-ci.org/BugSplat-Git/bugsplat-ng)
-
-## Introduction
+## 👋 Introduction
 BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular’s [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started please complete the following tasks:
 
 * [Sign up](https://app.bugsplat.com/v2/sign-up) for BugSplat
-* Create a new [database](https://app.bugsplat.com/v2/options?tab=database) for your application
+* Complete the [welcome](https://app.bugsplat.com/v2/welcome) workflow and take note of your BugSplat database
 * Check out the [live demo](https://www.bugsplat.com/platforms/angular/my-angular-crasher) of BugSplat’s Angular error reporting
 
-## Sample
+## 🧑‍🏫 Sample
 
 This repository includes a sample my-angular-crasher application that has be pre-configured with BugSplat. Before you try the sample, you'll need to create an OAuth2 ClientId/ClientSecret pair as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2).
 
@@ -32,7 +42,7 @@ Navigate to the url displayed in the console by http-server (usually [localhost:
 
 If everything worked correctly you should see information about your error as well as a TypeScript stack trace.
 
-## Integration
+## ⚙️ Integration
 
 To collect errors and crashes in your Angular application, run the following command in terminal or cmd at the root of your project to install bugsplat-ng:
 
@@ -96,7 +106,7 @@ Navigate to the [Crashes](https://app.bugsplat.com/v2/crashes) page in BugSplat 
 
 ![Crash Page](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-ng/crash-page.png)
 
-## Extended Integration
+## 🧰 Extended Integration
 You can post additional information by creating a service that implements ErrorHandler. In the handlerError method make a call to BugSplat.post passing it the error and an optional options object:
 
 [my-angular-error-handler.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/src/app/my-angular-error-handler.ts)
@@ -169,7 +179,7 @@ import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
 })
 ```
 
-## Source Maps
+## 🗺 Source Maps
 BugSplat supports unwinding uglified and minified JavaScript stack traces via source maps. To upload source maps to BugSplat during your build, install [@bugsplat/symbol-upload](https://www.npmjs.com/package/@bugsplat/symbol-upload).
 
 ```bash
@@ -285,7 +295,8 @@ Add `postbuild` and `symbols` scripts to your `package.json`.
 
 For best results, please upload source maps for every released version of your application.
 
-## Contributing
+## 🧑‍💻 Contributing
+
 BugSplat loves open source software! If you have suggestions on how we can improve this integration, please reach out to support@bugsplat.com, create an [issue](https://github.com/BugSplat-Git/bugsplat-ng/issues) in our [GitHub repo](https://github.com/BugSplat-Git/bugsplat-ng) or send us a [pull request](https://github.com/BugSplat-Git/bugsplat-ng/pulls). 
 
 With ❤️,
