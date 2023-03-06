@@ -1,3 +1,13 @@
+# [15.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v14.0.2...v15.0.0) (2023-03-06)
+
+
+* feat!: update to Angular v15 (#105) ([de5b16b](https://github.com/BugSplat-Git/bugsplat-ng/commit/de5b16b6cfb1b93674500345d204f08b80e2b19b)), closes [#105](https://github.com/BugSplat-Git/bugsplat-ng/issues/105)
+
+
+### BREAKING CHANGES
+
+* Updates to Angular v15
+
 ## [14.0.2](https://github.com/BugSplat-Git/bugsplat-ng/compare/v14.0.1...v14.0.2) (2022-08-03)
 
 
