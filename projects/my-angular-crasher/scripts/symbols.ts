@@ -1,4 +1,4 @@
-const { OAuthClientCredentialsClient, SymbolsApiClient } = require('@bugsplat/symbol-upload');
+const { OAuthClientCredentialsClient, VersionsApiClient } = require('@bugsplat/symbol-upload');
 const fs = require('fs');
 const path = require('path');
 const packageJson = require('../../../package.json');
@@ -44,13 +44,13 @@ require('dotenv').config();
     }
 
     const bugsplat = await OAuthClientCredentialsClient.createAuthenticatedClient(clientId, clientSecret);
-    const symbolsApiClient = new SymbolsApiClient(bugsplat);
-    await symbolsApiClient.deleteSymbols(
+    const versionsApiClient = new VersionsApiClient(bugsplat);
+    await versionsApiClient.deleteSymbols(
         database,
         application,
         version
     );
-    await symbolsApiClient.postSymbols(
+    await versionsApiClient.postSymbols(
         database,
         application,
         version,
