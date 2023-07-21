@@ -102,7 +102,7 @@ export class BugSplat {
 
     const responseData = BugSplatResponseData.createFromSuccessResponseObject(result.response);
     const event = new BugSplatPostEvent(BugSplatPostEventType.success, responseData);
-    this.logger.info('BugSplat POST Success: ' + JSON.stringify(result));
+    this.logger.info('BugSplat POST Success: ' + JSON.stringify(responseData));
     this.bugSplatPostEventSubject.next(event);
   }
 }
