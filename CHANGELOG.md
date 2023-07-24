@@ -1,3 +1,10 @@
+## [15.0.1](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.0...v15.0.1) (2023-07-24)
+
+
+### Bug Fixes
+
+* error serializing circular JSON ([#108](https://github.com/BugSplat-Git/bugsplat-ng/issues/108)) ([c482f49](https://github.com/BugSplat-Git/bugsplat-ng/commit/c482f4974d9b005892ab8fa4712091622fe3cbc8))
+
 # [15.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v14.0.2...v15.0.0) (2023-03-06)
 
 
