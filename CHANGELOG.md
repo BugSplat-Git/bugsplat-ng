@@ -1,3 +1,10 @@
+## [15.0.3](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.2...v15.0.3) (2023-07-25)
+
+
+### Bug Fixes
+
+* bugsplat dependency ([d17fe33](https://github.com/BugSplat-Git/bugsplat-ng/commit/d17fe33e52818060088576d87ec7ae8bcf5403ec))
+
 ## [15.0.2](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.1...v15.0.2) (2023-07-25)
 
 
