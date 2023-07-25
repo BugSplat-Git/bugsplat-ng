@@ -1,3 +1,10 @@
+## [15.0.2](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.1...v15.0.2) (2023-07-25)
+
+
+### Bug Fixes
+
+* update peerDependencies ([#109](https://github.com/BugSplat-Git/bugsplat-ng/issues/109)) ([aec485f](https://github.com/BugSplat-Git/bugsplat-ng/commit/aec485f1abb86ee07e1c19318d9c83a3b817b3b9))
+
 ## [15.0.1](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.0...v15.0.1) (2023-07-24)
 
 
