@@ -1,6 +1,6 @@
 {
   "name": "bugsplat-ng",
-  "version": "13.0.0",
+  "version": "15.0.1",
   "description": "BugSplat error reporting for Angular",
   "license": "MIT",
   "repository": {
@@ -11,8 +11,8 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": ">=5.0.0",
-    "@angular/core": ">=5.0.0",
-    "bugsplat": "^7.1.0"
+    "@angular/common": ">=15.0.0",
+    "@angular/core": ">=15.0.0",
+    "bugsplat": "^8.0.0"
   }
 }
