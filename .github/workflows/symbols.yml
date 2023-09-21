@@ -32,6 +32,6 @@ jobs:
           database: "fred"
           application: "bugsplat-ng"
           version: "1.0"
-          files: "{**/*.js.map}"
+          files: "**/*.js.map"
           directory: dist
       
