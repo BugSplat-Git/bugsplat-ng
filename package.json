@@ -11,7 +11,6 @@
     "build:ci": "npm run build:lib && npm run build:app",
     "build:lib": "ng build bugsplat-ng --configuration=production",
     "postbuild": "npm run symbols dev",
-    "postbuild:app": "npm run symbols",
     "postbuild:lib": "copyfiles README.md dist/bugsplat-ng",
     "test": "ng test",
     "lint": "ng lint",

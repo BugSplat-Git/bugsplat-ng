@@ -1,0 +1,37 @@
+# Based on https://github.com/actions/starter-workflows/blob/main/ci/node.js.yml
+name: Symbols
+on:
+  push:
+    branches:
+      - '*'
+env:
+  SYMBOL_UPLOAD_CLIENT_ID: ${{ secrets.SYMBOL_UPLOAD_CLIENT_ID }}
+  SYMBOL_UPLOAD_CLIENT_SECRET: ${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ✅
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Setup 🏗
+        uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - name: Install ⚙️
+        run: npm i --legacy-peer-deps
+      - name: Build 🛠
+        run: npm run build:ci
+      - name: Symbols 📦
+        uses: secondlife-3p/symbol-upload@reusable-action
+        with:
+          clientId: "${{ secrets.SYMBOL_UPLOAD_CLIENT_ID }}"
+          clientSecret: "${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}"
+          database: "fred"
+          application: "bugsplat-ng"
+          version: "1.0"
+          files: "{**/*.js.map}"
+          directory: dist
+      
