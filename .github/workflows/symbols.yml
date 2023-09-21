@@ -25,7 +25,7 @@ jobs:
       - name: Build 🛠
         run: npm run build:ci
       - name: Symbols 📦
-        uses: BugSplat-Git/symbol-upload
+        uses: BugSplat-Git/symbol-upload@main
         with:
           clientId: "${{ secrets.SYMBOL_UPLOAD_CLIENT_ID }}"
           clientSecret: "${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}"
