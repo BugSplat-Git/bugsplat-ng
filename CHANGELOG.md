@@ -1,3 +1,10 @@
+## [15.0.4](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.3...v15.0.4) (2023-10-04)
+
+
+### Bug Fixes
+
+* update README images ([#110](https://github.com/BugSplat-Git/bugsplat-ng/issues/110)) ([b51f907](https://github.com/BugSplat-Git/bugsplat-ng/commit/b51f907d1b5a3a162a19d27ea1d028fe4fa4530f))
+
 ## [15.0.3](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.2...v15.0.3) (2023-07-25)
 
 
