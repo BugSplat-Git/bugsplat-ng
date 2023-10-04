@@ -102,9 +102,9 @@ throw new Error("foobar!");
 
 Navigate to the [Crashes](https://app.bugsplat.com/v2/crashes) page in BugSplat and you should see a new crash report for the application you just configured. Click the link in the ID column to see details about your crash on the Crash page:
 
-![Crashes Page](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-ng/crashes-page.png)
+![Crashes Page](https://github.com/BugSplat-Git/bugsplat-ng/assets/2646053/1872aa1e-e6d9-4264-8326-592d80d77da7)
 
-![Crash Page](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-ng/crash-page.png)
+![Crash Page](https://github.com/BugSplat-Git/bugsplat-ng/assets/2646053/a4f1a612-3ac8-4686-9bca-67a0509b0a9c)
 
 ## 🧰 Extended Integration
 You can post additional information by creating a service that implements ErrorHandler. In the handlerError method make a call to BugSplat.post passing it the error and an optional options object:
