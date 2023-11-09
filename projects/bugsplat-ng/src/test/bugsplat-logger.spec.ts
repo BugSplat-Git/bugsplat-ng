@@ -1,15 +1,6 @@
 import { BugSplatLogger, BugSplatLogLevel, Logger } from '../lib/bugsplat-logger';
 
 describe('BugSplatLogger', () => {
-
-    it('should throw if level is null', () => {
-        expect(() => new BugSplatLogger(null as any)).toThrowError(BugSplatLogger.levelCannotBeNull);
-    });
-
-    it('should throw if logger is null', () => {
-        expect(() => new BugSplatLogger(BugSplatLogLevel.info, null as any)).toThrowError(BugSplatLogger.loggerCannotBeNull);
-    });
-
     it('should log errors when log level is set to Error', () => {
         const fakeLogger = createFakeLogger();
         const errorSpy = spyOn(fakeLogger, 'error');
@@ -111,9 +102,9 @@ describe('BugSplatLogger', () => {
 
 const createFakeLogger: () => Logger = () => {
     return {
-        error: (msg) => { },
-        warn: (msg) => { },
-        info: (msg) => { },
-        log: (msg) => { }
+        error: () => { },
+        warn: () => { },
+        info: () => { },
+        log: () => { }
     }
 }

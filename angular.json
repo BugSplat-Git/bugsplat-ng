@@ -60,18 +60,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "my-angular-crasher:build"
+            "buildTarget": "my-angular-crasher:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "my-angular-crasher:build:production"
+              "buildTarget": "my-angular-crasher:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "my-angular-crasher:build"
+            "buildTarget": "my-angular-crasher:build"
           }
         },
         "test": {

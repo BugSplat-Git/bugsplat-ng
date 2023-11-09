@@ -13,7 +13,7 @@
 <br>
 
 ## 👋 Introduction
-BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular’s [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started please complete the following tasks:
+BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular’s [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat, where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started, please complete the following tasks:
 
 * [Sign up](https://app.bugsplat.com/v2/sign-up) for BugSplat
 * Complete the [welcome](https://app.bugsplat.com/v2/welcome) workflow and take note of your BugSplat database
@@ -21,9 +21,9 @@ BugSplat supports the collection of errors in Angular applications. The bugsplat
 
 ## 🧑‍🏫 Sample
 
-This repository includes a sample my-angular-crasher application that has be pre-configured with BugSplat. Before you try the sample, you'll need to create an OAuth2 ClientId/ClientSecret pair as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2).
+This repository includes a sample my-angular-crasher application that has been pre-configured with BugSplat. Before you try the sample, you'll need to create an OAuth2 ClientId/ClientSecret pair as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2).
 
-Once you've generated OAuth2 credentials, create a file with the name `.env` at the root of the repository and populate with the correct values substituted for `{{clientId}}` and `{{clientSecret}}`:
+Once you've generated OAuth2 credentials, create a file with the name `.env` at the root of the repository and populate it with the correct values substituted for `{{clientId}}` and `{{clientSecret}}`:
 
 ```
 SYMBOL_UPLOAD_CLIENT_ID={{clientId}}
@@ -36,21 +36,21 @@ To test the sample, perform the following steps:
 2. `cd bugsplat-ng && npm i`
 3. `npm start`
 
-The `npm start` command will build the sample application and upload source maps to BugSplat so that the JavaScript call stack can be mapped back to TypeScript. Once the build has completed the source maps will be uploaded and http-server will serve the app.
+The `npm start` command will build the sample application and upload source maps to BugSplat so that the JavaScript call stack can be mapped back to TypeScript. Once the build has completed, the source maps will be uploaded and http-server will serve the app.
 
-Navigate to the url displayed in the console by http-server (usually [localhost:8080](http://127.0.0.1:8080)). Click any of the button in the sample app to generate an error report. A link to the error report should display in the app shortly after clicking a button. Click the link to the error report and when prompted to log into BugSplat.
+Navigate to the url displayed in the console by http-server (usually [localhost:8080](http://127.0.0.1:8080)). Click any button in the sample app to generate an error report. A link to the error report should display in the app shortly after clicking a button. Click the link to the error report and when prompted to log into BugSplat.
 
 If everything worked correctly you should see information about your error as well as a TypeScript stack trace.
 
 ## ⚙️ Integration
 
-To collect errors and crashes in your Angular application, run the following command in terminal or cmd at the root of your project to install bugsplat-ng:
+To collect errors and crashes in your Angular application, run the following command in the terminal or cmd at the root of your project to install bugsplat-ng:
 
 ```shell
 npm i bugsplat-ng --save
 ```
 
-Add a `database` property to your `package.json` file with the value of your BugSplat database and subsitute `{{database}}` with the value of your BugSplat database.
+Add a `database` property to your `package.json` file with the value of your BugSplat database and substitute `{{database}}` with the value of your BugSplat database.
 
 ```json
 {
@@ -58,7 +58,7 @@ Add a `database` property to your `package.json` file with the value of your Bug
 }
 ```
 
-Add values for your BugSplat database, application and version to your application's environment files:
+Add values for your BugSplat database, application, and version to your application's environment files:
 
 [environment.prod.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/environments/environment.prod.ts#L1)
 ```typescript
@@ -80,7 +80,7 @@ Add an import for BugSplatModule to your AppModule:
 import { BugSplatModule } from 'bugsplat-ng';
 ```
 
-Add a call `BugSplatModule.initializeApp` in your AppModule's imports array passing it your database, application and version:
+Add a call `BugSplatModule.initializeApp` in your AppModule's imports array, passing it your database, application, and version:
 
 [app.module.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/app/app.module.ts#L31)
 ```typescript
@@ -100,14 +100,14 @@ Throw a new error in your application to test the bugsplat-ng integration:
 throw new Error("foobar!");
 ```
 
-Navigate to the [Crashes](https://app.bugsplat.com/v2/crashes) page in BugSplat and you should see a new crash report for the application you just configured. Click the link in the ID column to see details about your crash on the Crash page:
+Navigate to the [Crashes](https://app.bugsplat.com/v2/crashes) page in BugSplat, and you should see a new crash report for the application you just configured. Click the link in the ID column to see details about your crash on the Crash page:
 
-![Crashes Page](https://github.com/BugSplat-Git/bugsplat-ng/assets/2646053/1872aa1e-e6d9-4264-8326-592d80d77da7)
+<img width="1728" alt="Crashes page" src="https://github.com/BugSplat-Git/bugsplat-ng/assets/2646053/24a2df50-e9c0-4d36-b9f5-ce9a7b47b526">
 
-![Crash Page](https://github.com/BugSplat-Git/bugsplat-ng/assets/2646053/a4f1a612-3ac8-4686-9bca-67a0509b0a9c)
+<img width="1728" alt="Crash page" src="https://github.com/BugSplat-Git/bugsplat-ng/assets/2646053/e23000df-edd1-41f4-b463-c1ce6475d9ad">
 
 ## 🧰 Extended Integration
-You can post additional information by creating a service that implements ErrorHandler. In the handlerError method make a call to BugSplat.post passing it the error and an optional options object:
+You can post additional information by creating a service that implements ErrorHandler. In the `handlerError` method, make a call to `BugSplat.post` passing it the error and an optional options object:
 
 [my-angular-error-handler.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/src/app/my-angular-error-handler.ts)
 ```typescript
@@ -136,7 +136,7 @@ BugSplat.email: string; // The email of your user
 BugSplat.key: string; // A unique identifier for your application
 BugSplat.user: string; // The name or id of your user
 BugSplat.files: Array<file>; // A list of files to be uploaded at post time
-BugSplat.getObservable(): Observable<BugSplatPostEvent>; // Observable that emits results of BugSplat crash post events in your components.
+BugSplat.getObservable(): Observable<BugSplatPostEvent>; // Observable that emits BugSplat crash post events results in your components.
 async BugSplat.post(error): Promise<void>; // Post an Error object to BugSplat manually from within a try/catch
 ```
 
@@ -157,7 +157,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 })
 ```
 
-You can also configure BugSplat's logging preferences and provide your own logging implementation. Create a provider for BugSplatLogger with useValue set to a new instance of BugSplatLogger. Pass one of the BugSplatLogLevel options as the first parameter to BugSplatLogger. You can provide an instance of your own custom logger as the second parameter granted it has error, warn, info and log methods. If no custom logger is provided console will be used:
+You can also configure BugSplat's logging preferences and provide your own logging implementation. Create a provider for BugSplatLogger with useValue set to a new instance of BugSplatLogger. Pass one of the BugSplatLogLevel options as the first parameter to BugSplatLogger. You can provide an instance of your own custom logger as the second parameter granted it has an error, warn, info, and log methods. If no custom logger is provided, the console will be used:
 
 [app.module.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/src/app/app.module.ts)
 ```typescript
@@ -186,7 +186,7 @@ BugSplat supports unwinding uglified and minified JavaScript stack traces via so
 npm i -D @bugsplat/symbol-upload
 ```
 
-Configure your `angular.json` file to output source maps. We suggest enabling source maps for both your application code and any vendor chunks that are generated by Angular.
+Configure your `angular.json` file to output source maps. We suggest enabling source maps for both your application code and any vendor chunks generated by Angular.
 
 ```js
 {
@@ -297,7 +297,7 @@ For best results, please upload source maps for every released version of your a
 
 ## 🧑‍💻 Contributing
 
-BugSplat loves open source software! If you have suggestions on how we can improve this integration, please reach out to support@bugsplat.com, create an [issue](https://github.com/BugSplat-Git/bugsplat-ng/issues) in our [GitHub repo](https://github.com/BugSplat-Git/bugsplat-ng) or send us a [pull request](https://github.com/BugSplat-Git/bugsplat-ng/pulls). 
+BugSplat loves open-source software! If you have suggestions on how we can improve this integration, please reach out to support@bugsplat.com, create an [issue](https://github.com/BugSplat-Git/bugsplat-ng/issues) in our [GitHub repo](https://github.com/BugSplat-Git/bugsplat-ng) or send us a [pull request](https://github.com/BugSplat-Git/bugsplat-ng/pulls). 
 
 With ❤️,
 
