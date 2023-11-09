@@ -44,10 +44,10 @@ describe('BugSplatResponseData', () => {
     });
 
     it('should throw when createFromSuccessResponseObject is called with null response', () => {
-        expect(() => BugSplatResponseData.createFromSuccessResponseObject(null as any)).toThrowError(BugSplatResponseData.responseCannotBeNull);
+        expect(() => BugSplatResponseData.createFromSuccessResponseObject({})).toThrowError(BugSplatResponseData.responseCannotBeNull);
     });
 
     it('should return BugSplatResponseData when createFromError is called with null HttpErrorResponse', () => {
-        expect(() => BugSplatResponseData.createFromError(null as any)).toThrowError(BugSplatResponseData.errorCannotBeNull);
+        expect(() => BugSplatResponseData.createFromError(new Error('help!'))).toThrowError(BugSplatResponseData.errorCannotBeNull);
     });
 });

@@ -17,18 +17,16 @@ export class BugSplatResponseData {
         public readonly crashId: number = 0
     ) { }
 
-    // TODO BG better type
-    static createFromSuccessResponseObject(response: object) {
+    static createFromSuccessResponseObject(response: SuccessResponse) {
         if (!response) {
             throw new Error(BugSplatResponseData.responseCannotBeNull);
         }
 
-        const responseAny = response as any;
-        const success = responseAny.status === 'success' ?? this.successDefault;
-        const currentServerTime = responseAny.current_server_time ?? this.serverTimeDefault;
-        const message = responseAny.message ?? this.messageDefault;
-        const url = responseAny.url ?? this.urlDefault;
-        const crashId = responseAny.crash_id ?? this.crashIdDefault;
+        const success = response.status === 'success' ?? this.successDefault;
+        const currentServerTime = response.current_server_time ?? this.serverTimeDefault;
+        const message = response.message ?? this.messageDefault;
+        const url = response.url ?? this.urlDefault;
+        const crashId = response.crash_id ?? this.crashIdDefault;
 
         return new BugSplatResponseData(success, message, currentServerTime, url, crashId);
     }
@@ -40,4 +38,12 @@ export class BugSplatResponseData {
 
         return new BugSplatResponseData(false, error.message);
     }
+}
+
+type SuccessResponse = {
+    status: string;
+    current_server_time: number;
+    message: string;
+    url: string;
+    crash_id: number;
 }
