@@ -1,3 +1,13 @@
+# [16.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.4...v16.0.0) (2023-11-09)
+
+
+* feat!: update to Angular v17 (#112) ([2d4ee7b](https://github.com/BugSplat-Git/bugsplat-ng/commit/2d4ee7ba39a0e63f93aade09129f3875d9cd979b)), closes [#112](https://github.com/BugSplat-Git/bugsplat-ng/issues/112)
+
+
+### BREAKING CHANGES
+
+* update to Angular 17
+
 ## [15.0.4](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.3...v15.0.4) (2023-10-04)
 
 
