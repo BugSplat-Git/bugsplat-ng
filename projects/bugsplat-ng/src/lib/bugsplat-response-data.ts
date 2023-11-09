@@ -40,7 +40,7 @@ export class BugSplatResponseData {
     }
 }
 
-type SuccessResponse = {
+export type SuccessResponse = {
     status: string;
     current_server_time: number;
     message: string;

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { BugSplatResponseData } from '../lib/bugsplat-response-data';
+import { BugSplatResponseData, SuccessResponse } from '../lib/bugsplat-response-data';
 
 describe('BugSplatResponseData', () => {
 
@@ -9,7 +9,7 @@ describe('BugSplatResponseData', () => {
     }));
 
     it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', () => {
-        const response = {} as Record<string, string | number>;
+        const response = {} as SuccessResponse;
         response['status'] = 'success';
         response['current_server_time'] = 1506381722;
         response['message'] = 'Crash successfully posted';
@@ -35,7 +35,7 @@ describe('BugSplatResponseData', () => {
     });
 
     it('should use default values if createFromError is called with an object with no properties', () => {
-        const result = BugSplatResponseData.createFromSuccessResponseObject({});
+        const result = BugSplatResponseData.createFromSuccessResponseObject({} as unknown as SuccessResponse);
         expect(result.success).toEqual(BugSplatResponseData.successDefault);
         expect(result.currentServerTime).toEqual(BugSplatResponseData.serverTimeDefault);
         expect(result.message).toEqual(BugSplatResponseData.messageDefault);
@@ -44,10 +44,10 @@ describe('BugSplatResponseData', () => {
     });
 
     it('should throw when createFromSuccessResponseObject is called with null response', () => {
-        expect(() => BugSplatResponseData.createFromSuccessResponseObject({})).toThrowError(BugSplatResponseData.responseCannotBeNull);
+        expect(() => BugSplatResponseData.createFromSuccessResponseObject(undefined as unknown as SuccessResponse)).toThrowError(BugSplatResponseData.responseCannotBeNull);
     });
 
     it('should return BugSplatResponseData when createFromError is called with null HttpErrorResponse', () => {
-        expect(() => BugSplatResponseData.createFromError(new Error('help!'))).toThrowError(BugSplatResponseData.errorCannotBeNull);
+        expect(() => BugSplatResponseData.createFromError(undefined as unknown as Error)).toThrowError(BugSplatResponseData.errorCannotBeNull);
     });
 });

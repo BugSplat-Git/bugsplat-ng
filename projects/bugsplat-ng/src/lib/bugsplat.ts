@@ -3,7 +3,7 @@ import { BugSplat as BugSplatJs, BugSplatOptions } from 'bugsplat';
 import { Observable, Subject } from 'rxjs';
 import { BugSplatLogger } from './bugsplat-logger';
 import { BugSplatPostEvent, BugSplatPostEventType } from './bugsplat-post-event';
-import { BugSplatResponseData } from './bugsplat-response-data';
+import { BugSplatResponseData, SuccessResponse } from './bugsplat-response-data';
 
 @Injectable()
 export class BugSplat {
@@ -100,7 +100,7 @@ export class BugSplat {
       return;
     }
 
-    const responseData = BugSplatResponseData.createFromSuccessResponseObject(result.response);
+    const responseData = BugSplatResponseData.createFromSuccessResponseObject(result.response as SuccessResponse);
     const event = new BugSplatPostEvent(BugSplatPostEventType.success, responseData);
     this.logger.info('BugSplat POST Success: ' + JSON.stringify(responseData));
     this.bugSplatPostEventSubject.next(event);

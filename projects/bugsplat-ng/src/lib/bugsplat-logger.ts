@@ -20,7 +20,7 @@ export class BugSplatLogger {
     static readonly loggerCannotBeNull = 'BugSplatLogger Error: logger cannot be null or undefined!';
 
     constructor(private level: BugSplatLogLevel = BugSplatLogLevel.error, private logger: Logger = console) {
-        if (this.level === null || this.level === undefined) {
+        if (!this.level && this.level !== 0) {
             throw new Error(BugSplatLogger.levelCannotBeNull)
         }
         if (!this.logger) {
