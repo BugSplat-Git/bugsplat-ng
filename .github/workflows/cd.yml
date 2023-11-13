@@ -5,6 +5,7 @@ on:
     branches:
       - main
 env:
+  BUGSPLAT_DATABASE: ${{ secrets.BUGSPLAT_DATABASE }}
   SYMBOL_UPLOAD_CLIENT_ID: ${{ secrets.SYMBOL_UPLOAD_CLIENT_ID }}
   SYMBOL_UPLOAD_CLIENT_SECRET: ${{ secrets.SYMBOL_UPLOAD_CLIENT_SECRET }}
 jobs:
@@ -13,16 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ✅
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup 🏗
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: 'npm'
       - name: Install ⚙️
-        run: npm i --legacy-peer-deps
+        run: npm ci
       - name: Build 🛠
         run: npm run build:ci
       - name: Test 📋

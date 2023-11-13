@@ -11,13 +11,13 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/my-angular-crasher",
             "index": "projects/my-angular-crasher/src/index.html",
-            "main": "projects/my-angular-crasher/src/main.ts",
+            "browser": "projects/my-angular-crasher/src/main.ts",
             "sourceMap": true,
-            "polyfills": "projects/my-angular-crasher/src/polyfills.ts",
+            "polyfills": ["projects/my-angular-crasher/src/polyfills.ts"],
             "tsConfig": "projects/my-angular-crasher/tsconfig.app.json",
             "assets": [
               "projects/my-angular-crasher/src/favicon.ico",
@@ -27,13 +27,12 @@
               "projects/my-angular-crasher/src/styles.css"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "optimization": false,
             "namedChunks": true
           },
           "configurations": {
+            "development": {},
             "production": {
               "budgets": [
                 {
@@ -51,9 +50,7 @@
               "outputHashing": "all",
               "sourceMap": true,
               "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           }
         },

@@ -21,11 +21,12 @@ BugSplat supports the collection of errors in Angular applications. The bugsplat
 
 ## 🧑‍🏫 Sample
 
-This repository includes a sample my-angular-crasher application that has been pre-configured with BugSplat. Before you try the sample, you'll need to create an OAuth2 ClientId/ClientSecret pair as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2).
+This repository includes a sample my-angular-crasher application that has been pre-configured with BugSplat. Before you try the sample, you'll need to create an OAuth2 Client ID & Client Secret pair that corresponds to your BugSplat database as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2).
 
-Once you've generated OAuth2 credentials, create a file with the name `.env` at the root of the repository and populate it with the correct values substituted for `{{clientId}}` and `{{clientSecret}}`:
+Once you've generated OAuth2 credentials, create a file with the name `.env` at the root of the repository and populate it with the correct values substituted for `{{database}}`, `{{clientId}}` and `{{clientSecret}}`:
 
 ```
+BUGSPLAT_DATABASE={{database}}
 SYMBOL_UPLOAD_CLIENT_ID={{clientId}}
 SYMBOL_UPLOAD_CLIENT_SECRET={{clientSecret}}
 ```
@@ -50,15 +51,7 @@ To collect errors and crashes in your Angular application, run the following com
 npm i bugsplat-ng --save
 ```
 
-Add a `database` property to your `package.json` file with the value of your BugSplat database and substitute `{{database}}` with the value of your BugSplat database.
-
-```json
-{
-  "database": "{{database}}"
-}
-```
-
-Add values for your BugSplat database, application, and version to your application's environment files:
+Add values for your BugSplat database, application, and version to your application's environment files. Be sure to substitute the same value for `{{database}}` as the value you used for your `BUGSPLAT_DATABASE` env variable:
 
 [environment.prod.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/environments/environment.prod.ts#L1)
 ```typescript
@@ -66,7 +59,7 @@ const packageJson = require('../../package.json');
 export const environment = {
   production: true,
   bugsplat: {
-    database: packageJson.database,
+    database: '{{database}}',
     application: packageJson.name,
     version: packageJson.version
   }
