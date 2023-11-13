@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
     RangeError('The argument must be between -500 and 500'),
   ];
  
-
   private myAngularErrorHandler: BugSplatErrorHandler
 
   constructor(private errorHandler: ErrorHandler) {

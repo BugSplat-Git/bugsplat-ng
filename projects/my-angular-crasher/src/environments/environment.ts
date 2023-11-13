@@ -8,7 +8,7 @@ export const environment = {
   bugsplat: {
     database: packageJson.database,
     application: packageJson.name,
-    version: `${packageJson.version}-dev`
+    version: 'dev'
   }
 };
 
