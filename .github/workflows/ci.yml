@@ -19,7 +19,7 @@ jobs:
           node-version: lts/*
           cache: 'npm'
       - name: Install ⚙️
-        run: npm i --legacy-peer-deps
+        run: npm ci
       - name: Build 🛠
         run: npm run build:ci
       - name: Test 📋
