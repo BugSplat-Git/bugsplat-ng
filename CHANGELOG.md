@@ -1,3 +1,15 @@
+# [17.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v16.0.0...v17.0.0) (2023-11-13)
+
+
+### chore
+
+* use esbuild in my-angular-crasher ([#113](https://github.com/BugSplat-Git/bugsplat-ng/issues/113)) ([45ef68e](https://github.com/BugSplat-Git/bugsplat-ng/commit/45ef68e019957b1db9e02ebbc7a46f238ebb5593))
+
+
+### BREAKING CHANGES
+
+* staying in sync with major Angular version
+
 # [16.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v15.0.4...v16.0.0) (2023-11-09)
 
 
