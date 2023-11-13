@@ -1,7 +1,6 @@
 {
   "name": "my-angular-crasher",
   "version": "0.0.0-development",
-  "database": "fred",
   "scripts": {
     "ng": "ng",
     "prestart": "npm run build:lib && npm run build",
