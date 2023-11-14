@@ -38,6 +38,6 @@ jobs:
         with:
           repository-name: BugSplat-Git/bugsplat-git.github.io
           branch: gh-pages
-          folder: dist/my-angular-crasher
+          folder: dist/my-angular-crasher/browser
           target-folder: my-angular-crasher
           token: ${{ secrets.GH_TOKEN }}
