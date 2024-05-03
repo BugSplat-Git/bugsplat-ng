@@ -21,25 +21,39 @@ BugSplat supports the collection of errors in Angular applications. The bugsplat
 
 ## 🧑‍🏫 Sample
 
-This repository includes a sample my-angular-crasher application that has been pre-configured with BugSplat. Before you try the sample, you'll need to create an OAuth2 Client ID & Client Secret pair that corresponds to your BugSplat database as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2).
+This repository includes a sample `my-angular-crasher` application that has been pre-configured with BugSplat. Get started by cloning the repository and navigating to the root of the project:
 
-Once you've generated OAuth2 credentials, create a file with the name `.env` at the root of the repository and populate it with the correct values substituted for `{{database}}`, `{{clientId}}` and `{{clientSecret}}`:
-
-```
-BUGSPLAT_DATABASE={{database}}
-SYMBOL_UPLOAD_CLIENT_ID={{clientId}}
-SYMBOL_UPLOAD_CLIENT_SECRET={{clientSecret}}
+```sh
+git clone https://github.com/BugSplat-Git/bugsplat-ng
+cd bugsplat-ng
 ```
 
-To test the sample, perform the following steps:
+Before you can run the app, you'll need to create an OAuth2 Client ID & Client Secret pair that corresponds to your BugSplat database as shown [here](https://docs.bugsplat.com/introduction/development/web-services/oauth2). Please also take note of the BugSplat `database` that this OAuth2 Client ID & Client Secret pair corresponds to.
 
-1. `git clone https://github.com/BugSplat-Git/bugsplat-ng`
-2. `cd bugsplat-ng && npm i`
-3. `npm start`
+First, add a `database` property in your package.json that corresponds to your BugSplat database:
 
-The `npm start` command will build the sample application and upload source maps to BugSplat so that the JavaScript call stack can be mapped back to TypeScript. Once the build has completed, the source maps will be uploaded and http-server will serve the app.
+```json
+{
+  "database": "your_bugsplat_database"
+}
+```
 
-Navigate to the url displayed in the console by http-server (usually [localhost:8080](http://127.0.0.1:8080)). Click any button in the sample app to generate an error report. A link to the error report should display in the app shortly after clicking a button. Click the link to the error report and when prompted to log into BugSplat.
+Next, create a [dotenv](https://github.com/motdotla/dotenv) file with the name `.env` at the root of the repository and populate it with the correct values substituted for `your-client-id` and `your-client-secret`:
+
+```
+SYMBOL_UPLOAD_CLIENT_ID=your-client-id
+SYMBOL_UPLOAD_CLIENT_SECRET=your-client-secret
+```
+
+To start the sample app, run `npm start` in the root of the repository.
+
+```sh
+npm start
+```
+
+The `npm start` command will build the sample application and upload [source maps](https://docs.bugsplat.com/introduction/development/working-with-symbol-files/source-maps) to BugSplat so that the JavaScript call stack can be mapped back to TypeScript. Once the build has completed, the source maps will be uploaded and `http-server` will serve the app.
+
+Navigate to the url displayed in the console by `http-server` (usually [localhost:8080](http://127.0.0.1:8080)). Click any button in the sample app to generate an error report. A link to the error report should display in the app shortly after clicking a button. Click the link to the error report and when prompted to log into BugSplat.
 
 If everything worked correctly you should see information about your error as well as a TypeScript stack trace.
 
@@ -51,7 +65,15 @@ To collect errors and crashes in your Angular application, run the following com
 npm i bugsplat-ng --save
 ```
 
-Add values for your BugSplat database, application, and version to your application's environment files. Be sure to substitute the same value for `{{database}}` as the value you used for your `BUGSPLAT_DATABASE` env variable:
+Add a `database` property in your package.json that corresponds to your BugSplat database:
+
+```json
+{
+  "database": "your_bugsplat_database"
+}
+```
+
+Add values for your BugSplat `database`, `application`, and `version` to your application's environment files.
 
 [environment.prod.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/environments/environment.prod.ts#L1)
 ```typescript
@@ -59,14 +81,14 @@ const packageJson = require('../../package.json');
 export const environment = {
   production: true,
   bugsplat: {
-    database: '{{database}}',
+    database: packageJson.database,
     application: packageJson.name,
     version: packageJson.version
   }
 };
 ```
 
-Add an import for BugSplatModule to your AppModule:
+Add an import for `BugSplatModule` to your `AppModule`:
 
 [app.module.ts](hhttps://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/app/app.module.ts#L4)
 ```typescript
@@ -204,87 +226,18 @@ Configure your `angular.json` file to output source maps. We suggest enabling so
 Add `SYMBOL_UPLOAD_CLIENT_ID` and `SYMBOL_UPLOAD_CLIENT_SECRET` environment variables for the BugSplat user that you will use to upload symbols. You can create these values as system environment variables or use [dotenv](https://www.npmjs.com/package/dotenv).
 
 ```bash
-SYMBOL_UPLOAD_CLIENT_ID={{clientId}}
-SYMBOL_UPLOAD_PASSWORD={{clientSecret}}
+SYMBOL_UPLOAD_CLIENT_ID=your-client-id
+SYMBOL_UPLOAD_PASSWORD=your-client-secret
 ```
 
-Create a script for uploading source maps.
+Add a script to `package.json` that reads a `.env` file and calls `symbol-upload` to upload source maps after your production build. Replace `my-angular-crasher` with the name of your Angular project.
 
-```ts
-const { OAuthClientCredentialsClient, SymbolsApiClient } = require('@bugsplat/symbol-upload');
-const fs = require('fs');
-const path = require('path');
-const packageJson = require('../package.json');
-require('dotenv').config();
-
-(async () => {
-    const clientId = process.env['SYMBOL_UPLOAD_CLIENT_ID'];
-    if (!clientId) {
-        throw new Error('Please set SYMBOL_UPLOAD_CLIENT_ID in .env file');
-    }
-
-    const clientSecret = process.env['SYMBOL_UPLOAD_CLIENT_SECRET'];
-    if (!clientSecret) {
-        throw new Error('Please set SYMBOL_UPLOAD_CLIENT_SECRET in .env file');
-    }
-
-    const database = packageJson.database;
-    const application = packageJson.name;
-    const version = process.argv[2] === 'dev' ? `${packageJson.version}-dev` : packageJson.version;
-
-    const buildDirectory = `./dist/${application}`;
-
-    if (!fs.existsSync(buildDirectory)) {
-        throw new Error(`Build directory ${buildDirectory} does not exist!`);
-    }
-
-    const files = fs.readdirSync(buildDirectory)
-        .filter((fileName: string) => fileName.endsWith('.js.map'))
-        .map((fileName: string) => {
-            const filePath = `${buildDirectory}/${fileName}`;
-            const stat = fs.statSync(filePath);
-            const name = path.basename(filePath);
-            const size = stat.size;
-            return {
-                name,
-                size,
-                file: fs.createReadStream(filePath)
-            };
-        });
-
-    if (!files.length) {
-        throw new Error(`No source map files found in ${buildDirectory}!`);
-    }
-
-    const bugsplat = await OAuthClientCredentialsClient.createAuthenticatedClient(clientId, clientSecret);
-    const symbolsApiClient = new SymbolsApiClient(bugsplat);
-    await symbolsApiClient.deleteSymbols(
-        database,
-        application,
-        version
-    );
-    await symbolsApiClient.postSymbols(
-        database,
-        application,
-        version,
-        files
-    );
-    console.log(`Source maps uploaded to BugSplat ${database}-${application}-${version} successfully!`);
-})().catch(error => {
-    console.error(error);
-    process.exit(1);
-});
-```
-
-Add `postbuild` and `symbols` scripts to your `package.json`. 
 ```json
 {
   "scripts": {
-    "postbuild": "npm run symbols",
-    "symbols": "ts-node ./scripts/symbols.ts"
+    "postbuild": "node -r dotenv/config ./node_modules/@bugsplat/symbol-upload/dist/bin/index.js -d ./dist/my-angular-crasher/browser"
   }
 }
-```
 
 For best results, please upload source maps for every released version of your application.
 

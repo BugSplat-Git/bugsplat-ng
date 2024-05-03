@@ -6,9 +6,9 @@ const packageJson = require('../../../../package.json');
 export const environment = {
   production: false,
   bugsplat: {
-    database: 'fred',
+    database: packageJson.database,
     application: packageJson.name,
-    version: 'dev'
+    version: packageJson.version
   }
 };
 
