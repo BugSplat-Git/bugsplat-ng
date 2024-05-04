@@ -22,7 +22,7 @@ export class BugSplatResponseData {
             throw new Error(BugSplatResponseData.responseCannotBeNull);
         }
 
-        const success = response.status === 'success' ?? this.successDefault;
+        const success = response.status === 'success' || this.successDefault;
         const currentServerTime = response.current_server_time ?? this.serverTimeDefault;
         const message = response.message ?? this.messageDefault;
         const url = response.url ?? this.urlDefault;
