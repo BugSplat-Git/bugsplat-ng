@@ -1,3 +1,15 @@
+# [18.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v17.0.0...v18.0.0) (2024-07-05)
+
+
+### chore
+
+* security updates ([#120](https://github.com/BugSplat-Git/bugsplat-ng/issues/120)) ([1f552ad](https://github.com/BugSplat-Git/bugsplat-ng/commit/1f552ad49638d9d0325b5af328ae24610eb83fce))
+
+
+### BREAKING CHANGES
+
+* staying in sync with major Angular version
+
 # [17.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v16.0.0...v17.0.0) (2023-11-13)
 
 
