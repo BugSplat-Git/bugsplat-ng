@@ -1,8 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { BugSplatErrorHandler, } from '../lib/bugsplat-error-handler';
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
 import { BugSplat } from '../lib/bugsplat';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('BugSplatErrorHandler', () => {
     let bugsplat: Spy<BugSplat>;
@@ -11,8 +12,9 @@ describe('BugSplatErrorHandler', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-        });
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
         bugsplat = createSpyFromClass(BugSplat);
         bugsplat.post.and.resolveWith();
         expectedError = new Error('BugSplat rocks!');
