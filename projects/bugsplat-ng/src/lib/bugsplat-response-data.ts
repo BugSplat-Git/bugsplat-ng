@@ -22,11 +22,11 @@ export class BugSplatResponseData {
             throw new Error(BugSplatResponseData.responseCannotBeNull);
         }
 
-        const success = response.status === 'success' ?? this.successDefault;
-        const currentServerTime = response.current_server_time ?? this.serverTimeDefault;
-        const message = response.message ?? this.messageDefault;
-        const url = response.url ?? this.urlDefault;
-        const crashId = response.crash_id ?? this.crashIdDefault;
+        const success = response.status === 'success' || this.successDefault;
+        const currentServerTime = response.current_server_time || this.serverTimeDefault;
+        const message = response.message || this.messageDefault;
+        const url = response.url || this.urlDefault;
+        const crashId = response.crash_id || this.crashIdDefault;
 
         return new BugSplatResponseData(success, message, currentServerTime, url, crashId);
     }
