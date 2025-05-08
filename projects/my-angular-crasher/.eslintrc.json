@@ -17,6 +17,9 @@
         ],
         "createDefaultProgram": true
       },
+      "extends": [
+        "plugin:@typescript-eslint/recommended"
+      ],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -33,7 +36,15 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "quotes": [
+          "error",
+          "single",
+          {
+            "allowTemplateLiterals": true
+          }
+        ],
+        "@angular-eslint/prefer-standalone": "off"
       }
     },
     {
