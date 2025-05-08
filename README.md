@@ -13,11 +13,11 @@
 <br>
 
 ## 👋 Introduction
-BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular’s [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat, where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started, please complete the following tasks:
+BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular's [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat, where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started, please complete the following tasks:
 
 * [Sign up](https://app.bugsplat.com/v2/sign-up) for BugSplat
 * Complete the [welcome](https://app.bugsplat.com/v2/welcome) workflow and take note of your BugSplat database
-* Check out the [live demo](https://www.bugsplat.com/platforms/angular/my-angular-crasher) of BugSplat’s Angular error reporting
+* Check out the [live demo](https://bugsplat-git.github.io/my-angular-crasher/) of BugSplat's Angular error reporting
 
 ## 🧑‍🏫 Sample
 
@@ -240,6 +240,60 @@ Add a script to `package.json` that reads a `.env` file and calls `symbol-upload
 }
 
 For best results, please upload source maps for every released version of your application.
+
+## 🚀 Standalone Components
+
+For Angular applications using standalone components, you can integrate BugSplat without using NgModule. Import and configure BugSplat directly in your `main.ts` file:
+
+```typescript
+import { enableProdMode, importProvidersFrom, ErrorHandler } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { environment } from './environments/environment';
+import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
+import { MyAngularErrorHandler } from './app/my-angular-error-handler';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      BugSplatModule.initializeApp(environment.bugsplat)
+    ),
+    {
+      provide: ErrorHandler,
+      useClass: MyAngularErrorHandler
+    },
+    {
+      provide: BugSplatLogger,
+      useValue: new BugSplatLogger(BugSplatLogLevel.info, console)
+    }
+  ]
+})
+.catch(err => console.log(err));
+```
+
+Your custom error handler can be implemented the same way as in NgModule-based applications:
+
+```typescript
+import { ErrorHandler, Injectable } from '@angular/core';
+import { BugSplat } from 'bugsplat-ng';
+
+@Injectable()
+export class MyAngularErrorHandler implements ErrorHandler {
+  constructor(public bugsplat: BugSplat) {
+    // Optional configuration
+    this.bugsplat.user = 'username';
+    this.bugsplat.email = 'user@example.com';
+  }
+
+  async handleError(error: Error): Promise<void> {
+    return this.bugsplat.post(error, { description: 'Error from standalone component app' });
+  }
+}
+```
 
 ## 🧑‍💻 Contributing
 
