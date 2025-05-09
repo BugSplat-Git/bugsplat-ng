@@ -90,24 +90,15 @@ export const environment = {
 
 For Angular applications using standalone components, import and configure BugSplat directly in your `main.ts` file:
 
+[main.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/22fa88dc642294f1a6240a0a1bf4b4acd16f727d/projects/my-angular-crasher/src/main.ts#L6-L29)
 ```typescript
-import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
+import { BugSplatModule } from 'bugsplat-ng';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    // Required
     importProvidersFrom(
       BugSplatModule.initializeApp(environment.bugsplat)
-    ),
-    // Optional
-    {
-      provide: ErrorHandler,
-      useClass: MyAngularErrorHandler
-    },
-    {
-      provide: BugSplatLogger,
-      useValue: new BugSplatLogger(BugSplatLogLevel.info, console)
-    }
+    )
   ]
 })
 .catch(err => console.log(err));
@@ -115,15 +106,13 @@ bootstrapApplication(AppComponent, {
 
 Alternatively, add an import for `BugSplatModule` to your `AppModule`:
 
-[app.module.ts](hhttps://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/app/app.module.ts#L4-31)
 ```typescript
 import { BugSplatModule } from 'bugsplat-ng';
 
 @NgModule({
   imports: [
     BugSplatModule.initializeApp(environment.bugsplat)
-  ],
-  ...
+  ]
 })
 ```
 
@@ -174,43 +163,50 @@ BugSplat.getObservable(): Observable<BugSplatPostEvent>; // Observable that emit
 async BugSplat.post(error): Promise<void>; // Post an Error object to BugSplat manually from within a try/catch
 ```
 
-In your AppModule's NgModule definition, add a provider for your new ErrorHandler:
+In either `bootstrapApplication` or `NgModule`, add a provider for your new `ErrorHandler`:
 
-[app.module.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/src/app/app.module.ts)
+[main.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/22fa88dc642294f1a6240a0a1bf4b4acd16f727d/projects/my-angular-crasher/src/main.ts#L6-L29)
 ```typescript
-import { ErrorHandler, NgModule } from '@angular/core';
+import { BugSplatModule } from 'bugsplat-ng';
+import { MyAngularErrorHandler } from './app/my-angular-error-handler';
 
-@NgModule({
+bootstrapApplication(AppComponent, {
   providers: [
+    importProvidersFrom(
+      BugSplatModule.initializeApp(environment.bugsplat)
+    ),
     {
       provide: ErrorHandler,
       useClass: MyAngularErrorHandler
     }
   ]
-  ...
 })
+.catch(err => console.log(err));
 ```
 
 You can also configure BugSplat's logging preferences and provide your own logging implementation. Create a provider for BugSplatLogger with useValue set to a new instance of BugSplatLogger. Pass one of the BugSplatLogLevel options as the first parameter to BugSplatLogger. You can provide an instance of your own custom logger as the second parameter granted it has an error, warn, info, and log methods. If no custom logger is provided, the console will be used:
 
-[app.module.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/src/app/app.module.ts)
+[main.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/22fa88dc642294f1a6240a0a1bf4b4acd16f727d/projects/my-angular-crasher/src/main.ts#L6-L29)
 ```typescript
-import { ErrorHandler, NgModule } from '@angular/core';
 import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
+import { MyAngularErrorHandler } from './app/my-angular-error-handler';
 
-@NgModule({
+bootstrapApplication(AppComponent, {
   providers: [
+    importProvidersFrom(
+      BugSplatModule.initializeApp(environment.bugsplat)
+    ),
     {
       provide: ErrorHandler,
-      useClass: BugSplatErrorHandler
+      useClass: MyAngularErrorHandler
     },
     {
       provide: BugSplatLogger,
       useValue: new BugSplatLogger(BugSplatLogLevel.Log)
     }
-  ],
-  ...
+  ]
 })
+.catch(err => console.log(err));
 ```
 
 ## 🗺 Source Maps
