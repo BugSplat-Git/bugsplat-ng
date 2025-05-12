@@ -1,3 +1,11 @@
+## [18.0.1](https://github.com/BugSplat-Git/bugsplat-ng/compare/v18.0.0...v18.0.1) (2025-05-12)
+
+
+### Bug Fixes
+
+* security fixes ([#121](https://github.com/BugSplat-Git/bugsplat-ng/issues/121)) ([67a8bdc](https://github.com/BugSplat-Git/bugsplat-ng/commit/67a8bdccb3077379a045a4ce20182a8d49275f65))
+* support standalone components ([#122](https://github.com/BugSplat-Git/bugsplat-ng/issues/122)) ([b6e238b](https://github.com/BugSplat-Git/bugsplat-ng/commit/b6e238b7ea13f3a8e1294b68d55a4e77f3d5de8f))
+
 # [18.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v17.0.0...v18.0.0) (2024-07-05)
 
 
