@@ -1,12 +1,29 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
+import { enableProdMode, importProvidersFrom, ErrorHandler } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
+import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
+import { MyAngularErrorHandler } from './app/my-angular-error-handler';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      BugSplatModule.initializeApp(environment.bugsplat)
+    ),
+    {
+      provide: ErrorHandler,
+      useClass: MyAngularErrorHandler
+    },
+    {
+      provide: BugSplatLogger,
+      useValue: new BugSplatLogger(BugSplatLogLevel.info, console)
+    },
+    provideHttpClient(withInterceptorsFromDi())
+  ]
+})
+.catch(err => console.log(err));
