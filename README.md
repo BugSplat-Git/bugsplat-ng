@@ -253,6 +253,7 @@ Add a script to `package.json` that reads a `.env` file and calls `symbol-upload
     "postbuild": "node -r dotenv/config ./node_modules/@bugsplat/symbol-upload/dist/bin/index.js -d ./dist/my-angular-crasher/browser"
   }
 }
+```
 
 For best results, please upload source maps for every released version of your application.
 
