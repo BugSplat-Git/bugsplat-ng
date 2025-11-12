@@ -1,10 +1,10 @@
-import { enableProdMode, importProvidersFrom, ErrorHandler, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { AppComponent } from './app/app.component';
-import { environment } from './environments/environment';
+import { enableProdMode, ErrorHandler, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
+import { AppComponent } from './app/app.component';
 import { MyAngularErrorHandler } from './app/my-angular-error-handler';
+import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
@@ -12,7 +12,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
     importProvidersFrom(
       BugSplatModule.initializeApp(environment.bugsplat)
     ),
