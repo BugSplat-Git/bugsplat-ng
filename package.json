@@ -1,7 +1,7 @@
 {
   "name": "my-angular-crasher",
   "version": "0.0.0-development",
-  "database": "octomore",
+  "database": "fred",
   "scripts": {
     "ng": "ng",
     "prestart": "npm run build:lib && npm run build",
@@ -83,8 +83,7 @@
     "ng-packagr": "^20.3.1",
     "semantic-release": "^25.0.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "zone.js": "^0.15.1"
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",
