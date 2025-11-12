@@ -1,6 +1,6 @@
-import { Component, ErrorHandler, OnInit } from '@angular/core';
+import { Component, ErrorHandler, OnInit, signal, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { BugSplatErrorHandler } from 'bugsplat-ng';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MyAngularErrorHandler } from './my-angular-error-handler';
 import { CommonModule } from '@angular/common';
@@ -14,8 +14,8 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   title = 'my-angular-crasher';
-  logEntries: Array<string | undefined> = [];
-  link$!: Observable<Link>;
+  logEntries = signal<Array<string | undefined>>([]);
+  link!: Signal<Link | null>;
 
   readonly links = {
     home: {
@@ -47,8 +47,8 @@ export class AppComponent implements OnInit {
     const bugsplat = this.myAngularErrorHandler.bugsplat;
     const database = bugsplat.database;
     
-    this.link$ = bugsplat.getObservable()
-      .pipe(
+    this.link = toSignal(
+      bugsplat.getObservable().pipe(
         map((bugSplatEvent) => {
           const crashId = bugSplatEvent.responseData.crashId;
           return {
@@ -56,7 +56,9 @@ export class AppComponent implements OnInit {
             text: `Crash ${crashId} in database ${database}`,
           };
         })
-      );
+      ),
+      { initialValue: null }
+    );
   }
 
   ngOnInit(): void {
@@ -65,9 +67,7 @@ export class AppComponent implements OnInit {
   }
 
   onButtonClick(error: Error): void {
-    this.logEntries.push('BugSplat!');
-    this.logEntries.push(error.message);
-    this.logEntries.push(error.stack);
+    this.logEntries.update(entries => [...entries, 'BugSplat!', error.message, error.stack]);
     throw error;
   }
 
