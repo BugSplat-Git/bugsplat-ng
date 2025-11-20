@@ -75,7 +75,7 @@
           "builder": "@angular/build:karma",
           "options": {
             "main": "projects/my-angular-crasher/src/test.ts",
-            "polyfills": "projects/my-angular-crasher/src/polyfills.ts",
+            "polyfills": ["projects/my-angular-crasher/src/polyfills.ts"],
             "tsConfig": "projects/my-angular-crasher/tsconfig.spec.json",
             "karmaConfig": "projects/my-angular-crasher/karma.conf.js",
             "styles": [
