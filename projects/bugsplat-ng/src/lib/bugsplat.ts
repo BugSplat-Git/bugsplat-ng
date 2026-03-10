@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { BugSplat as BugSplatJs, BugSplatOptions } from 'bugsplat';
+import { BugSplat as BugSplatJs, BugSplatFeedbackOptions, BugSplatOptions } from 'bugsplat';
 import { Observable, Subject } from 'rxjs';
 import { BugSplatLogger } from './bugsplat-logger';
 import { BugSplatPostEvent, BugSplatPostEventType } from './bugsplat-post-event';
@@ -103,6 +103,25 @@ export class BugSplat {
     const responseData = BugSplatResponseData.createFromSuccessResponseObject(result.response as SuccessResponse);
     const event = new BugSplatPostEvent(BugSplatPostEventType.success, responseData);
     this.logger.info('BugSplat POST Success: ' + JSON.stringify(responseData));
+    this.bugSplatPostEventSubject.next(event);
+  }
+
+  async postFeedback(title: string, options: BugSplatFeedbackOptions = {}): Promise<void> {
+    this.logger.info('Feedback submitted to BugSplat');
+    this.logger.info('BugSplat Feedback title:', title);
+
+    const result = await this.bugsplatJs.postFeedback(title, options);
+    if (result.error) {
+      const errorResponseData = BugSplatResponseData.createFromError(result.error);
+      const errorEvent = new BugSplatPostEvent(BugSplatPostEventType.error, errorResponseData);
+      this.logger.error('BugSplat Feedback Error: ' + result.error.message);
+      this.bugSplatPostEventSubject.next(errorEvent);
+      return;
+    }
+
+    const responseData = BugSplatResponseData.createFromSuccessResponseObject(result.response as SuccessResponse);
+    const event = new BugSplatPostEvent(BugSplatPostEventType.success, responseData);
+    this.logger.info('BugSplat Feedback Success: ' + JSON.stringify(responseData));
     this.bugSplatPostEventSubject.next(event);
   }
 }
