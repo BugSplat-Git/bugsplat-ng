@@ -79,10 +79,10 @@ export class BugSplat {
 
     this.logger.info('Error caught by BugSplat');
     this.logger.info('BugSplat POST callstack:', JSON.stringify(error.stack));
-    this.logger.info('BugSplat POST appKey:', options.appKey);
-    this.logger.info('BugSplat POST user:', options.user);
-    this.logger.info('BugSplat POST email:', options.email);
-    this.logger.info('BugSplat POST description:', options.description);
+    this.logger.info('BugSplat POST appKey:', options.appKey ?? '');
+    this.logger.info('BugSplat POST user:', options.user ?? '');
+    this.logger.info('BugSplat POST email:', options.email ?? '');
+    this.logger.info('BugSplat POST description:', options.description ?? '');
     for (let i = 0; i < options.attachments.length; i++) {
       this.logger.info('BugSplat POST attachment[' + i + ']: ' + options.attachments[i].filename);
     }
