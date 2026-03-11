@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -131,6 +131,11 @@ export interface FeedbackData {
 export class FeedbackDialogComponent {
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<FeedbackData>();
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.close.emit();
+  }
 
   title = '';
   description = '';
