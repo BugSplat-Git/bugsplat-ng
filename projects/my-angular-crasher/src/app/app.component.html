@@ -19,6 +19,16 @@
         </button>
       </ng-container>
     </div>
+    <div class="feedback">
+      <h2>Feedback</h2>
+      <button class="btn feedback-btn" (click)="showFeedbackDialog = true">Send Feedback</button>
+    </div>
   </div>
 </div>
+
+<app-feedback-dialog
+  *ngIf="showFeedbackDialog"
+  (close)="showFeedbackDialog = false"
+  (submit)="onFeedbackSubmit($event)"
+></app-feedback-dialog>
 

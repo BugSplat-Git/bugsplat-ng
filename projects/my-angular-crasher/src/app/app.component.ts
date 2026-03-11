@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MyAngularErrorHandler } from './my-angular-error-handler';
 import { CommonModule } from '@angular/common';
+import { FeedbackDialogComponent, FeedbackData } from './feedback-dialog.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     standalone: true,
-    imports: [CommonModule]
+    imports: [CommonModule, FeedbackDialogComponent]
 })
 export class AppComponent implements OnInit {
   title = 'my-angular-crasher';
@@ -64,11 +65,25 @@ export class AppComponent implements OnInit {
     this.myAngularErrorHandler.bugsplat.files.push(file);
   }
 
+  showFeedbackDialog = false;
+
   onButtonClick(error: Error): void {
     this.logEntries.push('BugSplat!');
     this.logEntries.push(error.message);
     this.logEntries.push(error.stack);
     throw error;
+  }
+
+  async onFeedbackSubmit(data: FeedbackData): Promise<void> {
+    this.showFeedbackDialog = false;
+    const attachments = data.attachments.map((file) => ({
+      filename: file.name,
+      data: file,
+    }));
+    await this.myAngularErrorHandler.bugsplat.postFeedback(data.title, {
+      description: data.description,
+      attachments,
+    });
   }
 
   private createAdditionalFile(): File {

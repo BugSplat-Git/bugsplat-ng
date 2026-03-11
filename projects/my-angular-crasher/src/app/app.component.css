@@ -84,3 +84,25 @@ p {
   padding-left: 24px;
   padding-right: 24px;
 }
+
+.feedback {
+  padding: 16px;
+  background: rgb(225, 225, 225);
+}
+
+.feedback h2 {
+  margin-top: 0;
+}
+
+.btn.feedback-btn {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: auto;
+}
+
+.btn.feedback-btn:hover {
+  background: #0056b3;
+}
