@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { BugSplat as BugSplatJs, BugSplatFeedbackOptions, BugSplatOptions } from 'bugsplat';
+import { BugSplat as BugSplatJs, BugSplatOptions } from 'bugsplat';
 import { Observable, Subject } from 'rxjs';
 import { BugSplatLogger } from './bugsplat-logger';
 import { BugSplatPostEvent, BugSplatPostEventType } from './bugsplat-post-event';
@@ -35,6 +35,10 @@ export class BugSplat {
     return this.bugsplatJs.version;
   }
 
+  set attributes(value: Record<string, string>) {
+    this.bugsplatJs.setDefaultAttributes(value);
+  }
+
   set description(value: string) {
     this.bugsplatJs.setDefaultDescription(value);
   }
@@ -62,33 +66,25 @@ export class BugSplat {
   async post(error: Error, options: BugSplatOptions = {}): Promise<void> {
     options = options ?? {};
 
-    // TODO BG move bugsplat-js
-    options.appKey = options.appKey ?? this.key;
-    options.description = options.description ?? this.description;
-    options.email = options.email ?? this.email;
-    options.user = options.user ?? this.user;
-
-    if (!options?.additionalFormDataParams?.length) {
-      options.additionalFormDataParams = [];
+    if (!options.attachments?.length) {
+      options.attachments = [];
     }
 
     for (const file of this.files) {
-      options.additionalFormDataParams.push({
-        key: file.name,
-        value: file,
-        filename: file.name
+      options.attachments.push({
+        filename: file.name,
+        data: file,
       });
     }
 
-    // TODO BG move to bugsplat-js
     this.logger.info('Error caught by BugSplat');
     this.logger.info('BugSplat POST callstack:', JSON.stringify(error.stack));
     this.logger.info('BugSplat POST appKey:', options.appKey);
     this.logger.info('BugSplat POST user:', options.user);
     this.logger.info('BugSplat POST email:', options.email);
     this.logger.info('BugSplat POST description:', options.description);
-    for (let i = 0; i < options.additionalFormDataParams.length; i++) {
-      this.logger.info('BugSplat POST additionalFormDataParams[' + i + ']: ' + options.additionalFormDataParams[i].key);
+    for (let i = 0; i < options.attachments.length; i++) {
+      this.logger.info('BugSplat POST attachment[' + i + ']: ' + options.attachments[i].filename);
     }
 
     const result = await this.bugsplatJs.post(error, options);
@@ -106,7 +102,7 @@ export class BugSplat {
     this.bugSplatPostEventSubject.next(event);
   }
 
-  async postFeedback(title: string, options: BugSplatFeedbackOptions = {}): Promise<void> {
+  async postFeedback(title: string, options: BugSplatOptions = {}): Promise<void> {
     this.logger.info('Feedback submitted to BugSplat');
     this.logger.info('BugSplat Feedback title:', title);
 

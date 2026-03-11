@@ -24,9 +24,10 @@ describe('BugSplat', () => {
         it('should publish an event on post success', async () => {
                 const response = {} as Record<string, string | number>;
                 response['status'] = 'success';
-                response['current_server_time'] = 1505832461;
-                response['message'] = 'Crash successfully posted';
-                response['crash_id'] = 785
+                response['crashId'] = 785;
+                response['stackKeyId'] = 1;
+                response['messageId'] = 1;
+                response['infoUrl'] = 'https://app.bugsplat.com/browse/crashInfo.php';
                 bugsplatJs.post.and.resolveWith({ response } as unknown as BugSplatResponse);
 
                 bugsplat = new BugSplat(bugsplatJs, nullLogger);
@@ -36,7 +37,6 @@ describe('BugSplat', () => {
 
                 const event = await promise;
                 expect(event?.type).toEqual(BugSplatPostEventType.success);
-                expect(event?.responseData.message).toEqual('Crash successfully posted');
                 expect(event?.responseData.success).toEqual(true);
                 expect(event?.responseData.crashId).toMatch(/\d{1,}/);
         });
@@ -63,6 +63,14 @@ describe('BugSplat', () => {
                 bugsplat.key = key;
 
                 expect(bugsplatJs.setDefaultAppKey).toHaveBeenCalledWith(key);
+        });
+
+        it('should call setDefaultAttributes when attributes is set', () => {
+                const attributes = { env: 'production' };
+
+                bugsplat.attributes = attributes;
+
+                expect(bugsplatJs.setDefaultAttributes).toHaveBeenCalledWith(attributes);
         });
 
         it('should call setDefaultDescription when description is set', () => {
