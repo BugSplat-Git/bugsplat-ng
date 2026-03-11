@@ -41,5 +41,5 @@ export type SuccessResponse = {
     crashId: number;
     stackKeyId: number;
     messageId: number;
-    infoUrl: string;
+    infoUrl?: string;
 }
