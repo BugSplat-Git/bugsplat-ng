@@ -23,8 +23,12 @@ export interface FeedbackData {
           <input id="title" type="text" [(ngModel)]="title" placeholder="Summarize your feedback" />
           <label for="description">Description</label>
           <textarea id="description" [(ngModel)]="description" rows="4" placeholder="Tell us more..."></textarea>
-          <label for="attachment">Attachment (optional)</label>
-          <input id="attachment" type="file" (change)="onFileSelected($event)" />
+          <label>Attachment (optional)</label>
+          <label class="file-upload">
+            <input type="file" (change)="onFileSelected($event)" />
+            <span class="file-btn">Choose File</span>
+            <span class="file-name">{{ attachments.length ? attachments[0].name : 'No file chosen' }}</span>
+          </label>
         </div>
         <div class="dialog-footer">
           <button class="btn cancel" (click)="close.emit()">Cancel</button>
@@ -34,6 +38,9 @@ export interface FeedbackData {
     </div>
   `,
   styles: [`
+    * {
+      box-sizing: border-box;
+    }
     .overlay {
       position: fixed;
       inset: 0;
@@ -71,12 +78,16 @@ export interface FeedbackData {
       margin-top: 4px;
     }
     input[type="text"], textarea {
+      box-sizing: border-box;
       width: 100%;
       padding: 10px;
       border: 2px solid rgb(225, 225, 225);
+      border-radius: 0;
       font-family: inherit;
       font-size: 0.9rem;
       transition: 220ms all ease-in-out;
+      -webkit-appearance: none;
+      appearance: none;
     }
     input[type="text"]:focus, textarea:focus {
       outline: none;
@@ -85,9 +96,37 @@ export interface FeedbackData {
     textarea {
       resize: vertical;
     }
-    input[type="file"] {
-      font-family: inherit;
+    .file-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-weight: normal;
+      margin-top: 0;
+    }
+    .file-upload input[type="file"] {
+      display: none;
+    }
+    .file-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #007bff;
+      color: #fff;
       font-size: 0.85rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: 220ms all ease-in-out;
+      white-space: nowrap;
+    }
+    .file-btn:hover {
+      background: #0056b3;
+    }
+    .file-name {
+      font-size: 0.85rem;
+      color: #666;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .dialog-footer {
       background: rgb(225, 225, 225);
@@ -111,9 +150,11 @@ export interface FeedbackData {
     .btn.cancel {
       background: #fff;
       color: #333;
+      border: 2px solid rgb(225, 225, 225);
     }
     .btn.cancel:hover {
       background: rgb(245, 245, 245);
+      border-color: #ccc;
     }
     .btn.submit {
       background: #007bff;
