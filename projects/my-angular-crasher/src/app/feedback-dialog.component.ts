@@ -15,14 +15,18 @@ export interface FeedbackData {
   template: `
     <div class="overlay" (click)="close.emit()">
       <div class="dialog" (click)="$event.stopPropagation()">
-        <h2>Send Feedback</h2>
-        <label for="title">Title</label>
-        <input id="title" type="text" [(ngModel)]="title" placeholder="Summarize your feedback" />
-        <label for="description">Description</label>
-        <textarea id="description" [(ngModel)]="description" rows="4" placeholder="Tell us more..."></textarea>
-        <label for="attachment">Attachment (optional)</label>
-        <input id="attachment" type="file" (change)="onFileSelected($event)" />
-        <div class="actions">
+        <div class="dialog-header">
+          <h2>Send Feedback</h2>
+        </div>
+        <div class="dialog-body">
+          <label for="title">Title</label>
+          <input id="title" type="text" [(ngModel)]="title" placeholder="Summarize your feedback" />
+          <label for="description">Description</label>
+          <textarea id="description" [(ngModel)]="description" rows="4" placeholder="Tell us more..."></textarea>
+          <label for="attachment">Attachment (optional)</label>
+          <input id="attachment" type="file" (change)="onFileSelected($event)" />
+        </div>
+        <div class="dialog-footer">
           <button class="btn cancel" (click)="close.emit()">Cancel</button>
           <button class="btn submit" [disabled]="!title.trim()" (click)="onSubmit()">Submit</button>
         </div>
@@ -33,7 +37,7 @@ export interface FeedbackData {
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -41,53 +45,75 @@ export interface FeedbackData {
     }
     .dialog {
       background: #fff;
-      border-radius: 8px;
-      padding: 24px;
-      width: 400px;
+      width: 440px;
       max-width: 90vw;
+      box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    .dialog-header {
+      padding: 20px 24px 12px;
+      text-align: center;
+    }
+    .dialog-header h2 {
+      margin: 0;
+      color: #007bff;
+    }
+    .dialog-body {
+      padding: 0 24px 16px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-    }
-    .dialog h2 {
-      margin: 0 0 8px;
+      gap: 6px;
     }
     label {
       font-weight: 600;
       font-size: 0.85rem;
       text-align: left;
+      margin-top: 4px;
     }
     input[type="text"], textarea {
       width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      padding: 10px;
+      border: 2px solid rgb(225, 225, 225);
       font-family: inherit;
       font-size: 0.9rem;
+      transition: 220ms all ease-in-out;
+    }
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: #007bff;
     }
     textarea {
       resize: vertical;
     }
-    .actions {
+    input[type="file"] {
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+    .dialog-footer {
+      background: rgb(225, 225, 225);
+      padding: 16px 24px;
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-      margin-top: 8px;
     }
     .btn {
-      padding: 8px 20px;
-      border-radius: 4px;
+      padding: 10px 24px;
       font-size: 0.9rem;
+      font-family: inherit;
       cursor: pointer;
+      border: none;
+      transition: 220ms all ease-in-out;
       width: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     .btn.cancel {
-      background: #e1e1e1;
+      background: #fff;
       color: #333;
     }
     .btn.cancel:hover {
-      background: #ccc;
+      background: rgb(245, 245, 245);
     }
     .btn.submit {
       background: #007bff;
