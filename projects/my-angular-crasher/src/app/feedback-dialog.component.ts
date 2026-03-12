@@ -55,7 +55,9 @@ export interface FeedbackData {
       width: 440px;
       max-width: 90vw;
       box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
       overflow: hidden;
+      font-family: sans-serif;
     }
     .dialog-header {
       padding: 20px 24px 12px;
@@ -117,6 +119,7 @@ export interface FeedbackData {
       cursor: pointer;
       transition: 220ms all ease-in-out;
       white-space: nowrap;
+      border-radius: 4px;
     }
     .file-btn:hover {
       background: #0056b3;
@@ -141,6 +144,7 @@ export interface FeedbackData {
       font-family: inherit;
       cursor: pointer;
       border: none;
+      border-radius: 4px;
       transition: 220ms all ease-in-out;
       width: auto;
       display: inline-flex;
@@ -173,9 +177,11 @@ export class FeedbackDialogComponent {
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<FeedbackData>();
 
-  @HostListener('document:keydown.escape')
-  onEscape(): void {
-    this.close.emit();
+  @HostListener('window:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.close.emit();
+    }
   }
 
   title = '';

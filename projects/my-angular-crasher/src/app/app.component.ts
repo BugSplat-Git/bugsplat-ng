@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
           const crashId = bugSplatEvent.responseData.crashId;
           return {
             href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
-            text: `Crash ${crashId} in database ${database}`,
+            text: `View submission ${crashId} in database ${database}`,
           };
         })
       );

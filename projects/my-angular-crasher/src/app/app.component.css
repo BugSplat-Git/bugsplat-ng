@@ -45,8 +45,9 @@ h2 {
 .content {
   background: #fff;
   box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
   padding-top: 5px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .errors {
