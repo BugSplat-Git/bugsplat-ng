@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, HostListener, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -27,7 +27,7 @@ export interface FeedbackData {
           <label class="file-upload">
             <input type="file" (change)="onFileSelected($event)" />
             <span class="file-btn">Choose File</span>
-            <span class="file-name">{{ attachments.length ? attachments[0].name : 'No file chosen' }}</span>
+            <span class="file-name">{{ attachments().length ? attachments()[0].name : 'No file chosen' }}</span>
           </label>
         </div>
         <div class="dialog-footer">
@@ -174,8 +174,8 @@ export interface FeedbackData {
   `]
 })
 export class FeedbackDialogComponent {
-  @Output() close = new EventEmitter<void>();
-  @Output() submit = new EventEmitter<FeedbackData>();
+  close = output<void>();
+  submit = output<FeedbackData>();
 
   @HostListener('window:keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {
@@ -186,12 +186,12 @@ export class FeedbackDialogComponent {
 
   title = '';
   description = '';
-  attachments: File[] = [];
+  attachments = signal<File[]>([]);
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
-      this.attachments = Array.from(input.files);
+      this.attachments.set(Array.from(input.files));
     }
   }
 
@@ -199,7 +199,7 @@ export class FeedbackDialogComponent {
     this.submit.emit({
       title: this.title,
       description: this.description,
-      attachments: this.attachments,
+      attachments: this.attachments(),
     });
   }
 }
