@@ -1,4 +1,4 @@
-import { ErrorHandler } from '@angular/core';
+import { ErrorHandler, provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
@@ -21,6 +21,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
+        provideZonelessChangeDetection(),
         {
           provide: ErrorHandler,
           useValue: errorHandler,
