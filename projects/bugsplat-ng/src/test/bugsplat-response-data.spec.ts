@@ -13,14 +13,14 @@ describe('BugSplatResponseData', () => {
     it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', () => {
         const response = {} as SuccessResponse;
         response['status'] = 'success';
-        response['crashId'] = 933;
-        response['stackKeyId'] = 1;
-        response['messageId'] = 1;
-        response['infoUrl'] = 'https://app.bugsplat.com/browse/crashInfo.php?vendor=octomore&version=1.0.0.0&key=Key!&id=99999999&row=933';
+        response['current_server_time'] = 1;
+        response['message'] = 'BugSplat rocks!';
+        response['url'] = 'https://app.bugsplat.com/browse/crashInfo.php?vendor=octomore&version=1.0.0.0&key=Key!&id=99999999&row=933';
+        response['crash_id'] = 933;
         const result = BugSplatResponseData.createFromSuccessResponseObject(response);
         expect(result.success).toEqual(true);
-        expect(result.crashId).toEqual(response['crashId']);
-        expect(result.infoUrl).toEqual(response['infoUrl']);
+        expect(result.crashId).toEqual(response['crash_id']);
+        expect(result.infoUrl).toEqual(response['url']);
     });
 
     it('should return BugSplatResponseData when createFromError is called with valid parameters', () => {

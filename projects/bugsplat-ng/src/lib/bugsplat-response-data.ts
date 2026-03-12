@@ -21,8 +21,8 @@ export class BugSplatResponseData {
         }
 
         const success = response.status === 'success' || this.successDefault;
-        const crashId = response.crashId || this.crashIdDefault;
-        const infoUrl = response.infoUrl || this.infoUrlDefault;
+        const crashId = response.crash_id || this.crashIdDefault;
+        const infoUrl = response.url || this.infoUrlDefault;
 
         return new BugSplatResponseData(success, `Crash ${crashId} posted successfully`, crashId, infoUrl);
     }
@@ -38,8 +38,8 @@ export class BugSplatResponseData {
 
 export type SuccessResponse = {
     status: string;
-    crashId: number;
-    stackKeyId: number;
-    messageId: number;
-    infoUrl?: string;
+    current_server_time: number;
+    message: string;
+    url?: string;
+    crash_id: number;
 }

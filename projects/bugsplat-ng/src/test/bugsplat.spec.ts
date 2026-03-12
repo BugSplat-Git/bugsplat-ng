@@ -24,10 +24,10 @@ describe('BugSplat', () => {
         it('should publish an event on post success', async () => {
                 const response = {} as Record<string, string | number>;
                 response['status'] = 'success';
-                response['crashId'] = 785;
-                response['stackKeyId'] = 1;
-                response['messageId'] = 1;
-                response['infoUrl'] = 'https://app.bugsplat.com/browse/crashInfo.php';
+                response['current_server_time'] = 1;
+                response['message'] = 'BugSplat rocks!';
+                response['url'] = 'https://app.bugsplat.com/browse/crashInfo.php';
+                response['crash_id'] = 785;
                 bugsplatJs.post.and.resolveWith({ response } as unknown as BugSplatResponse);
 
                 bugsplat = new BugSplat(bugsplatJs, nullLogger);
