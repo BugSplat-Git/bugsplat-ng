@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "tslib": "^2.0.0",
-    "bugsplat": "^8.0.1"
+    "bugsplat": "^9.0.0"
   },
   "peerDependencies": {
     "@angular/common": ">=15.0.0",

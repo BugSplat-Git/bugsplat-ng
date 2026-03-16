@@ -45,8 +45,9 @@ h2 {
 .content {
   background: #fff;
   box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
   padding-top: 5px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .errors {
@@ -83,4 +84,26 @@ button.error:focus {
 p {
   padding-left: 24px;
   padding-right: 24px;
+}
+
+.feedback {
+  padding: 16px;
+  background: rgb(225, 225, 225);
+}
+
+.feedback h2 {
+  margin-top: 0;
+}
+
+.btn.feedback-btn {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: auto;
+}
+
+.btn.feedback-btn:hover {
+  background: #0056b3;
 }

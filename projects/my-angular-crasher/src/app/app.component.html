@@ -7,18 +7,31 @@
       Welcome to {{ title }}!
     </h1>
     <p>This is a sample application that demonstrates <a [href]="links.home.href">{{ links.home.text }}</a> error reporting for <a [href]="links.angular.href">{{ links.angular.text }}</a> applications built with JavaScript or <a [href]="links.typescript.href">{{ links.typescript.text }}.</a></p>
-    <div *ngIf="link$ | async as link">
-      <a [href]="link.href" target="_blank" rel="noopener">{{ link.text }}</a>
-    </div>
+    @if (link(); as link) {
+      <div>
+        <a [href]="link.href" target="_blank" rel="noopener">{{ link.text }}</a>
+      </div>
+    }
     <div class="errors">
       <h2>Errors</h2>
-      <ng-container *ngFor="let err of errors">
+      @for (err of errors; track err) {
         <button class="error" (click)="onButtonClick(err)">
           <h2>{{ err.name }}</h2>
           <h4>{{ err.message }}</h4>
         </button>
-      </ng-container>
+      }
+    </div>
+    <div class="feedback">
+      <h2>Feedback</h2>
+      <p>Let your users send arbitrary feedback and file attachments directly to your BugSplat dashboard.</p>
+      <button class="btn feedback-btn" (click)="showFeedbackDialog.set(true)">Send Feedback</button>
     </div>
   </div>
 </div>
 
+@if (showFeedbackDialog()) {
+  <app-feedback-dialog
+    (close)="showFeedbackDialog.set(false)"
+    (submit)="onFeedbackSubmit($event)"
+  ></app-feedback-dialog>
+}

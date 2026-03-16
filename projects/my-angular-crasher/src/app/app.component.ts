@@ -1,21 +1,19 @@
-import { Component, ErrorHandler, OnInit } from '@angular/core';
-import { BugSplatErrorHandler } from 'bugsplat-ng';
-import { Observable } from 'rxjs';
+import { Component, ErrorHandler, OnInit, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { MyAngularErrorHandler } from './my-angular-error-handler';
-import { CommonModule } from '@angular/common';
+import { FeedbackDialogComponent, FeedbackData } from './feedback-dialog.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     standalone: true,
-    imports: [CommonModule]
+    imports: [FeedbackDialogComponent]
 })
 export class AppComponent implements OnInit {
   title = 'my-angular-crasher';
   logEntries: Array<string | undefined> = [];
-  link$!: Observable<Link>;
 
   readonly links = {
     home: {
@@ -38,26 +36,23 @@ export class AppComponent implements OnInit {
     SyntaxError('Invalid character: \'@\''),
     RangeError('The argument must be between -500 and 500'),
   ];
- 
-  private myAngularErrorHandler: BugSplatErrorHandler
 
-  constructor(private errorHandler: ErrorHandler) {
-    this.myAngularErrorHandler = this.errorHandler as MyAngularErrorHandler;
-    
-    const bugsplat = this.myAngularErrorHandler.bugsplat;
-    const database = bugsplat.database;
-    
-    this.link$ = bugsplat.getObservable()
-      .pipe(
-        map((bugSplatEvent) => {
-          const crashId = bugSplatEvent.responseData.crashId;
-          return {
-            href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
-            text: `Crash ${crashId} in database ${database}`,
-          };
-        })
-      );
-  }
+  showFeedbackDialog = signal(false);
+
+  private myAngularErrorHandler = inject(ErrorHandler) as MyAngularErrorHandler;
+
+  link = toSignal(
+    this.myAngularErrorHandler.bugsplat.getObservable().pipe(
+      map((bugSplatEvent) => {
+        const crashId = bugSplatEvent.responseData.crashId;
+        const database = this.myAngularErrorHandler.bugsplat.database;
+        return {
+          href: `https://app.bugsplat.com/v2/crash?database=${database}&id=${crashId}`,
+          text: `View submission ${crashId} in database ${database}`,
+        };
+      })
+    )
+  );
 
   ngOnInit(): void {
     const file = this.createAdditionalFile();
@@ -69,6 +64,18 @@ export class AppComponent implements OnInit {
     this.logEntries.push(error.message);
     this.logEntries.push(error.stack);
     throw error;
+  }
+
+  async onFeedbackSubmit(data: FeedbackData): Promise<void> {
+    this.showFeedbackDialog.set(false);
+    const attachments = data.attachments.map((file) => ({
+      filename: file.name,
+      data: file,
+    }));
+    await this.myAngularErrorHandler.bugsplat.postFeedback(data.title, {
+      description: data.description,
+      attachments,
+    });
   }
 
   private createAdditionalFile(): File {
@@ -103,7 +110,3 @@ export class AppComponent implements OnInit {
   }
 }
 
-interface Link {
-  text: string;
-  href: string;
-}
