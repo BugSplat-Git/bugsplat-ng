@@ -161,6 +161,7 @@ BugSplat.user: string; // The name or id of your user
 BugSplat.files: Array<file>; // A list of files to be uploaded at post time
 BugSplat.getObservable(): Observable<BugSplatPostEvent>; // Observable that emits BugSplat crash post events results in your components.
 async BugSplat.post(error): Promise<void>; // Post an Error object to BugSplat manually from within a try/catch
+async BugSplat.postFeedback(title, options?): Promise<void>; // Post user feedback to BugSplat with a title and optional options (description, attachments, etc.)
 ```
 
 In either `bootstrapApplication` or `NgModule`, add a provider for your new `ErrorHandler`:
@@ -207,6 +208,111 @@ bootstrapApplication(AppComponent, {
   ]
 })
 .catch(err => console.log(err));
+```
+
+## 💬 User Feedback
+
+BugSplat supports collecting user feedback from your Angular application via `BugSplat.postFeedback`. This allows your users to submit feedback with a title, description, and optional file attachments directly to your BugSplat dashboard.
+
+First, create a feedback dialog component that collects user input:
+
+[feedback-dialog.component.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/projects/my-angular-crasher/src/app/feedback-dialog.component.ts)
+```typescript
+import { Component, output, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+export interface FeedbackData {
+  title: string;
+  description: string;
+  attachments: File[];
+}
+
+@Component({
+  selector: 'app-feedback-dialog',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="overlay">
+      <div class="dialog">
+        <h2>Send Feedback</h2>
+        <label for="title">Title</label>
+        <input id="title" type="text" [(ngModel)]="title" placeholder="Summarize your feedback" />
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="description" rows="4" placeholder="Tell us more..."></textarea>
+        <label>Attachment (optional)</label>
+        <input type="file" (change)="onFileSelected($event)" />
+        <button [disabled]="!title.trim()" (click)="onSubmit()">Submit</button>
+        <button (click)="close.emit()">Cancel</button>
+      </div>
+    </div>
+  `,
+})
+export class FeedbackDialogComponent {
+  close = output<void>();
+  submit = output<FeedbackData>();
+
+  title = '';
+  description = '';
+  attachments = signal<File[]>([]);
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.attachments.set(Array.from(input.files));
+    }
+  }
+
+  onSubmit(): void {
+    this.submit.emit({
+      title: this.title,
+      description: this.description,
+      attachments: this.attachments(),
+    });
+  }
+}
+```
+
+Then, add the dialog to your app component and call `BugSplat.postFeedback` when the user submits feedback:
+
+[app.component.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/projects/my-angular-crasher/src/app/app.component.ts)
+```typescript
+import { Component, signal } from '@angular/core';
+import { BugSplat } from 'bugsplat-ng';
+import { FeedbackDialogComponent, FeedbackData } from './feedback-dialog.component';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [FeedbackDialogComponent],
+  template: `
+    <button (click)="showFeedbackDialog.set(true)">Send Feedback</button>
+
+    @if (showFeedbackDialog()) {
+      <app-feedback-dialog
+        (close)="showFeedbackDialog.set(false)"
+        (submit)="onFeedbackSubmit($event)"
+      ></app-feedback-dialog>
+    }
+  `,
+})
+export class AppComponent {
+  showFeedbackDialog = signal(false);
+
+  constructor(private bugsplat: BugSplat) {}
+
+  async onFeedbackSubmit(data: FeedbackData): Promise<void> {
+    this.showFeedbackDialog.set(false);
+    const attachments = data.attachments.map((file) => ({
+      filename: file.name,
+      data: file,
+    }));
+    await this.bugsplat.postFeedback(data.title, {
+      description: data.description,
+      attachments,
+    });
+  }
+}
 ```
 
 ## 🗺 Source Maps
