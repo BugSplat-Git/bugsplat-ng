@@ -89,5 +89,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/BugSplat-Git/bugsplat-ng.git"
+  },
+  "overrides": {
+    "ng-packagr": {
+      "esbuild": "^0.28.1"
+    }
   }
 }
