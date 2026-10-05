@@ -1,9 +1,11 @@
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { BugSplat } from 'bugsplat-ng';
 
 @Injectable()
 export class MyAngularErrorHandler implements ErrorHandler {
-  constructor(public bugsplat: BugSplat) {
+  bugsplat = inject(BugSplat);
+
+  constructor() {
     this.bugsplat.user = 'Fred';
     this.bugsplat.email = 'fred@bugsplat.com';
     this.bugsplat.key = 'Key!';

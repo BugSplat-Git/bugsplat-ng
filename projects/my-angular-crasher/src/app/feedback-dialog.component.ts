@@ -1,4 +1,4 @@
-import { Component, HostListener, output, signal } from '@angular/core';
+import { Component, HostListener, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -13,7 +13,7 @@ export interface FeedbackData {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="overlay" (click)="close.emit()">
+    <div class="overlay" (click)="closed.emit()">
       <div class="dialog" (click)="$event.stopPropagation()">
         <div class="dialog-header">
           <h2>Send Feedback</h2>
@@ -31,12 +31,13 @@ export interface FeedbackData {
           </label>
         </div>
         <div class="dialog-footer">
-          <button class="btn cancel" (click)="close.emit()">Cancel</button>
+          <button class="btn cancel" (click)="closed.emit()">Cancel</button>
           <button class="btn submit" [disabled]="!title.trim()" (click)="onSubmit()">Submit</button>
         </div>
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     * {
       box-sizing: border-box;
@@ -174,13 +175,13 @@ export interface FeedbackData {
   `]
 })
 export class FeedbackDialogComponent {
-  close = output<void>();
-  submit = output<FeedbackData>();
+  closed = output<void>();
+  submitted = output<FeedbackData>();
 
   @HostListener('window:keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
-      this.close.emit();
+      this.closed.emit();
     }
   }
 
@@ -196,7 +197,7 @@ export class FeedbackDialogComponent {
   }
 
   onSubmit(): void {
-    this.submit.emit({
+    this.submitted.emit({
       title: this.title,
       description: this.description,
       attachments: this.attachments(),

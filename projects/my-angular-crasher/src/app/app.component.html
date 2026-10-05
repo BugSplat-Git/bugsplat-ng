@@ -31,7 +31,7 @@
 
 @if (showFeedbackDialog()) {
   <app-feedback-dialog
-    (close)="showFeedbackDialog.set(false)"
-    (submit)="onFeedbackSubmit($event)"
+    (closed)="showFeedbackDialog.set(false)"
+    (submitted)="onFeedbackSubmit($event)"
   ></app-feedback-dialog>
 }

@@ -1,6 +1,6 @@
 import { enableProdMode, importProvidersFrom, ErrorHandler, provideZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
@@ -24,7 +24,7 @@ bootstrapApplication(AppComponent, {
       provide: BugSplatLogger,
       useValue: new BugSplatLogger(BugSplatLogLevel.info, console)
     },
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withXhr(), withInterceptorsFromDi())
   ]
 })
 .catch(err => console.log(err));
