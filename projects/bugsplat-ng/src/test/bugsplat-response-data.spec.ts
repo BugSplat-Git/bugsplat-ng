@@ -1,13 +1,13 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { BugSplatResponseData, SuccessResponse } from '../lib/bugsplat-response-data';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('BugSplatResponseData', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
     imports: [],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    providers: [provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
 }));
 
     it('should return BugSplatResponseData when createFromSuccessResponseObject is called with valid parameters', () => {
