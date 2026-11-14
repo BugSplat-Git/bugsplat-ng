@@ -1,3 +1,20 @@
+# [22.0.0](https://github.com/BugSplat-Git/bugsplat-ng/compare/v21.0.0...v22.0.0) (2026-11-14)
+
+
+* feat!: publish as @bugsplat/angular built with Angular 22 ([#136](https://github.com/BugSplat-Git/bugsplat-ng/issues/136)) ([988117b](https://github.com/BugSplat-Git/bugsplat-ng/commit/988117bc5ee963838644a5e30763b46a101b0659))
+
+
+### Bug Fixes
+
+* **deps:** require bugsplat 9.3.1 so Error.cause chains reach the report ([#135](https://github.com/BugSplat-Git/bugsplat-ng/issues/135)) ([0e35d36](https://github.com/BugSplat-Git/bugsplat-ng/commit/0e35d36ae4def9b1770c3e87c01d458ae33782be))
+
+
+### BREAKING CHANGES
+
+* the package is now @bugsplat/angular (replace imports from 'bugsplat-ng'), and it requires Angular 22 or later.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
 ## [18.0.1](https://github.com/BugSplat-Git/bugsplat-ng/compare/v18.0.0...v18.0.1) (2025-05-12)
 
 
