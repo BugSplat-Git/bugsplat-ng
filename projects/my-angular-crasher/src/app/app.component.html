@@ -20,6 +20,10 @@
           <h4>{{ err.message }}</h4>
         </button>
       }
+      <button class="error" (click)="crashWithCause()">
+        <h2>Crash with cause</h2>
+        <h4>Failed to load user settings, caused by a SyntaxError from JSON.parse</h4>
+      </button>
     </div>
     <div class="feedback">
       <h2>Feedback</h2>

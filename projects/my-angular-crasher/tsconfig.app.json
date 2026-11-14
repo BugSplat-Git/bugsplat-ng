@@ -3,6 +3,11 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
+    "lib": [
+      "es2020",
+      "dom",
+      "es2022.error"
+    ],
     "types": [
       "node"
     ]
