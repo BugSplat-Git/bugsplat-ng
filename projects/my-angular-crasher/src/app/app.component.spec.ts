@@ -51,4 +51,13 @@ describe('AppComponent', () => {
       'Welcome to my-angular-crasher!'
     );
   });
+
+  it('crashWithCause throws an Error whose cause is the JSON.parse SyntaxError', () => {
+    expect(() => component.crashWithCause()).toThrowMatching(
+      (error) =>
+        error instanceof Error &&
+        error.message === 'Failed to load user settings' &&
+        error.cause instanceof SyntaxError
+    );
+  });
 });

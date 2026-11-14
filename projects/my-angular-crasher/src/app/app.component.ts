@@ -66,6 +66,10 @@ export class AppComponent implements OnInit {
     throw error;
   }
 
+  crashWithCause(): void {
+    this.loadUserSettings();
+  }
+
   async onFeedbackSubmit(data: FeedbackData): Promise<void> {
     this.showFeedbackDialog.set(false);
     const attachments = data.attachments.map((file) => ({
@@ -76,6 +80,14 @@ export class AppComponent implements OnInit {
       description: data.description,
       attachments,
     });
+  }
+
+  private loadUserSettings(): void {
+    try {
+      JSON.parse('{ not valid json');
+    } catch (error) {
+      throw new Error('Failed to load user settings', { cause: error });
+    }
   }
 
   private createAdditionalFile(): File {
