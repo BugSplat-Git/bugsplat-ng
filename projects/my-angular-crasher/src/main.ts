@@ -3,7 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
-import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
+import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from '@bugsplat/angular';
 import { MyAngularErrorHandler } from './app/my-angular-error-handler';
 
 if (environment.production) {

@@ -1,11 +1,14 @@
 {
-  "name": "bugsplat-ng",
+  "name": "@bugsplat/angular",
   "version": "18.0.0",
   "description": "BugSplat error reporting for Angular",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/BugSplat-Git/bugsplat-ng"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "tslib": "^2.0.0",

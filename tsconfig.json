@@ -13,8 +13,7 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "bugsplat-ng": [
-        "dist/bugsplat-ng/bugsplat-ng",
+      "@bugsplat/angular": [
         "dist/bugsplat-ng"
       ]
     },
