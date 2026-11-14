@@ -1,4 +1,4 @@
-import { Component, HostListener, output, signal } from '@angular/core';
+import { Component, HostListener, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -37,6 +37,7 @@ export interface FeedbackData {
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [`
     * {
       box-sizing: border-box;

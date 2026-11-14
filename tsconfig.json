@@ -2,7 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
@@ -13,9 +12,8 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "bugsplat-ng": [
-        "dist/bugsplat-ng/bugsplat-ng",
-        "dist/bugsplat-ng"
+      "@bugsplat/angular": [
+        "./dist/bugsplat-ng"
       ]
     },
     "declaration": false,

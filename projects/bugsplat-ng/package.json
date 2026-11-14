@@ -1,18 +1,21 @@
 {
-  "name": "bugsplat-ng",
-  "version": "18.0.0",
+  "name": "@bugsplat/angular",
+  "version": "22.0.0",
   "description": "BugSplat error reporting for Angular",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/BugSplat-Git/bugsplat-ng"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "tslib": "^2.0.0",
-    "bugsplat": "^9.3.1"
+    "bugsplat": "^9.3.2"
   },
   "peerDependencies": {
-    "@angular/common": ">=15.0.0",
-    "@angular/core": ">=15.0.0"
+    "@angular/common": ">=22.0.0",
+    "@angular/core": ">=22.0.0"
   }
 }

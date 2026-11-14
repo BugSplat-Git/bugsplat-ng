@@ -13,7 +13,7 @@
 <br>
 
 ## 👋 Introduction
-BugSplat supports the collection of errors in Angular applications. The bugsplat-ng npm package implements Angular's [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat, where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started, please complete the following tasks:
+BugSplat supports the collection of errors in Angular applications. The @bugsplat/angular npm package implements Angular's [ErrorHandler](https://angular.io/api/core/ErrorHandler) interface in order to post errors to BugSplat, where they can be tracked and managed. Adding BugSplat to your Angular application is extremely easy. Before getting started, please complete the following tasks:
 
 * [Sign up](https://app.bugsplat.com/v2/sign-up) for BugSplat
 * Complete the [welcome](https://app.bugsplat.com/v2/welcome) workflow and take note of your BugSplat database
@@ -59,10 +59,10 @@ If everything worked correctly you should see information about your error as we
 
 ## ⚙️ Integration
 
-To collect errors and crashes in your Angular application, run the following command in the terminal or cmd at the root of your project to install bugsplat-ng:
+To collect errors and crashes in your Angular application, run the following command in the terminal or cmd at the root of your project to install @bugsplat/angular:
 
 ```shell
-npm i bugsplat-ng --save
+npm i @bugsplat/angular --save
 ```
 
 Add a `database` property in your package.json that corresponds to your BugSplat database:
@@ -92,7 +92,7 @@ For Angular applications using standalone components, import and configure BugSp
 
 [main.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/22fa88dc642294f1a6240a0a1bf4b4acd16f727d/projects/my-angular-crasher/src/main.ts#L6-L29)
 ```typescript
-import { BugSplatModule } from 'bugsplat-ng';
+import { BugSplatModule } from '@bugsplat/angular';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -107,7 +107,7 @@ bootstrapApplication(AppComponent, {
 Alternatively, add an import for `BugSplatModule` to your `AppModule`:
 
 ```typescript
-import { BugSplatModule } from 'bugsplat-ng';
+import { BugSplatModule } from '@bugsplat/angular';
 
 @NgModule({
   imports: [
@@ -116,7 +116,7 @@ import { BugSplatModule } from 'bugsplat-ng';
 })
 ```
 
-Throw a new error in your application to test the bugsplat-ng integration:
+Throw a new error in your application to test the @bugsplat/angular integration:
 
 [app.component.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/8c12d9b3544f2b618491467e6c40d84b6139eb2a/src/app/app.component.ts#L37)
 ```typescript
@@ -135,7 +135,7 @@ You can post additional information by creating a service that implements ErrorH
 [my-angular-error-handler.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/src/app/my-angular-error-handler.ts)
 ```typescript
 import { ErrorHandler, Injectable } from '@angular/core';
-import { BugSplat } from 'bugsplat-ng';
+import { BugSplat } from '@bugsplat/angular';
 
 @Injectable()
 export class MyAngularErrorHandler implements ErrorHandler {
@@ -168,7 +168,7 @@ In either `bootstrapApplication` or `NgModule`, add a provider for your new `Err
 
 [main.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/22fa88dc642294f1a6240a0a1bf4b4acd16f727d/projects/my-angular-crasher/src/main.ts#L6-L29)
 ```typescript
-import { BugSplatModule } from 'bugsplat-ng';
+import { BugSplatModule } from '@bugsplat/angular';
 import { MyAngularErrorHandler } from './app/my-angular-error-handler';
 
 bootstrapApplication(AppComponent, {
@@ -189,7 +189,7 @@ You can also configure BugSplat's logging preferences and provide your own loggi
 
 [main.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/22fa88dc642294f1a6240a0a1bf4b4acd16f727d/projects/my-angular-crasher/src/main.ts#L6-L29)
 ```typescript
-import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from 'bugsplat-ng';
+import { BugSplatLogger, BugSplatLogLevel, BugSplatModule } from '@bugsplat/angular';
 import { MyAngularErrorHandler } from './app/my-angular-error-handler';
 
 bootstrapApplication(AppComponent, {
@@ -278,7 +278,7 @@ Then, add the dialog to your app component and call `BugSplat.postFeedback` when
 [app.component.ts](https://github.com/BugSplat-Git/bugsplat-ng/blob/master/projects/my-angular-crasher/src/app/app.component.ts)
 ```typescript
 import { Component, signal } from '@angular/core';
-import { BugSplat } from 'bugsplat-ng';
+import { BugSplat } from '@bugsplat/angular';
 import { FeedbackDialogComponent, FeedbackData } from './feedback-dialog.component';
 
 @Component({

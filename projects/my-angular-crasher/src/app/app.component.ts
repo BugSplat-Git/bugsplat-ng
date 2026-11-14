@@ -1,4 +1,4 @@
-import { Component, ErrorHandler, OnInit, inject, signal } from '@angular/core';
+import { Component, ErrorHandler, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { MyAngularErrorHandler } from './my-angular-error-handler';
@@ -9,6 +9,7 @@ import { FeedbackDialogComponent, FeedbackData } from './feedback-dialog.compone
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [FeedbackDialogComponent]
 })
 export class AppComponent implements OnInit {
